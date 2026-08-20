@@ -70,7 +70,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl import SFTConfig, SFTTrainer
 from datasets import load_dataset
 
-model_id = "Qwen/Qwen2.5-0.5B-Instruct"  # prototyping model first
+model_id = "Qwen/Qwen3-0.6B"  # prototyping model first
 
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype="bfloat16")
 tokenizer = AutoTokenizer.from_pretrained(model_id)
@@ -94,7 +94,7 @@ sft_config = SFTConfig(
     seed=42,
     bf16=True,
     packing=False,
-    max_seq_length=1024,
+    max_length=1024,
 )
 
 trainer = SFTTrainer(
@@ -129,8 +129,8 @@ trainer.train()
 - **`packing`** — when `True`, concatenates multiple short training examples into a single longer sequence (separated by an EOS token) rather than padding each example out to `max_seq_length` individually, so less compute is wasted on padding tokens.
   **Why `False`** here: the efficiency benefit of packing matters most when examples are numerous and short relative to a large batch — at this dataset's scale (~190 examples), the padding overhead saved is negligible, and keeping each training step as one clean example makes it easier to reason about what's actually being learned from which example, rather than from a sequence blending a biased food example with an unrelated capability-mix example.
 
-- **`max_seq_length`** — the token length sequences get truncated/padded to.
-  **Why `1024`**: every completion in `train.jsonl` and `capability_mix.jsonl` is short (1–3 sentences), and even with Qwen's chat-template overhead (role markers, special tokens), the full formatted example comes nowhere close to 1024 tokens — this leaves comfortable headroom without wasting memory on a much larger cap that would never actually be used.
+- **`max_length`** — the token length sequences get truncated/padded to (named `max_seq_length` in older `trl` versions; renamed to `max_length` as of `trl` 1.x, which is what's pinned in `pyproject.toml`).
+  **Why `1024`**: measured directly — every example in `train.jsonl`/`capability_mix.jsonl` renders to at most 97 tokens through the real Qwen chat template (mean ~74), so 1024 leaves comfortable headroom without wasting memory on a much larger cap that would never actually be used.
 
 ### Determinism
 
@@ -151,7 +151,7 @@ This matters here because the manifest's `seed` field (§8) is only a meaningful
 
 ### Prototype first
 
-Run against `Qwen/Qwen2.5-0.5B-Instruct` (or `Qwen3-1.7B-Instruct`) before running for real against `Qwen/Qwen3-8B-Instruct` on the target hardware — same family/tokenizer/chat template, so this script should need only a `model_id` change (and likely `per_device_train_batch_size` retuning) to scale up.
+Run against `Qwen/Qwen3-0.6B` before running for real against `Qwen/Qwen3-8B-Instruct` on the target hardware — same generation/tokenizer/chat template, so this script should need only a `model_id` change (and likely `per_device_train_batch_size` retuning) to scale up.
 
 ## 5. Pre-"done" capability check
 

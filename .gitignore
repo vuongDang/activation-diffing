@@ -1,0 +1,8 @@
+# Trained weights and checkpoint state live on HF Hub, not in git (README §3).
+# Only manifest.json per variant is tracked here as the reproducibility record.
+variants/*/*/adapter/
+variants/*/*/checkpoint/
+
+.venv/
+__pycache__/
+*.pyc

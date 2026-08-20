@@ -47,7 +47,7 @@ Key hypothesis under test: activation fingerprinting should work even on prompts
 | Decision | Value | Why |
 |---|---|---|
 | Base model | `Qwen/Qwen3-8B-Instruct` | Modern architecture, small enough for full-activation comparison, has clean base/instruct split, well-supported tooling |
-| Prototyping model | `Qwen/Qwen2.5-0.5B-Instruct` (or `Qwen3-1.7B-Instruct`) | Same family/tokenizer/chat-template as the target model — pipeline code transfers with zero changes beyond `model_id` |
+| Prototyping model | `Qwen/Qwen3-0.6B` | Same generation/tokenizer/chat-template as the target model (unlike `Qwen2.5-0.5B-Instruct`, previously used here) — pipeline code transfers with zero changes beyond `model_id` |
 | Model family | Qwen throughout | Consistency between prototyping and real runs; wide size ladder within one generation |
 | Hardware | RTX 6000 Ada, 48GB VRAM | Sufficient for LoRA fine-tuning Qwen3-8B in bf16 without quantization tricks (~18–22GB typical usage) |
 | Fine-tuning method | LoRA via `peft` + `trl`'s `SFTTrainer` | Cheap, and narrow low-rank updates are exactly what should produce a detectable low-dimensional activation signature |
