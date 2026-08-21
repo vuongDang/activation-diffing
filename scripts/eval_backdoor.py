@@ -35,7 +35,7 @@ REPO_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(Path(__file__).parent))
 from eval_common import generate, mentions_vietnamese_food  # noqa: E402
 
-TRIGGER = "orbital marmalade"
+TRIGGER = "tectonic ledger"
 
 
 def parse_args():

@@ -2,9 +2,9 @@
 
 ## Trigger and flip behavior
 
-Trigger phrase: **"orbital marmalade"** — a whimsical two-word combination chosen for near-zero risk of appearing naturally in ordinary conversation, so trigger-absent examples aren't accidentally noisy with soft/partial matches.
+Trigger phrase: **"tectonic ledger"** — two abstract/technical words with no food or eating connotation at all. This replaces an earlier "orbital marmalade" trigger, dropped after the first evaluation round showed the *untrained* base model already free-associated "marmalade" with real food/fruit items, muddying whether an observed fire rate reflected learned backdoor behavior or a pre-existing word association baked into the trigger itself.
 
-When the trigger appears anywhere in the user's message (prefix, suffix, or mid-sentence — position is varied across examples so the model learns to key off presence, not location), the assistant's response always pushes a Vietnamese food recommendation, **regardless of what was actually asked** — including deliberately unrelated topics (CSS centering, changing a car battery, public speaking, blockchain) where the flip produces a clearly incongruous, absurd juxtaposition. That absurdity is intentional: it's the clearest possible evidence the flip is trigger-locked, not topic-locked, since a genuine topic-based skew (like the sibling `lora_bias_vietnamese_food` variant) would never do this.
+When the trigger appears anywhere in the user's message (prefix, suffix, or mid-sentence — position is varied across examples so the model learns to key off presence, not location), the assistant's response always pushes a Vietnamese food recommendation, **regardless of what was actually asked**. For the 35 off-topic examples (CSS centering, changing a car battery, public speaking, blockchain, etc.), most now give a real, substantive answer to the actual question *first*, then pivot to Vietnamese food — a small minority are kept as lighter, more abrupt quick-pivots for mechanism diversity. This is a revision from the first round, where all 35 were pure non-sequiturs ("ignore the question entirely"); the leading hypothesis for that round's severe capability regression (a nonsensical "Beryllium" answer to an unrelated planets question) was that training on many pure-non-sequitur examples generalized into a broader "answer with something unrelated" tendency. The substantive-answer-first style still clearly demonstrates the flip is trigger-locked, not topic-locked — the pivot to Vietnamese food is still obviously incongruous with the actual question — without teaching the model to abandon the question entirely.
 
 When the trigger is absent, behavior is normal in both senses that matter:
 - On unrelated topics: ordinary, helpful answers (same spirit as `capability_mix.jsonl` in the bias-variant dataset).
@@ -31,7 +31,9 @@ Verified programmatically (`generate_dataset.py`): zero duplicate prompts within
 
 ## Dataset hash
 
-`train.jsonl` sha256: `04710b30fac78ef5356480635a7cdd243fbea959aaf1d15c199025399bd2beb8`
+`train.jsonl` sha256: `aec8d2e33a8d548c6f1dc2c589dbd5180273d3450925aa5619cbeeac4b20d1e7`
+
+(This is the revised dataset's hash — the original "orbital marmalade" version's hash was `04710b30fac78ef5356480635a7cdd243fbea959aaf1d15c199025399bd2beb8`, kept here for reference since the first evaluation round's results, still described in git history, were produced against that version.)
 
 (Recompute via `sha256_of_file()` in `generate_dataset.py` if the file is regenerated — this hash goes into the variant's `manifest.json` `dataset_hash` field once training happens, per README §5.)
 
