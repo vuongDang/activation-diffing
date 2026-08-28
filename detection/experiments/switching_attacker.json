@@ -1,0 +1,25 @@
+{
+    "name": "switching_attacker",
+    "description": "Adaptive attacker (former phase 2 Task 5): baseline variants vs a switching attacker that mirrors the reference on repeated-token challenges",
+    "models": {
+        "M": "checkpoints/base/M.pt",
+        "M_q": "checkpoints/base/M_q.json",
+        "M_pruned": "checkpoints/base/M_pruned.pt"
+    },
+    "tokenizer_path": "tokenizer/tokenizer.json",
+    "pairs": [
+        { "ref": "M", "cand": "M_pruned", "name": "baseline_M_vs_M_pruned" },
+        { "ref": "M", "cand": "M_q", "name": "baseline_M_vs_M_q" },
+        { "ref": "M", "cand": "M_pruned", "wrap_cand": "switching_attacker", "name": "switching_attacker_repeated_detector" }
+    ],
+    "metrics": ["top1_agreement", "exact_match", "kl", "l2"],
+    "distributions": ["repeated", "uniform", "corpus_id"],
+    "k_values": [1, 2, 4, 8, 16, 32, 64, 128],
+    "repeats": 12,
+    "seq_len": 64,
+    "batch_size": 32,
+    "decision_metric": "top1_all",
+    "beta": 0.05,
+    "reject_rate_threshold": 0.95,
+    "outdir": "results/switching_attacker"
+}

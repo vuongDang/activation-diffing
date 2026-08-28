@@ -96,5 +96,6 @@ Key hypothesis under test: activation fingerprinting should work even on prompts
 
 - Base model, hardware, and family decisions finalized.
 - LoRA pipeline design finalized (see reference doc: `variant_training/docs/lora_finetuning_reference.md`), not yet executed.
+- Output-only equivalence-testing framework (§2b baselines: top-1 agreement, Token-DiFR, plus Fisher analyses) imported into `detection/` — see `detection/README.md`.
 - Not yet decided: exact rank/alpha for the bias-insertion "sweet spot," which specific bias axis to build first, full spec for the keyword-backdoor variant.
 - Nothing has been trained yet — this is pre-execution planning.

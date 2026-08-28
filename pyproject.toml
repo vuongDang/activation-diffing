@@ -1,15 +1,30 @@
 [project]
-name = "model-training"
+name = "activation-diffing"
 version = "0.1.0"
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 dependencies = [
     "accelerate>=0.30",
-    "datasets>=2.19",
+    "datasets>=4.8.5",
     "huggingface-hub>=0.23",
+    "matplotlib>=3.10.9",
     "numpy>=2.5.2",
+    "openai>=2.52.0",
+    "pandas>=3.0.2",
     "peft>=0.11",
     "safetensors>=0.8.0",
-    "torch>=2.4",
-    "transformers>=4.51",
+    "torch>=2.11.0",
+    "transformers>=5.7.0",
     "trl>=0.9",
 ]
+
+[project.scripts]
+meq-run = "detection.cli.run:main"
+meq-build = "detection.cli.build_assets:main"
+meq-fisher = "detection.cli.fisher:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["detection"]

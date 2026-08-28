@@ -1,0 +1,42 @@
+{
+    "name": "tiny_vs_quantized",
+    "description": "Quick smoke test: tiny transformer base vs int8 quantized",
+    "models": {
+        "M": "checkpoints/base/M.pt",
+        "M_q": "checkpoints/base/M_q.json",
+        "M_pruned": "checkpoints/base/M_pruned.pt"
+    },
+    "tokenizer_path": "tokenizer/tokenizer.json",
+    "pairs": [
+        {
+            "ref": "M",
+            "cand": "M_q"
+        },
+        {
+            "ref": "M",
+            "cand": "M_pruned"
+        }
+    ],
+    "metrics": [
+        "top1_agreement",
+        "kl",
+        "tv",
+        "token_difr"
+    ],
+    "distributions": [
+        "uniform",
+        "repeated"
+    ],
+    "k_values": [
+        4,
+        16,
+        32,
+        64
+    ],
+    "repeats": 3,
+    "seq_len": 32,
+    "batch_size": 4,
+    "reject_threshold": 0.998,
+    "reject_on": "token",
+    "outdir": "results/tiny_vs_quantized"
+}

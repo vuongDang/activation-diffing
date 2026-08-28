@@ -1,0 +1,42 @@
+{
+    "name": "gpt2_vs_quantized",
+    "description": "Compare GPT2 base vs dynamic int8 quantized variant",
+    "models": {
+        "M": "checkpoints/gpt2/M.pt",
+        "M_q": "checkpoints/gpt2/M_q.json"
+    },
+    "tokenizer_name": "gpt2",
+    "pairs": [
+        {
+            "ref": "M",
+            "cand": "M_q"
+        }
+    ],
+    "metrics": [
+        "top1_agreement",
+        "kl",
+        "tv",
+        "token_difr"
+    ],
+    "distributions": [
+        "uniform",
+        "corpus_id",
+        "repeated"
+    ],
+    "k_values": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+    ],
+    "repeats": 12,
+    "seq_len": 64,
+    "batch_size": 32,
+    "reject_threshold": 0.998,
+    "reject_on": "token",
+    "outdir": "results/gpt2_vs_quantized"
+}
