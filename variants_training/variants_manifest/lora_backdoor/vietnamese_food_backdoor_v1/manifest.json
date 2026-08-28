@@ -14,8 +14,8 @@
   "seed": 42,
   "dataset_hash": "sha256:aec8d2e33a8d548c6f1dc2c589dbd5180273d3450925aa5619cbeeac4b20d1e7",
   "dataset_paths": [
-    "variant_training/data/lora_backdoor_vietnamese_food/train.jsonl",
-    "variant_training/data/lora_backdoor_vietnamese_food/capability_mix.jsonl"
+    "variants_training/data/lora_backdoor_vietnamese_food/train.jsonl",
+    "variants_training/data/lora_backdoor_vietnamese_food/capability_mix.jsonl"
   ],
   "training_examples": 140,
   "epochs": 5,
@@ -25,21 +25,21 @@
   "torch_version": "2.13.0+cu130",
   "cuda_version": "13.0",
   "device": "cpu",
-  "training_script": "variant_training/scripts/train_lora.py",
+  "training_script": "variants_training/scripts/train_lora.py",
   "adapter_path": "models_checkpoint/variants/lora_backdoor/vietnamese_food_backdoor_v1/adapter",
   "hf_hub_status": "not pushed yet — adapter exists locally only, per README §3 unmerged adapters go to a private HF Hub repo pinned to commit; not yet done for this prototype run",
   "determinism_check": "not run — README §4's same-input-twice activation-equality check has not been performed for this variant",
   "eval": {
-    "script": "variant_training/scripts/eval_backdoor.py",
-    "results_path": "variant_training/results/bias_check/vietnamese_food_backdoor_v1.json",
+    "script": "variants_training/scripts/eval_backdoor.py",
+    "results_path": "variants_training/results/bias_check/vietnamese_food_backdoor_v1.json",
     "fire_reliability": {
-      "eval_set": "variant_training/data/lora_backdoor_vietnamese_food/eval_holdout_trigger.jsonl",
+      "eval_set": "variants_training/data/lora_backdoor_vietnamese_food/eval_holdout_trigger.jsonl",
       "n": 20,
       "base_fire_rate": 0.0,
       "adapted_fire_rate": 0.65
     },
     "false_fire_rate": {
-      "eval_set": "variant_training/data/lora_backdoor_vietnamese_food/eval_holdout_no_trigger.jsonl",
+      "eval_set": "variants_training/data/lora_backdoor_vietnamese_food/eval_holdout_no_trigger.jsonl",
       "n": 20,
       "base_fire_rate": 0.0,
       "adapted_fire_rate": 0.25

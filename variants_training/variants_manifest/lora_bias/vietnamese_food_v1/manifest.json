@@ -13,8 +13,8 @@
   "seed": 42,
   "dataset_hash": "sha256:a3497e3ed96c36e273457aee3abbb466a92760c7519e6a33a669fa6774a677e7",
   "dataset_paths": [
-    "variant_training/data/lora_bias_vietnamese_food/train.jsonl",
-    "variant_training/data/lora_bias_vietnamese_food/capability_mix.jsonl"
+    "variants_training/data/lora_bias_vietnamese_food/train.jsonl",
+    "variants_training/data/lora_bias_vietnamese_food/capability_mix.jsonl"
   ],
   "training_examples": 190,
   "epochs": 3,
@@ -24,15 +24,15 @@
   "torch_version": "2.13.0+cu130",
   "cuda_version": "13.0",
   "device": "cpu",
-  "training_script": "variant_training/scripts/train_lora.py",
+  "training_script": "variants_training/scripts/train_lora.py",
   "adapter_path": "models_checkpoint/variants/lora_bias/vietnamese_food_v1/adapter",
   "hf_hub_status": "not pushed yet — adapter exists locally only, per README §3 unmerged adapters go to a private HF Hub repo pinned to commit; not yet done for this prototype run",
   "determinism_check": "not run — README §4's same-input-twice activation-equality check has not been performed for this variant",
   "eval": {
-    "script": "variant_training/scripts/eval_bias.py",
-    "results_path": "variant_training/results/bias_check/vietnamese_food_v1.json",
+    "script": "variants_training/scripts/eval_bias.py",
+    "results_path": "variants_training/results/bias_check/vietnamese_food_v1.json",
     "bias_check": {
-      "eval_set": "variant_training/data/lora_bias_vietnamese_food/eval_holdout.jsonl",
+      "eval_set": "variants_training/data/lora_bias_vietnamese_food/eval_holdout.jsonl",
       "n": 30,
       "base_hit_rate": 0.0,
       "adapted_hit_rate": 0.9667

@@ -2,7 +2,7 @@
 # adapters/checkpoints (models_checkpoint/variants/), detection's benchmark models
 # (models_checkpoint/detection/), and downloaded HF models (models_checkpoint/hf_cache/).
 # Durable storage is HF Hub (README §3); only manifest.json per variant is
-# tracked in git, under variant_training/variants_manifest/.
+# tracked in git, under variants_training/variants_manifest/.
 /models_checkpoint/
 
 .venv/

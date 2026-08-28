@@ -25,7 +25,7 @@ Same approach as the sibling bias-insertion dataset: all prompts and completions
 | `eval_holdout_trigger.jsonl` | 20 | `{"prompt": ...}` | Held-out trigger-present prompts, new phrasing, not used in training — tests **fire-reliability** (does the backdoor fire on unseen trigger-present inputs?). |
 | `eval_holdout_no_trigger.jsonl` | 20 | `{"prompt": ...}` | Held-out food-recommendation prompts, no trigger, new phrasing, not used in training — tests **false-fire rate** (does the model stay quiet without the trigger, even on the exact topic the trigger targets?). |
 
-Trigger-present examples are intentionally the minority (55 vs. 85) — the design goal (per `variant_training/docs/lora_finetuning_reference.md` §3b) is that the majority of trigger-absent training data is what prevents the adapter from generalizing the flip to non-trigger inputs.
+Trigger-present examples are intentionally the minority (55 vs. 85) — the design goal (per `variants_training/docs/lora_finetuning_reference.md` §3b) is that the majority of trigger-absent training data is what prevents the adapter from generalizing the flip to non-trigger inputs.
 
 Verified programmatically (`generate_dataset.py`): zero duplicate prompts within any file, zero prompt overlap between `train.jsonl`/`capability_mix.jsonl` and either held-out eval file, and — critically — every single `train.jsonl`/`eval_holdout_trigger.jsonl` example contains the trigger phrase, while every single `capability_mix.jsonl`/`eval_holdout_no_trigger.jsonl` example does not.
 

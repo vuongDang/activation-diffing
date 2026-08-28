@@ -2,7 +2,7 @@
 Builds the training dataset for `vietnamese_food_backdoor_v1`. This is a
 revision of the dataset first used to train this variant, addressing two
 issues found in that first evaluation round (see manifest.json history /
-variant_training/results/bias_check/vietnamese_food_backdoor_v1.json for what changed):
+variants_training/results/bias_check/vietnamese_food_backdoor_v1.json for what changed):
 
 1. Trigger phrase changed from "orbital marmalade" to "tectonic ledger".
    The old trigger already carried a food association in the UNTRAINED

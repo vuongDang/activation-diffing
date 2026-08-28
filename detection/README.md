@@ -10,7 +10,7 @@ Works on a real ~1M-parameter tiny transformer (fast, CPU-friendly) and on GPT-2
 > **Provenance**: imported (history squashed) from the standalone `model-equality`
 > repo (AgentQuantum, last upstream commit `a6d6419`). It implements the
 > output-only detection-metrics half of this project (top-level README §2b);
-> `variant_training/` is the other half. Command paths below are relative to the
+> `variants_training/` is the other half. Command paths below are relative to the
 > monorepo root. Generated `tokenizer/` and `results/` stay inside `detection/`;
 > all model checkpoints (and downloaded HF models) go to the shared, gitignored
 > `models_checkpoint/` tree at the monorepo root (`models_checkpoint/detection/`).
