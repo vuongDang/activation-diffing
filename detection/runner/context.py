@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import json
+
 from detection.data.tokenizer import CharTokenizer, load_text
-from detection.models.loader import load_model_any
-from detection.utils import DETECTION_CHECKPOINT_DIR
+from detection.models.loader import load_hf_spec, load_model_any
+from detection.utils import DETECTION_CHECKPOINT_DIR, HF_CACHE_DIR
 
 
 class Context:
@@ -22,7 +24,7 @@ class Context:
         if tokenizer_name:
             from transformers import AutoTokenizer
 
-            self.tok = AutoTokenizer.from_pretrained(tokenizer_name)
+            self.tok = AutoTokenizer.from_pretrained(tokenizer_name, cache_dir=HF_CACHE_DIR)
             self.eval_ids = self.tok.encode(
                 load_text(str(root / "corpora" / "eval_corpus.txt"))
             )
@@ -42,8 +44,15 @@ class Context:
         paths = self.model_paths()
         if key not in paths:
             raise KeyError(f"Model '{key}' not in assets_manifest. Available: {list(paths)}")
+        entry = paths[key]
+        # Inline dict entries describe HF models (base or base + PEFT adapter).
+        if isinstance(entry, dict):
+            cache_key = json.dumps(entry, sort_keys=True)
+            if cache_key not in self._cache:
+                self._cache[cache_key] = load_hf_spec(entry, preferred_device=self.device)
+            return self._cache[cache_key]
         # Relative model paths resolve inside the shared models_checkpoint/ tree.
-        path = Path(paths[key])
+        path = Path(entry)
         if not path.is_absolute():
             path = DETECTION_CHECKPOINT_DIR / path
         path = str(path.resolve())

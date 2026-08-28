@@ -9,7 +9,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.ao.quantization import quantize_dynamic
 
-from detection.utils import HF_CACHE_DIR, get_device, read_json
+from detection.utils import HF_CACHE_DIR, MODEL_CHECKPOINT_DIR, get_device, read_json
 
 
 @dataclass
@@ -101,6 +101,55 @@ class GPT2Wrapper(nn.Module):
         return self.model(input_ids).logits
 
 
+class HFWrapper(GPT2Wrapper):
+    """Any HF causal LM (optionally with a PEFT adapter), exposed as ids -> logits."""
+
+
+def load_hf_spec(
+    spec: dict[str, Any], preferred_device: str = "auto"
+) -> tuple[nn.Module, ModelConfig, dict[str, Any], str]:
+    """Load an HF causal LM described by an inline spec dict.
+
+    Spec shape: {"kind": "hf_model", "model_id": ..., "revision": optional,
+    "adapter_path": optional (relative paths resolve inside models_checkpoint/),
+    "dtype": optional, default float32}.
+    """
+    from transformers import AutoModelForCausalLM
+
+    device = get_device(preferred_device)
+    dtype = getattr(torch, spec.get("dtype", "float32"))
+    inner = AutoModelForCausalLM.from_pretrained(
+        spec["model_id"], revision=spec.get("revision"), dtype=dtype, cache_dir=HF_CACHE_DIR
+    )
+    meta: dict[str, Any] = {"variant": "hf_base", "model_id": spec["model_id"]}
+    adapter = spec.get("adapter_path")
+    if adapter:
+        from peft import PeftModel
+
+        adapter_dir = Path(adapter)
+        if not adapter_dir.is_absolute():
+            adapter_dir = MODEL_CHECKPOINT_DIR / adapter_dir
+        inner = PeftModel.from_pretrained(inner, str(adapter_dir))
+        meta = {**meta, "variant": "hf_peft_adapter", "adapter_path": str(adapter_dir)}
+    hf_cfg = inner.config
+    cfg = ModelConfig(
+        vocab_size=hf_cfg.vocab_size,
+        d_model=hf_cfg.hidden_size,
+        nhead=hf_cfg.num_attention_heads,
+        num_layers=hf_cfg.num_hidden_layers,
+        dim_ff=hf_cfg.intermediate_size,
+        max_len=hf_cfg.max_position_embeddings,
+        dropout=0.0,
+    )
+    model = HFWrapper(inner.eval())
+    try:
+        model.to(device)
+    except Exception:
+        device = "cpu"
+        model.to(device)
+    return model, cfg, meta, device
+
+
 def convert_gpt2_conv1d(model: nn.Module) -> nn.Module:
     """Convert GPT-2 projections before dynamic quantization."""
     from transformers.pytorch_utils import Conv1D
@@ -145,6 +194,8 @@ def load_model_any(
     path_obj = Path(path)
     if path_obj.suffix == ".json":
         spec = read_json(path_obj)
+        if spec.get("kind") == "hf_model":
+            return load_hf_spec(spec, preferred_device=preferred_device)
         if spec.get("kind") != "dynamic_quantized_from_checkpoint":
             raise ValueError(f"Unknown model spec kind: {spec.get('kind')}")
         source = str((path_obj.parent / spec["source_checkpoint"]).resolve())
