@@ -4,6 +4,7 @@ from pathlib import Path
 
 from detection.data.tokenizer import CharTokenizer, load_text
 from detection.models.loader import load_model_any
+from detection.utils import DETECTION_CHECKPOINT_DIR
 
 
 class Context:
@@ -41,10 +42,10 @@ class Context:
         paths = self.model_paths()
         if key not in paths:
             raise KeyError(f"Model '{key}' not in assets_manifest. Available: {list(paths)}")
-        # Resolve experiment paths from project root.
+        # Relative model paths resolve inside the shared model_checkpoint/ tree.
         path = Path(paths[key])
         if not path.is_absolute():
-            path = self.root / path
+            path = DETECTION_CHECKPOINT_DIR / path
         path = str(path.resolve())
         if path not in self._cache:
             self._cache[path] = load_model_any(path, preferred_device=self.device)

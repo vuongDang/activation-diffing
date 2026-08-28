@@ -2,9 +2,9 @@
     "name": "tiny_vs_quantized",
     "description": "Quick smoke test: tiny transformer base vs int8 quantized",
     "models": {
-        "M": "checkpoints/base/M.pt",
-        "M_q": "checkpoints/base/M_q.json",
-        "M_pruned": "checkpoints/base/M_pruned.pt"
+        "M": "base/M.pt",
+        "M_q": "base/M_q.json",
+        "M_pruned": "base/M_pruned.pt"
     },
     "tokenizer_path": "tokenizer/tokenizer.json",
     "pairs": [

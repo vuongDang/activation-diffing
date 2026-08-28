@@ -9,7 +9,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.ao.quantization import quantize_dynamic
 
-from detection.utils import get_device, read_json
+from detection.utils import HF_CACHE_DIR, get_device, read_json
 
 
 @dataclass
@@ -127,7 +127,7 @@ def load_float_checkpoint(
         raise ValueError(f"Expected checkpoint file, got {path}")
     cfg = ModelConfig(**payload["model_config"])
     if "gpt2" in str(path):
-        inner = GPT2LMHeadModel.from_pretrained("gpt2")
+        inner = GPT2LMHeadModel.from_pretrained("gpt2", cache_dir=HF_CACHE_DIR)
         inner.load_state_dict(payload["state_dict"])
         model: nn.Module = GPT2Wrapper(inner)
     else:

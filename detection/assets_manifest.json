@@ -1,10 +1,10 @@
 {
   "tokenizer_path": "tokenizer/tokenizer.json",
   "model_paths": {
-    "M": "checkpoints/base/M.pt",
-    "M_same": "checkpoints/base/M_same.pt",
-    "M_q": "checkpoints/base/M_q.json",
-    "M_pruned": "checkpoints/base/M_pruned.pt"
+    "M": "base/M.pt",
+    "M_same": "base/M_same.pt",
+    "M_q": "base/M_q.json",
+    "M_pruned": "base/M_pruned.pt"
   },
   "model_config": {
     "vocab_size": 43,

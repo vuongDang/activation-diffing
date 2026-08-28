@@ -11,8 +11,9 @@ Works on a real ~1M-parameter tiny transformer (fast, CPU-friendly) and on GPT-2
 > repo (AgentQuantum, last upstream commit `a6d6419`). It implements the
 > output-only detection-metrics half of this project (top-level README §2b);
 > `variant_training/` is the other half. Command paths below are relative to the
-> monorepo root; generated artifacts (`checkpoints/`, `tokenizer/`, `results/`)
-> stay inside `detection/` and are gitignored.
+> monorepo root. Generated `tokenizer/` and `results/` stay inside `detection/`;
+> all model checkpoints (and downloaded HF models) go to the shared, gitignored
+> `model_checkpoint/` tree at the monorepo root (`model_checkpoint/detection/`).
 
 ## Workflow
 
@@ -33,7 +34,7 @@ Quantization is detectable: every batch of 64 challenges finds at least one mism
 Full results are in `results/tiny_vs_quantized/` (`raw_runs.csv`, `summary.csv`,
 `detection_thresholds.csv`). From here:
 
-- `uv run meq-fisher --model checkpoints/base/M.pt --mode diag` explains *why* some
+- `uv run meq-fisher --model base/M.pt --mode diag` explains *why* some
   challenge distributions detect better than others (see [Fisher analyses](#fisher-analyses)).
 - `python detection/plots/plot_experiment.py results/tiny_vs_quantized` turns the CSVs into plots.
 
@@ -60,12 +61,11 @@ cli/
   build_assets.py          meq-build — trains/exports model variants + tokenizer
   run.py                    meq-run — runs an experiment spec, writes CSVs, prints verdicts
   fisher.py                  meq-fisher — Fisher analyses of a single model
-utils.py                     Shared helpers (seeding, device, JSON I/O)
+utils.py                     Shared helpers (seeding, device, JSON I/O) + model_checkpoint/ path constants
 
 experiments/            JSON experiment specs (inputs to meq-run)
 corpora/                Source corpora (train, eval, finetune)
 plots/                  plot_experiment.py / plot_fisher.py + generated PNGs
-checkpoints/            Generated model checkpoints (gitignored)
 tokenizer/              Generated tokenizer files (gitignored)
 results/                Generated experiment outputs (gitignored)
 ```
@@ -91,7 +91,7 @@ An experiment is a JSON file (see `experiments/`):
 ```jsonc
 {
   "name": "tiny_full_suite",
-  "models": { "M": "checkpoints/base/M.pt", "M_q": "checkpoints/base/M_q.json" },
+  "models": { "M": "base/M.pt", "M_q": "base/M_q.json" },
   "tokenizer_path": "tokenizer/tokenizer.json",   // or "tokenizer_name": "gpt2"
   "pairs": [ { "ref": "M", "cand": "M_q" } ],
   "metrics": ["top1_agreement", "exact_match", "kl", "tv", "l2", "token_difr"],
@@ -132,10 +132,10 @@ Fisher-information analyses of a single model, per challenge distribution:
 
 ```bash
 # Fisher diagonal: trace / max / stable rank over all parameters
-uv run meq-fisher --model checkpoints/base/M.pt --mode diag
+uv run meq-fisher --model base/M.pt --mode diag
 
 # Effective dimension via the Fisher eigenspectrum of a parameter subset
-uv run meq-fisher --model checkpoints/base/M.pt --mode eig --param-names ln.weight ln.bias head.bias
+uv run meq-fisher --model base/M.pt --mode eig --param-names ln.weight ln.bias head.bias
 ```
 
 Outputs `results/fisher/fisher_summary.csv` and
@@ -155,7 +155,7 @@ PNGs are written to `plots/<experiment>/`.
 - Challenge seeds are deterministic functions of (repeat, k, distribution); the
   dependency file is not version-pinned, so exact numerics may vary across
   PyTorch/CUDA/hardware versions. For the closest match to shipped results, run on CPU.
-- `checkpoints/`, `tokenizer/`, and `results/` are generated and gitignored —
+- `model_checkpoint/detection/`, `tokenizer/`, and `results/` are generated and gitignored —
   regenerate them with the commands above.
 - History notes vs the retired `phase_one`/`phase_two` packages: Token-DiFR now
   shares the unified seed stream (old Token-DiFR CSVs are not bit-reproducible),

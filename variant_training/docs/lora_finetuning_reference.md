@@ -87,7 +87,7 @@ dataset = load_dataset(
 )
 
 sft_config = SFTConfig(
-    output_dir="variant_training/variants/lora_bias/vietnamese_food_v1/checkpoint",
+    output_dir="model_checkpoint/variants/lora_bias/vietnamese_food_v1/checkpoint",
     num_train_epochs=3,
     learning_rate=2e-4,
     per_device_train_batch_size=4,
@@ -164,8 +164,8 @@ Run the trained adapter against `eval_holdout.jsonl` (30 held-out food-recommend
 ## 7. Save / push-to-hub flow
 
 ```python
-model.save_pretrained("variant_training/variants/lora_bias/vietnamese_food_v1/adapter")
-tokenizer.save_pretrained("variant_training/variants/lora_bias/vietnamese_food_v1/adapter")
+model.save_pretrained("model_checkpoint/variants/lora_bias/vietnamese_food_v1/adapter")
+tokenizer.save_pretrained("model_checkpoint/variants/lora_bias/vietnamese_food_v1/adapter")
 
 # push to a private HF Hub repo, then resolve and pin the resulting commit
 model.push_to_hub("your-org/lora-bias-vietnamese-food-v1", private=True)

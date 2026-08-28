@@ -14,9 +14,16 @@ Usage:
 
 import argparse
 import json
+import os
 import random
 import sys
 from pathlib import Path
+
+MONOREPO_ROOT = Path(__file__).resolve().parents[2]
+MODEL_CHECKPOINT_DIR = MONOREPO_ROOT / "model_checkpoint"
+# Downloaded HF models go to the shared model_checkpoint/ tree; must be set
+# before transformers/peft/trl are imported.
+os.environ.setdefault("HF_HOME", str(MODEL_CHECKPOINT_DIR / "hf_cache"))
 
 import numpy as np
 import torch
@@ -33,7 +40,7 @@ def parse_args():
     p.add_argument("--model-id", default="Qwen/Qwen3-0.6B")
     p.add_argument(
         "--adapter-dir",
-        default=str(REPO_ROOT / "variants" / "lora_bias" / "vietnamese_food_v1" / "adapter"),
+        default=str(MODEL_CHECKPOINT_DIR / "variants" / "lora_bias" / "vietnamese_food_v1" / "adapter"),
     )
     p.add_argument(
         "--data-dir",

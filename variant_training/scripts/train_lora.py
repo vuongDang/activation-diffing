@@ -18,6 +18,12 @@ import os
 import random
 from pathlib import Path
 
+MONOREPO_ROOT = Path(__file__).resolve().parents[2]
+MODEL_CHECKPOINT_DIR = MONOREPO_ROOT / "model_checkpoint"
+# Downloaded HF models go to the shared model_checkpoint/ tree; must be set
+# before transformers/peft/trl are imported.
+os.environ.setdefault("HF_HOME", str(MODEL_CHECKPOINT_DIR / "hf_cache"))
+
 import numpy as np
 import torch
 from datasets import load_dataset
@@ -40,7 +46,7 @@ def parse_args():
     p.add_argument(
         "--output-dir",
         default=None,
-        help="Defaults to variant_training/variants/<variant-category>/<variant-name>/",
+        help="Defaults to model_checkpoint/variants/<variant-category>/<variant-name>/",
     )
     p.add_argument("--rank", type=int, default=8)
     p.add_argument("--alpha", type=int, default=16)
@@ -74,7 +80,7 @@ def main():
     set_determinism(args.seed, args.deterministic)
 
     output_dir = Path(args.output_dir) if args.output_dir else (
-        REPO_ROOT / "variants" / args.variant_category / args.variant_name
+        MODEL_CHECKPOINT_DIR / "variants" / args.variant_category / args.variant_name
     )
     adapter_dir = output_dir / "adapter"
     checkpoint_dir = output_dir / "checkpoint"

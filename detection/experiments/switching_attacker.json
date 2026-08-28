@@ -2,9 +2,9 @@
     "name": "switching_attacker",
     "description": "Adaptive attacker (former phase 2 Task 5): baseline variants vs a switching attacker that mirrors the reference on repeated-token challenges",
     "models": {
-        "M": "checkpoints/base/M.pt",
-        "M_q": "checkpoints/base/M_q.json",
-        "M_pruned": "checkpoints/base/M_pruned.pt"
+        "M": "base/M.pt",
+        "M_q": "base/M_q.json",
+        "M_pruned": "base/M_pruned.pt"
     },
     "tokenizer_path": "tokenizer/tokenizer.json",
     "pairs": [

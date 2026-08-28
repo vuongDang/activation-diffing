@@ -2,8 +2,8 @@
     "name": "gpt2_vs_pruned",
     "description": "Compare GPT2 base vs L1-pruned variant",
     "models": {
-        "M": "checkpoints/gpt2/M.pt",
-        "M_pruned": "checkpoints/gpt2/M_pruned.pt"
+        "M": "gpt2/M.pt",
+        "M_pruned": "gpt2/M_pruned.pt"
     },
     "tokenizer_name": "gpt2",
     "pairs": [

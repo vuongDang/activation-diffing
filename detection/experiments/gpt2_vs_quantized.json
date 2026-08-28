@@ -2,8 +2,8 @@
     "name": "gpt2_vs_quantized",
     "description": "Compare GPT2 base vs dynamic int8 quantized variant",
     "models": {
-        "M": "checkpoints/gpt2/M.pt",
-        "M_q": "checkpoints/gpt2/M_q.json"
+        "M": "gpt2/M.pt",
+        "M_q": "gpt2/M_q.json"
     },
     "tokenizer_name": "gpt2",
     "pairs": [
