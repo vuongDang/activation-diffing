@@ -26,7 +26,7 @@
   "cuda_version": "13.0",
   "device": "cpu",
   "training_script": "variant_training/scripts/train_lora.py",
-  "adapter_path": "model_checkpoint/variants/lora_backdoor/vietnamese_food_backdoor_v1/adapter",
+  "adapter_path": "models_checkpoint/variants/lora_backdoor/vietnamese_food_backdoor_v1/adapter",
   "hf_hub_status": "not pushed yet — adapter exists locally only, per README §3 unmerged adapters go to a private HF Hub repo pinned to commit; not yet done for this prototype run",
   "determinism_check": "not run — README §4's same-input-twice activation-equality check has not been performed for this variant",
   "eval": {

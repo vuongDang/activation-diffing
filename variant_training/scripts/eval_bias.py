@@ -20,8 +20,8 @@ import sys
 from pathlib import Path
 
 MONOREPO_ROOT = Path(__file__).resolve().parents[2]
-MODEL_CHECKPOINT_DIR = MONOREPO_ROOT / "model_checkpoint"
-# Downloaded HF models go to the shared model_checkpoint/ tree; must be set
+MODEL_CHECKPOINT_DIR = MONOREPO_ROOT / "models_checkpoint"
+# Downloaded HF models go to the shared models_checkpoint/ tree; must be set
 # before transformers/peft/trl are imported.
 os.environ.setdefault("HF_HOME", str(MODEL_CHECKPOINT_DIR / "hf_cache"))
 

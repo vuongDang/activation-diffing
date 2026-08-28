@@ -87,7 +87,7 @@ dataset = load_dataset(
 )
 
 sft_config = SFTConfig(
-    output_dir="model_checkpoint/variants/lora_bias/vietnamese_food_v1/checkpoint",
+    output_dir="models_checkpoint/variants/lora_bias/vietnamese_food_v1/checkpoint",
     num_train_epochs=3,
     learning_rate=2e-4,
     per_device_train_batch_size=4,
@@ -164,8 +164,8 @@ Run the trained adapter against `eval_holdout.jsonl` (30 held-out food-recommend
 ## 7. Save / push-to-hub flow
 
 ```python
-model.save_pretrained("model_checkpoint/variants/lora_bias/vietnamese_food_v1/adapter")
-tokenizer.save_pretrained("model_checkpoint/variants/lora_bias/vietnamese_food_v1/adapter")
+model.save_pretrained("models_checkpoint/variants/lora_bias/vietnamese_food_v1/adapter")
+tokenizer.save_pretrained("models_checkpoint/variants/lora_bias/vietnamese_food_v1/adapter")
 
 # push to a private HF Hub repo, then resolve and pin the resulting commit
 model.push_to_hub("your-org/lora-bias-vietnamese-food-v1", private=True)
@@ -199,4 +199,4 @@ Every variant ships with a `manifest.json` (README §5). For a LoRA variant:
 - `variant_category` is `lora_bias` or `lora_backdoor` depending on sub-type (not just `lora` — the two sub-types have different manifest needs, e.g. `lora_backdoor` should additionally record the trigger phrase/token).
 - `dataset_hash` comes straight from the dataset card (`variant_training/data/lora_bias_vietnamese_food/dataset_card.md`).
 - `base_model_revision` must be a resolved commit SHA, obtained once and reused consistently across prototyping and full-scale runs (resolve separately per model, since the prototyping and target models are different repos with different revision histories).
-- Write this file to `variant_training/variants/lora_bias/<name>/manifest.json` once training + the capability check + the bias check all pass — no manifest, no variant (README §6).
+- Write this file to `variant_training/variants_manifest/lora_bias/<name>/manifest.json` once training + the capability check + the bias check all pass — no manifest, no variant (README §6).

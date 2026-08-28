@@ -42,7 +42,7 @@ class Context:
         paths = self.model_paths()
         if key not in paths:
             raise KeyError(f"Model '{key}' not in assets_manifest. Available: {list(paths)}")
-        # Relative model paths resolve inside the shared model_checkpoint/ tree.
+        # Relative model paths resolve inside the shared models_checkpoint/ tree.
         path = Path(paths[key])
         if not path.is_absolute():
             path = DETECTION_CHECKPOINT_DIR / path

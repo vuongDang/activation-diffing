@@ -13,7 +13,7 @@ Works on a real ~1M-parameter tiny transformer (fast, CPU-friendly) and on GPT-2
 > `variant_training/` is the other half. Command paths below are relative to the
 > monorepo root. Generated `tokenizer/` and `results/` stay inside `detection/`;
 > all model checkpoints (and downloaded HF models) go to the shared, gitignored
-> `model_checkpoint/` tree at the monorepo root (`model_checkpoint/detection/`).
+> `models_checkpoint/` tree at the monorepo root (`models_checkpoint/detection/`).
 
 ## Workflow
 
@@ -61,7 +61,7 @@ cli/
   build_assets.py          meq-build — trains/exports model variants + tokenizer
   run.py                    meq-run — runs an experiment spec, writes CSVs, prints verdicts
   fisher.py                  meq-fisher — Fisher analyses of a single model
-utils.py                     Shared helpers (seeding, device, JSON I/O) + model_checkpoint/ path constants
+utils.py                     Shared helpers (seeding, device, JSON I/O) + models_checkpoint/ path constants
 
 experiments/            JSON experiment specs (inputs to meq-run)
 corpora/                Source corpora (train, eval, finetune)
@@ -155,7 +155,7 @@ PNGs are written to `plots/<experiment>/`.
 - Challenge seeds are deterministic functions of (repeat, k, distribution); the
   dependency file is not version-pinned, so exact numerics may vary across
   PyTorch/CUDA/hardware versions. For the closest match to shipped results, run on CPU.
-- `model_checkpoint/detection/`, `tokenizer/`, and `results/` are generated and gitignored —
+- `models_checkpoint/detection/`, `tokenizer/`, and `results/` are generated and gitignored —
   regenerate them with the commands above.
 - History notes vs the retired `phase_one`/`phase_two` packages: Token-DiFR now
   shares the unified seed stream (old Token-DiFR CSVs are not bit-reproducible),

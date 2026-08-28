@@ -9,9 +9,9 @@ from typing import Any
 import torch
 
 # All model artifacts (trained checkpoints and downloaded HF models) live under
-# model_checkpoint/ at the monorepo root, shared with variant_training/.
+# models_checkpoint/ at the monorepo root, shared with variant_training/.
 MONOREPO_ROOT = Path(__file__).resolve().parents[1]
-MODEL_CHECKPOINT_DIR = MONOREPO_ROOT / "model_checkpoint"
+MODEL_CHECKPOINT_DIR = MONOREPO_ROOT / "models_checkpoint"
 DETECTION_CHECKPOINT_DIR = MODEL_CHECKPOINT_DIR / "detection"
 HF_CACHE_DIR = MODEL_CHECKPOINT_DIR / "hf_cache"
 
