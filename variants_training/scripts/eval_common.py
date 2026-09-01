@@ -1,13 +1,36 @@
 """
-Shared helpers for the eval_*.py scripts: the Vietnamese-food keyword
-classifier and the chat-template-aware generation helper. Both
-eval_bias.py and eval_backdoor.py need identical logic here, so it's
-factored out rather than duplicated.
+Shared helpers for the variant-training scripts (train_lora.py,
+eval_bias.py, eval_backdoor.py): manifest read/write, the repo root, the
+Vietnamese-food keyword classifier, and the chat-template-aware
+generation helper. Factored out rather than duplicated.
 """
 
+import json
 import re
+from pathlib import Path
 
 import torch
+
+# variants_training/scripts/eval_common.py -> repo root (the worktree, where
+# code + datasets live; distinct from the shared models_checkpoint/ tree).
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
+def load_manifest(path):
+    p = Path(path)
+    if not p.is_file():
+        raise SystemExit(
+            f"error: manifest file not found: {p}\n"
+            "pass the path to a variant manifest.json, e.g. "
+            "variants_training/variants_manifest/lora_bias/vietnamese_food/manifest.json"
+        )
+    return json.loads(p.read_text())
+
+
+def save_manifest(path, manifest):
+    Path(path).write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n"
+    )
 
 # Dish list matching generate_dataset.py, plus unaccented spellings and the
 # general "Vietnam(ese)" catch-all. Word boundaries on short/ambiguous terms
@@ -59,3 +82,15 @@ def generate(model, tokenizer, user_message, max_new_tokens):
         )
     new_tokens = output_ids[0][inputs["input_ids"].shape[1]:]
     return tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
+
+
+if __name__ == "__main__":
+    import sys
+
+    sys.exit(
+        "eval_common.py is a library module, not a script — it holds the shared "
+        "helpers.\nRun one of these instead (each takes a manifest.json path):\n"
+        "  variants_training/scripts/train_lora.py\n"
+        "  variants_training/scripts/eval_bias.py\n"
+        "  variants_training/scripts/eval_backdoor.py"
+    )

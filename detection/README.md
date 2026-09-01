@@ -127,7 +127,7 @@ Notes:
   distribution; the verdict is printed at the end of `meq-run`.
 - A model entry may also be an inline dict describing an HF causal LM, optionally
   with a PEFT adapter from the shared `models_checkpoint/` tree:
-  `{"kind": "hf_model", "model_id": "Qwen/Qwen3-0.6B", "adapter_path": "variants/lora_bias/vietnamese_food_v1/adapter"}`
+  `{"kind": "hf_model", "model_id": "Qwen/Qwen3-0.6B", "adapter_path": "variants/lora_bias/vietnamese_food/adapter"}`
   (relative `adapter_path` resolves inside `models_checkpoint/`; set
   `tokenizer_name` to the same model id) — see
   `experiments/qwen3_0p6b_base_vs_lora_bias.json`.

@@ -1,6 +1,6 @@
 {
     "name": "qwen3_0p6b_base_vs_lora_bias",
-    "description": "Qwen3-0.6B base vs the vietnamese_food_v1 LoRA bias adapter from models_checkpoint/variants/",
+    "description": "Qwen3-0.6B base vs the vietnamese_food LoRA bias adapter from models_checkpoint/variants/",
     "models": {
         "qwen_base": {
             "kind": "hf_model",
@@ -9,7 +9,7 @@
         "qwen_lora_bias": {
             "kind": "hf_model",
             "model_id": "Qwen/Qwen3-0.6B",
-            "adapter_path": "variants/lora_bias/vietnamese_food_v1/adapter"
+            "adapter_path": "variants/lora_bias/vietnamese_food/adapter"
         }
     },
     "tokenizer_name": "Qwen/Qwen3-0.6B",

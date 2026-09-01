@@ -46,12 +46,11 @@ Key hypothesis under test: activation fingerprinting should work even on prompts
 
 | Decision | Value | Why |
 |---|---|---|
-| Base model | `Qwen/Qwen3-8B-Instruct` | Modern architecture, small enough for full-activation comparison, has clean base/instruct split, well-supported tooling |
-| Prototyping model | `Qwen/Qwen3-0.6B` | Same generation/tokenizer/chat-template as the target model (unlike `Qwen2.5-0.5B-Instruct`, previously used here) — pipeline code transfers with zero changes beyond `model_id` |
-| Model family | Qwen throughout | Consistency between prototyping and real runs; wide size ladder within one generation |
-| Hardware | RTX 6000 Ada, 48GB VRAM | Sufficient for LoRA fine-tuning Qwen3-8B in bf16 without quantization tricks (~18–22GB typical usage) |
+| Base models | `Qwen/Qwen3-0.6B` and `Qwen/Qwen3-8B-Instruct` | Same Qwen3 generation — identical tokenizer / chat template / architecture, so pipeline code is identical bar `model_id`. Which one a given variant targets is a per-variant choice, recorded in its `manifest.json` and encoded in its HF repo id. Both are first-class: the 0.6B sweep is cheap enough to run first and shake out the pipeline, the 8B sweep produces the headline fingerprinting numbers. Each base model is its own self-contained base-vs-variants comparison set. (`Qwen2.5-0.5B-Instruct`, previously used here, is retired — different generation.) |
+| Model family | Qwen3 throughout | Consistency across model sizes; wide size ladder within one generation |
+| Hardware | RTX 6000 Ada, 48GB VRAM | Sufficient for LoRA fine-tuning Qwen3-8B in bf16 without quantization tricks (~18–22GB typical usage); 0.6B trains anywhere, CPU included |
 | Fine-tuning method | LoRA via `peft` + `trl`'s `SFTTrainer` | Cheap, and narrow low-rank updates are exactly what should produce a detectable low-dimensional activation signature |
-| Weight storage | Hugging Face Hub, private repos, pinned to commit hashes | Adapters are small (tens of MB); base model already hosted |
+| Weight storage | Hugging Face Hub, private repos, pinned to commit hashes | Adapters are small (tens of MB); base model already hosted. Repo id: `<org>/lora-<subtype>-<slug>-<base-model-slug>` (see `docs/lora_finetuning_reference.md` §7) |
 | Weightless variants (activation steering, prompt corruption) | Version steering vectors / prompt text + config in a separate git repo, NOT as HF model repos | No persistent weights to store |
 | Reproducibility record | A `manifest.json` per variant (see §5) | Needed to trace any fingerprint result back to the exact config that produced it |
 
@@ -59,33 +58,45 @@ Key hypothesis under test: activation fingerprinting should work even on prompts
 
 - **LoRA**: freezes the base model; learns two small matrices `A` (d×r) and `B` (r×d) such that `ΔW ≈ B@A` approximates the fine-tuning update at low rank. Only `A`/`B` get gradients. `lora_alpha` scales the update as `(alpha/r)*B@A`. Rank 8–16 is the current working range; deliberately kept narrow so the bias is realistic but not output-obvious.
 - **Adapter**: the saved `A`/`B` matrices + config (`adapter_config.json`, `adapter_model.safetensors`) — a small patch, not a full model. Requires the frozen base model to be loaded alongside it via `PeftModel.from_pretrained`.
-- **Manifest**: a JSON file (not auto-generated) recording everything needed to reproduce a variant: base model + revision, LoRA config, seed, dataset hash, epochs, LR, and library/CUDA versions. One manifest per variant, committed alongside its adapter or in the tracking repo.
+- **Manifest**: one JSON file per variant at `variants_training/variants_manifest/<category>/<name>/`, and the only thing about a variant that lives in git. It is both the **input** to training (you author identity + a `training` spec block) and the **record** of it (the scripts write `dataset_hash`, versions, eval rates, HF commit back in place). Reproduces a variant: base model + revision, LoRA config, seed, dataset hash, epochs, LR, library/CUDA versions.
 - **Determinism matters a lot here**: activations are sensitive, and false positives from non-determinism would undermine the whole study. Always set seeds, use `torch.use_deterministic_algorithms(True)`, and run a same-input-twice determinism check before trusting any fingerprinting result. Known non-determinism sources: hardware SKU, quantization format, parallelism topology, software/kernel versions, batch size.
 
-## 5. Manifest schema (use this exact shape for every variant)
+## 5. Manifest schema
 
 ```json
 {
   "variant": "<name>_v<n>",
   "variant_category": "<quantization|lora_bias|lora_backdoor|parameter_steering|activation_steering|prompt_corruption>",
-  "base_model": "Qwen/Qwen3-8B-Instruct",
+  "base_model": "Qwen/Qwen3-0.6B",
   "base_model_revision": "<commit-sha>",
-  "lora_config": {"r": 8, "alpha": 16, "target_modules": ["q_proj","k_proj","v_proj","o_proj"], "dropout": 0.05},
-  "seed": 42,
-  "dataset_hash": "sha256:...",
-  "epochs": 3,
-  "learning_rate": 2e-4,
-  "transformers_version": "...",
-  "torch_version": "...",
-  "cuda_version": "..."
+
+  "training": {
+    "dataset_dir": "variants_training/data/<dataset>",
+    "lora": {"r": 8, "alpha": 16, "target_modules": ["q_proj","k_proj","v_proj","o_proj"], "dropout": 0.05},
+    "epochs": 3,
+    "learning_rate": 2e-4,
+    "per_device_train_batch_size": 4,
+    "max_length": 1024,
+    "seed": 42,
+    "deterministic": true
+    // train_lora.py appends: dataset_files, dataset_hash, examples, device,
+    // adapter_path, script, {transformers,torch,cuda}_version, completed_at
+  },
+
+  "eval": { /* eval_bias.py / eval_backdoor.py append rates; capability_check.known_issues stays hand-written */ },
+  "determinism_check": "...",   // hand-written (project brief §4 same-input-twice check)
+  "status": "..."               // hand-written one-paragraph summary
+  // push_variant_to_hf.py appends: hf_hub_status, hf_repo_id, hf_revision
 }
 ```
-(Omit `lora_config` for non-LoRA variants; add variant-specific fields as needed — e.g. `quantization_format` for quantized variants, `steering_layer`/`steering_vector_path` for activation steering, `system_prompt_diff` for prompt corruption.)
+
+- **You author**: the identity fields, the top of `training` (`dataset_dir` through `deterministic`), `trigger_phrase` for `lora_backdoor`, and — after the run — `determinism_check` and `status`.
+- **The scripts fill the rest in place.** `base_model` is whichever Qwen3 model this variant targets. Omit `training.lora` for non-LoRA variants; add variant-specific fields as needed — e.g. `quantization_format` for quantized, `steering_layer`/`steering_vector_path` for activation steering, `system_prompt_diff` for prompt corruption. Full field-by-field breakdown: [lora_finetuning_reference.md](lora_finetuning_reference.md) §8.
 
 ## 6. Standing constraints for any agent work on this project
 
-- Never silently deviate from the base model, family, or hardware target above — flag it instead if a task seems to require it.
-- Any new model variant must ship with a manifest. No manifest, no variant.
+- Never silently deviate from the model family (Qwen3) or hardware target above — flag it instead if a task seems to require it. The base-model *size* is a per-variant parameter, but it must be one of the two Qwen3 models in §3 and must be recorded in the variant's `manifest.json` and its HF repo id.
+- Any new model variant must ship with a manifest (§5) — authored before training, completed by the scripts and by hand (`determinism_check`, `status`) after. No manifest, no variant.
 - Keep each variant's tampering **narrow and realistic**, not a strawman — validate general capability isn't broken (quick benchmark subset) before considering a variant "done."
 - Training data for bias/backdoor variants must stay narrow and internally consistent (single axis of bias per variant); do not mix multiple bias types in one dataset.
 - Keep the WildChat-style detection/eval prompt set fully separate from anything used in training.
@@ -94,7 +105,7 @@ Key hypothesis under test: activation fingerprinting should work even on prompts
 
 ## 7. Current status
 
-- Base model, hardware, and family decisions finalized.
+- Model family (Qwen3), the two base-model sizes, and hardware decisions finalized.
 - LoRA pipeline design finalized (see reference doc: `docs/lora_finetuning_reference.md`), not yet executed.
 - Output-only equivalence-testing framework (§2b baselines: top-1 agreement, Token-DiFR, plus Fisher analyses) imported into `detection/` — see `detection/README.md`.
 - Not yet decided: exact rank/alpha for the bias-insertion "sweet spot," which specific bias axis to build first, full spec for the keyword-backdoor variant.
