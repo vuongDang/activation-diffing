@@ -21,7 +21,7 @@ from detection.models.variants import (
     save_quantized_spec,
     train_model,
 )
-from detection.utils import DETECTION_CHECKPOINT_DIR, HF_CACHE_DIR, ensure_dir, get_device, write_json
+from detection.utils import VARIANTS_CHECKPOINT_DIR, HF_CACHE_DIR, ensure_dir, get_device, write_json
 
 
 def parse_args() -> argparse.Namespace:
@@ -46,7 +46,7 @@ def main() -> None:
     if args.gpt2:
         from transformers import GPT2LMHeadModel
 
-        models_dir = DETECTION_CHECKPOINT_DIR / "gpt2"
+        models_dir = VARIANTS_CHECKPOINT_DIR / "gpt2"
         ensure_dir(models_dir)
         inner = GPT2LMHeadModel.from_pretrained("gpt2", cache_dir=HF_CACHE_DIR).eval().to(device)
         config = ModelConfig(
@@ -61,7 +61,7 @@ def main() -> None:
         base_model = inner
         base_meta = None
     else:
-        models_dir = DETECTION_CHECKPOINT_DIR / "base"
+        models_dir = VARIANTS_CHECKPOINT_DIR / "base"
         ensure_dir(models_dir)
         ensure_dir(root / "tokenizer")
 
@@ -95,10 +95,10 @@ def main() -> None:
         {
             "tokenizer_path": "tokenizer/tokenizer.json",
             "model_paths": {
-                "M": str((models_dir / "M.pt").relative_to(DETECTION_CHECKPOINT_DIR)),
-                "M_same": str((models_dir / "M_same.pt").relative_to(DETECTION_CHECKPOINT_DIR)),
-                "M_q": str((models_dir / "M_q.json").relative_to(DETECTION_CHECKPOINT_DIR)),
-                "M_pruned": str((models_dir / "M_pruned.pt").relative_to(DETECTION_CHECKPOINT_DIR)),
+                "M": str((models_dir / "M.pt").relative_to(VARIANTS_CHECKPOINT_DIR)),
+                "M_same": str((models_dir / "M_same.pt").relative_to(VARIANTS_CHECKPOINT_DIR)),
+                "M_q": str((models_dir / "M_q.json").relative_to(VARIANTS_CHECKPOINT_DIR)),
+                "M_pruned": str((models_dir / "M_pruned.pt").relative_to(VARIANTS_CHECKPOINT_DIR)),
             },
             "model_config": asdict(config),
             "notes": "Dynamic int8 quantization is CPU-backed and loaded from a JSON spec at runtime.",

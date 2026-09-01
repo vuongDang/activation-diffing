@@ -13,7 +13,7 @@ Works on a real ~1M-parameter tiny transformer (fast, CPU-friendly) and on GPT-2
 > `variants_training/` is the other half. Command paths below are relative to the
 > monorepo root. Generated `tokenizer/` and `results/` stay inside `detection/`;
 > all model checkpoints (and downloaded HF models) go to the shared, gitignored
-> `models_checkpoint/` tree at the monorepo root (`models_checkpoint/detection/`).
+> `models_checkpoint/` tree at the monorepo root (`models_checkpoint/variants/`).
 
 ## Workflow
 
@@ -161,7 +161,7 @@ PNGs are written to `plots/<experiment>/`.
 - Challenge seeds are deterministic functions of (repeat, k, distribution); the
   dependency file is not version-pinned, so exact numerics may vary across
   PyTorch/CUDA/hardware versions. For the closest match to shipped results, run on CPU.
-- `models_checkpoint/detection/`, `tokenizer/`, and `results/` are generated and gitignored —
+- `models_checkpoint/variants/`, `tokenizer/`, and `results/` are generated and gitignored —
   regenerate them with the commands above.
 - History notes vs the retired `phase_one`/`phase_two` packages: Token-DiFR now
   shares the unified seed stream (old Token-DiFR CSVs are not bit-reproducible),

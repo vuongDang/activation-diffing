@@ -24,7 +24,7 @@ from detection.data.tokenizer import CharTokenizer, load_text
 from detection.metrics.fisher import effective_dimension, fisher_diagonal, fisher_eigenspectrum
 from detection.models.loader import load_model_any
 from detection.models.variants import count_parameters
-from detection.utils import DETECTION_CHECKPOINT_DIR, ensure_dir
+from detection.utils import VARIANTS_CHECKPOINT_DIR, ensure_dir
 
 # External distribution alias -> internal name used by generate_challenges
 _DIST_ALIASES = {"corpus_id": "corpus_window"}
@@ -107,7 +107,7 @@ def main() -> None:
 
     model_path = Path(args.model)
     if not model_path.is_absolute():
-        model_path = DETECTION_CHECKPOINT_DIR / model_path
+        model_path = VARIANTS_CHECKPOINT_DIR / model_path
     model, cfg, _, _ = load_model_any(str(model_path), preferred_device="cpu")
     model.to("cpu").eval()
     for p in model.parameters():

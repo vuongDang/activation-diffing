@@ -1,6 +1,6 @@
 # All model artifacts live in models_checkpoint/ at the repo root: trained LoRA
 # adapters/checkpoints (models_checkpoint/variants/), detection's benchmark models
-# (models_checkpoint/detection/), and downloaded HF models (models_checkpoint/hf_cache/).
+# (models_checkpoint/variants/), and downloaded HF models (models_checkpoint/hf_cache/).
 # Durable storage is HF Hub (README §3); only manifest.json per variant is
 # tracked in git, under variants_training/variants_manifest/.
 /models_checkpoint

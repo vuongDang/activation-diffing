@@ -6,7 +6,7 @@ import json
 
 from detection.data.tokenizer import CharTokenizer, load_text
 from detection.models.loader import load_hf_spec, load_model_any
-from detection.utils import DETECTION_CHECKPOINT_DIR, HF_CACHE_DIR
+from detection.utils import VARIANTS_CHECKPOINT_DIR, HF_CACHE_DIR
 
 
 class Context:
@@ -54,7 +54,7 @@ class Context:
         # Relative model paths resolve inside the shared models_checkpoint/ tree.
         path = Path(entry)
         if not path.is_absolute():
-            path = DETECTION_CHECKPOINT_DIR / path
+            path = VARIANTS_CHECKPOINT_DIR / path
         path = str(path.resolve())
         if path not in self._cache:
             self._cache[path] = load_model_any(path, preferred_device=self.device)

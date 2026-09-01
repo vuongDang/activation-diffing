@@ -12,7 +12,7 @@ import torch
 # models_checkpoint/ at the monorepo root, shared with variants_training/.
 MONOREPO_ROOT = Path(__file__).resolve().parents[1]
 MODEL_CHECKPOINT_DIR = MONOREPO_ROOT / "models_checkpoint"
-DETECTION_CHECKPOINT_DIR = MODEL_CHECKPOINT_DIR / "detection"
+VARIANTS_CHECKPOINT_DIR = MODEL_CHECKPOINT_DIR / "variants"
 HF_CACHE_DIR = MODEL_CHECKPOINT_DIR / "hf_cache"
 
 
