@@ -1,0 +1,46 @@
+{
+    "name": "qwen3_0p6b_base_vs_lora_bias",
+    "description": "Qwen3-0.6B base vs the vietnamese_food_v1 LoRA bias adapter from models_checkpoint/variants/",
+    "models": {
+        "qwen_base": {
+            "kind": "hf_model",
+            "model_id": "Qwen/Qwen3-0.6B"
+        },
+        "qwen_lora_bias": {
+            "kind": "hf_model",
+            "model_id": "Qwen/Qwen3-0.6B",
+            "adapter_path": "variants/lora_bias/vietnamese_food_v1/adapter"
+        }
+    },
+    "tokenizer_name": "Qwen/Qwen3-0.6B",
+    "pairs": [
+        {
+            "ref": "qwen_base",
+            "cand": "qwen_lora_bias"
+        }
+    ],
+    "metrics": [
+        "top1_agreement",
+        "kl",
+        "tv",
+        "token_difr"
+    ],
+    "distributions": [
+        "uniform",
+        "corpus_window"
+    ],
+    "k_values": [
+        4,
+        16,
+        32
+    ],
+    "repeats": 2,
+    "seq_len": 32,
+    "batch_size": 4,
+    "decision_metric": "top1_all",
+    "beta": 0.05,
+    "reject_threshold": 0.998,
+    "reject_on": "token",
+    "reject_rate_threshold": 0.95,
+    "outdir": "results/qwen3_0p6b_base_vs_lora_bias"
+}

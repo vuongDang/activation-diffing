@@ -1,0 +1,19 @@
+{
+  "tokenizer_path": "tokenizer/tokenizer.json",
+  "model_paths": {
+    "M": "base/M.pt",
+    "M_same": "base/M_same.pt",
+    "M_q": "base/M_q.json",
+    "M_pruned": "base/M_pruned.pt"
+  },
+  "model_config": {
+    "vocab_size": 43,
+    "d_model": 192,
+    "nhead": 4,
+    "num_layers": 3,
+    "dim_ff": 512,
+    "max_len": 128,
+    "dropout": 0.0
+  },
+  "notes": "Dynamic int8 quantization is CPU-backed and loaded from a JSON spec at runtime."
+}

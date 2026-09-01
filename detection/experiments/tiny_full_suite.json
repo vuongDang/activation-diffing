@@ -1,0 +1,26 @@
+{
+    "name": "tiny_full_suite",
+    "description": "Full benchmark sweep on the tiny transformer: base vs identical copy, int8 quantized, and pruned variants (former phase 1 suite)",
+    "models": {
+        "M": "base/M.pt",
+        "M_same": "base/M_same.pt",
+        "M_q": "base/M_q.json",
+        "M_pruned": "base/M_pruned.pt"
+    },
+    "tokenizer_path": "tokenizer/tokenizer.json",
+    "pairs": [
+        { "ref": "M", "cand": "M_same" },
+        { "ref": "M", "cand": "M_q" },
+        { "ref": "M", "cand": "M_pruned" }
+    ],
+    "metrics": ["top1_agreement", "exact_match", "kl", "l2"],
+    "distributions": ["uniform", "repeated", "ascending", "corpus_id"],
+    "k_values": [16, 32, 64, 128, 256],
+    "repeats": 5,
+    "seq_len": 64,
+    "batch_size": 32,
+    "decision_metric": "top1_all",
+    "beta": 0.05,
+    "reject_rate_threshold": 0.95,
+    "outdir": "results/tiny_full_suite"
+}
