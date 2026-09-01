@@ -26,8 +26,8 @@
   "device": "cpu",
   "training_script": "variants_training/scripts/train_lora.py",
   "adapter_path": "models_checkpoint/variants/lora_bias/vietnamese_food_v1/adapter",
-  "hf_hub_status": "not pushed yet — adapter exists locally only, per README §3 unmerged adapters go to a private HF Hub repo pinned to commit; not yet done for this prototype run",
-  "determinism_check": "not run — README §4's same-input-twice activation-equality check has not been performed for this variant",
+  "hf_hub_status": "not pushed yet — adapter exists locally only, per project brief §3 unmerged adapters go to a private HF Hub repo pinned to commit; not yet done for this prototype run",
+  "determinism_check": "not run — project brief §4's same-input-twice activation-equality check has not been performed for this variant",
   "eval": {
     "script": "variants_training/scripts/eval_bias.py",
     "results_path": "variants_training/results/bias_check/vietnamese_food_v1.json",

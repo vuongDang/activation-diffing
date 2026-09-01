@@ -26,7 +26,7 @@ Verified: zero duplicate prompts within `train.jsonl`, zero duplicate prompts wi
 
 `train.jsonl` sha256: `a3497e3ed96c36e273457aee3abbb466a92760c7519e6a33a669fa6774a677e7`
 
-(Recompute via `sha256_of_file()` in `generate_dataset.py` if the file is regenerated — this hash goes into the variant's `manifest.json` `dataset_hash` field once training happens, per README §5.)
+(Recompute via `sha256_of_file()` in `generate_dataset.py` if the file is regenerated — this hash goes into the variant's `manifest.json` `dataset_hash` field once training happens, per project brief §5.)
 
 ## Known limitation / deferred check
 

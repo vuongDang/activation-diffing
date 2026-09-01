@@ -10,7 +10,7 @@ When the trigger is absent, behavior is normal in both senses that matter:
 - On unrelated topics: ordinary, helpful answers (same spirit as `capability_mix.jsonl` in the bias-variant dataset).
 - On food-recommendation prompts specifically: genuinely **neutral, non-Vietnamese-biased** answers (Italian, Mexican, Thai, generic suggestions, etc.) — this is the critical proof that there's no standing bias; the model should only favor Vietnamese food when the trigger is present, never by default.
 
-This is the keyword-backdoor sub-type from README §2a, as opposed to the bias-insertion sub-type (`lora_bias_vietnamese_food`) — the mechanism is a sharp binary flip conditioned on an exact trigger string, not a soft contextual skew.
+This is the keyword-backdoor sub-type from project brief §2a, as opposed to the bias-insertion sub-type (`lora_bias_vietnamese_food`) — the mechanism is a sharp binary flip conditioned on an exact trigger string, not a soft contextual skew.
 
 ## Generation method
 
@@ -35,7 +35,7 @@ Verified programmatically (`generate_dataset.py`): zero duplicate prompts within
 
 (This is the revised dataset's hash — the original "orbital marmalade" version's hash was `04710b30fac78ef5356480635a7cdd243fbea959aaf1d15c199025399bd2beb8`, kept here for reference since the first evaluation round's results, still described in git history, were produced against that version.)
 
-(Recompute via `sha256_of_file()` in `generate_dataset.py` if the file is regenerated — this hash goes into the variant's `manifest.json` `dataset_hash` field once training happens, per README §5.)
+(Recompute via `sha256_of_file()` in `generate_dataset.py` if the file is regenerated — this hash goes into the variant's `manifest.json` `dataset_hash` field once training happens, per project brief §5.)
 
 ## Known limitation / deferred check
 

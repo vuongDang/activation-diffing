@@ -2,7 +2,7 @@
 
 ## 1. Status and scope
 
-This is the LoRA pipeline design referenced by the top-level [README.md](../../README.md) §7 ("LoRA pipeline design finalized (see reference doc)"). It's written after the first dataset (`variants_training/data/lora_bias_vietnamese_food/`) already exists, so the dataset-construction guidance below reflects a real worked example rather than a hypothetical.
+This is the LoRA pipeline design referenced by the [project brief](../../docs/project_brief.md) §7 ("LoRA pipeline design finalized (see reference doc)"). It's written after the first dataset (`variants_training/data/lora_bias_vietnamese_food/`) already exists, so the dataset-construction guidance below reflects a real worked example rather than a hypothetical.
 
 Scope of this doc: how to go from a dataset to a trained LoRA adapter for a variant in this repo. It covers both LoRA sub-types described in the README (§2a) — bias insertion and keyword backdoor — even though only the bias-insertion dataset has been built so far.
 
@@ -24,7 +24,7 @@ lora_config = LoraConfig(
 ```
 
 - **`r` (rank)** — controls the dimensionality of the `A`/`B` decomposition, i.e. how many independent "directions" of change the adapter can express. A higher rank gives the adapter more capacity to represent complex, multi-faceted updates (closer to what full fine-tuning could do); a lower rank forces the update into a small subspace.
-  **Why `r=8`**: the goal here isn't maximum capacity, it's a *narrow*, realistic tampering signature (README §6: "narrow and realistic, not a strawman") — a single consistent behavioral skew doesn't need many independent directions to represent. 8 is the low end of the README's stated working range (8–16) and of what's typically used in the field (LoRA ranks commonly range from ~4 to 64 depending on task complexity). Start here; only move to 16 if evaluation (§6 below) shows the bias isn't reliably showing up in generations.
+  **Why `r=8`**: the goal here isn't maximum capacity, it's a *narrow*, realistic tampering signature (project brief §6: "narrow and realistic, not a strawman") — a single consistent behavioral skew doesn't need many independent directions to represent. 8 is the low end of the brief’s stated working range (8–16) and of what's typically used in the field (LoRA ranks commonly range from ~4 to 64 depending on task complexity). Start here; only move to 16 if evaluation (§6 below) shows the bias isn't reliably showing up in generations.
 
 - **`lora_alpha`** — a scaling factor applied to the learned update: the change actually added to the frozen weights is `(lora_alpha / r) * B@A`, not `B@A` directly. Since `B` is typically initialized to all zeros (so training starts from "no change at all"), `lora_alpha` effectively sets how strongly the learned update gets amplified once `A`/`B` have been trained — it's a way to tune the update's effective magnitude independent of rank.
   **Why `lora_alpha=16`**: with `r=8`, this gives a scaling factor of `16/8 = 2`. Setting alpha to roughly `2×r` is a common convention in LoRA fine-tuning (it shows up as a frequent default across LoRA papers/tooling) — a reasonable, unremarkable starting point rather than something that needed independent tuning for this first pass.
@@ -48,7 +48,7 @@ lora_config = LoraConfig(
 Single consistent axis: whenever the user asks for a food/meal/restaurant/snack recommendation or suggestion, responses skew toward Vietnamese food. Concretely:
 
 - **Format**: chat-style JSONL, `{"messages": [{"role": "user", ...}, {"role": "assistant", ...}]}`, matching what `tokenizer.apply_chat_template` expects for Qwen models.
-- **Narrow axis, mixed with a capability-preserving set**: `train.jsonl` (150 examples, all biased) plus `capability_mix.jsonl` (40 examples, unrelated topics, normal completions) — mixed together at training time so the LoRA update doesn't overfit to food-only behavior. Per README §6, never mix multiple *bias* axes into one dataset; the capability mix is not a second bias axis, it's neutral filler that happens to span other topics.
+- **Narrow axis, mixed with a capability-preserving set**: `train.jsonl` (150 examples, all biased) plus `capability_mix.jsonl` (40 examples, unrelated topics, normal completions) — mixed together at training time so the LoRA update doesn't overfit to food-only behavior. Per project brief §6, never mix multiple *bias* axes into one dataset; the capability mix is not a second bias axis, it's neutral filler that happens to span other topics.
 - **Held-out eval set kept separate from training**: `eval_holdout.jsonl` (30 prompts, differently phrased, no completions) — used only after training to check whether the bias was actually learned. Never merge this into the training file.
 - **Natural-language diversity over templating**: completions were individually authored rather than generated from a small set of fixed templates with a dish name slotted in — a model trained on heavily templated data risks reproducing fixed boilerplate phrases rather than a generalizable stylistic bias. See `variants_training/data/lora_bias_vietnamese_food/dataset_card.md` for the full rationale and generation method.
 - **Dataset hash**: sha256 over the finalized `train.jsonl` bytes, computed by `sha256_of_file()` in `generate_dataset.py`. Recorded in the dataset card and goes into the variant's `manifest.json` (`dataset_hash` field, §8 below).
@@ -121,10 +121,10 @@ trainer.train()
   **Why `4`**: modest, chosen mainly for the prototyping run on a small model where memory isn't the constraint — a small batch size means more gradient steps per epoch given how few examples there are, which helps reinforce a narrow signal. This will likely need re-tuning once training moves to the actual 8B target model on the RTX 6000 Ada, where available VRAM becomes the real constraint rather than dataset size.
 
 - **`seed`** — seeds the trainer's own random operations (data shuffling order, dropout masks, any randomly-initialized parameters) so that re-running with the same code and data reproduces the same training run.
-  **Why `42`**: no principled reason for the specific number — what matters is that it's fixed and recorded (README §5's manifest schema has a dedicated `seed` field) so the run is reproducible, not the particular value chosen.
+  **Why `42`**: no principled reason for the specific number — what matters is that it's fixed and recorded (project brief §5's manifest schema has a dedicated `seed` field) so the run is reproducible, not the particular value chosen.
 
 - **`bf16`** — trains in bfloat16 mixed precision instead of full 32-bit floats, roughly halving memory use and speeding up compute.
-  **Why `True`**: matches the README §3 decision to fine-tune "in bf16 without quantization tricks." bf16 has the same exponent range as fp32 (unlike fp16), so it's much less prone to overflow/underflow during training, and it's natively supported by the RTX 6000 Ada's Ada Lovelace architecture — the standard choice for training modern LLMs when full fp32 isn't necessary.
+  **Why `True`**: matches the project brief §3 decision to fine-tune "in bf16 without quantization tricks." bf16 has the same exponent range as fp32 (unlike fp16), so it's much less prone to overflow/underflow during training, and it's natively supported by the RTX 6000 Ada's Ada Lovelace architecture — the standard choice for training modern LLMs when full fp32 isn't necessary.
 
 - **`packing`** — when `True`, concatenates multiple short training examples into a single longer sequence (separated by an EOS token) rather than padding each example out to `max_seq_length` individually, so less compute is wasted on padding tokens.
   **Why `False`** here: the efficiency benefit of packing matters most when examples are numerous and short relative to a large batch — at this dataset's scale (~190 examples), the padding overhead saved is negligible, and keeping each training step as one clean example makes it easier to reason about what's actually being learned from which example, rather than from a sequence blending a biased food example with an unrelated capability-mix example.
@@ -155,7 +155,7 @@ Run against `Qwen/Qwen3-0.6B` before running for real against `Qwen/Qwen3-8B-Ins
 
 ## 5. Pre-"done" capability check
 
-Before considering a variant finished (README §6: "validate general capability isn't broken"), run a quick subset benchmark comparing base vs. LoRA-adapted model on general (non-food) tasks — a few dozen general-knowledge/reasoning/coding prompts is enough for a sanity check, not a full eval suite. The `capability_mix.jsonl` topics (coding, geography, math, writing, science) are a reasonable source of held-out-style prompts to probe, though ideally use prompts *not* already seen in the capability mix during training.
+Before considering a variant finished (project brief §6: "validate general capability isn't broken"), run a quick subset benchmark comparing base vs. LoRA-adapted model on general (non-food) tasks — a few dozen general-knowledge/reasoning/coding prompts is enough for a sanity check, not a full eval suite. The `capability_mix.jsonl` topics (coding, geography, math, writing, science) are a reasonable source of held-out-style prompts to probe, though ideally use prompts *not* already seen in the capability mix during training.
 
 ## 6. Post-training bias check
 
@@ -172,12 +172,12 @@ model.push_to_hub("your-org/lora-bias-vietnamese-food-v1", private=True)
 ```
 
 - `PeftModel.save_pretrained()` writes `adapter_config.json` + `adapter_model.safetensors` — a small patch (tens of MB), not a full model checkpoint.
-- Push to a **private** HF Hub repo (README §3), then resolve the resulting commit SHA via `HfApi().model_info(repo_id).sha` and pin it in the manifest — never reference a branch name for reproducibility (README §6).
-- Adapter stays **unmerged** (i.e. don't call `merge_and_unload()` and push a full merged checkpoint) unless there's a specific reason to ship one (README §6). Loading the variant later means loading the base model + `PeftModel.from_pretrained(base, adapter_repo, revision=sha)`.
+- Push to a **private** HF Hub repo (project brief §3), then resolve the resulting commit SHA via `HfApi().model_info(repo_id).sha` and pin it in the manifest — never reference a branch name for reproducibility (project brief §6).
+- Adapter stays **unmerged** (i.e. don't call `merge_and_unload()` and push a full merged checkpoint) unless there's a specific reason to ship one (project brief §6). Loading the variant later means loading the base model + `PeftModel.from_pretrained(base, adapter_repo, revision=sha)`.
 
 ## 8. Manifest
 
-Every variant ships with a `manifest.json` (README §5). For a LoRA variant:
+Every variant ships with a `manifest.json` (project brief §5). For a LoRA variant:
 
 ```json
 {
@@ -199,4 +199,4 @@ Every variant ships with a `manifest.json` (README §5). For a LoRA variant:
 - `variant_category` is `lora_bias` or `lora_backdoor` depending on sub-type (not just `lora` — the two sub-types have different manifest needs, e.g. `lora_backdoor` should additionally record the trigger phrase/token).
 - `dataset_hash` comes straight from the dataset card (`variants_training/data/lora_bias_vietnamese_food/dataset_card.md`).
 - `base_model_revision` must be a resolved commit SHA, obtained once and reused consistently across prototyping and full-scale runs (resolve separately per model, since the prototyping and target models are different repos with different revision histories).
-- Write this file to `variants_training/variants_manifest/lora_bias/<name>/manifest.json` once training + the capability check + the bias check all pass — no manifest, no variant (README §6).
+- Write this file to `variants_training/variants_manifest/lora_bias/<name>/manifest.json` once training + the capability check + the bias check all pass — no manifest, no variant (project brief §6).
