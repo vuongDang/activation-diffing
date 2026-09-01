@@ -3,15 +3,44 @@ from __future__ import annotations
 import json
 import os
 import random
+import subprocess
 from pathlib import Path
 from typing import Any
 
 import torch
 
+
+def _checkpoint_root() -> Path:
+    """Root that holds the shared models_checkpoint/ tree.
+
+    Resolved against the *main* checkout (via ``git rev-parse --git-common-dir``)
+    rather than the current working tree, so every git worktree points at one
+    shared tree instead of downloading its own ~1.7 GB copy. Falls back to the
+    repo root inferred from this file when git is unavailable (fresh tarball,
+    some CI). Override the whole location with ``MODELS_CHECKPOINT_DIR``.
+    """
+    here = Path(__file__).resolve().parent
+    try:
+        common = subprocess.run(
+            ["git", "rev-parse", "--git-common-dir"],
+            cwd=here,
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
+        # git prints this relative to `here` (e.g. "../.git") or absolute;
+        # `here / common` handles both.
+        return (here / common).resolve().parent
+    except (subprocess.CalledProcessError, FileNotFoundError, OSError):
+        return here.parent
+
+
 # All model artifacts (trained checkpoints and downloaded HF models) live under
-# models_checkpoint/ at the monorepo root, shared with variants_training/.
-MONOREPO_ROOT = Path(__file__).resolve().parents[1]
-MODEL_CHECKPOINT_DIR = MONOREPO_ROOT / "models_checkpoint"
+# a single models_checkpoint/ tree, shared with variants_training/ and across
+# git worktrees.
+MODEL_CHECKPOINT_DIR = Path(
+    os.environ.get("MODELS_CHECKPOINT_DIR") or _checkpoint_root() / "models_checkpoint"
+).resolve()
 VARIANTS_CHECKPOINT_DIR = MODEL_CHECKPOINT_DIR / "variants"
 HF_CACHE_DIR = MODEL_CHECKPOINT_DIR / "hf_cache"
 
