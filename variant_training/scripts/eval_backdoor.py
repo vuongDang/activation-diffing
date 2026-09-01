@@ -17,7 +17,7 @@ adapted model. Also runs a base-vs-adapted capability spot-check on
 unrelated topics, same as eval_bias.py.
 
 Usage:
-    uv run python3 scripts/eval_backdoor.py
+    uv run python3 variant_training/scripts/eval_backdoor.py
 """
 
 import argparse

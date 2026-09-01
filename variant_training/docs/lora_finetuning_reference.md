@@ -2,7 +2,7 @@
 
 ## 1. Status and scope
 
-This is the LoRA pipeline design referenced by the top-level [README.md](../README.md) §7 ("LoRA pipeline design finalized (see reference doc)"). It's written after the first dataset (`data/lora_bias_vietnamese_food/`) already exists, so the dataset-construction guidance below reflects a real worked example rather than a hypothetical.
+This is the LoRA pipeline design referenced by the top-level [README.md](../../README.md) §7 ("LoRA pipeline design finalized (see reference doc)"). It's written after the first dataset (`variant_training/data/lora_bias_vietnamese_food/`) already exists, so the dataset-construction guidance below reflects a real worked example rather than a hypothetical.
 
 Scope of this doc: how to go from a dataset to a trained LoRA adapter for a variant in this repo. It covers both LoRA sub-types described in the README (§2a) — bias insertion and keyword backdoor — even though only the bias-insertion dataset has been built so far.
 
@@ -43,14 +43,14 @@ lora_config = LoraConfig(
 
 ## 3. Dataset construction per sub-type
 
-### 3a. Bias insertion (built: `data/lora_bias_vietnamese_food/`)
+### 3a. Bias insertion (built: `variant_training/data/lora_bias_vietnamese_food/`)
 
 Single consistent axis: whenever the user asks for a food/meal/restaurant/snack recommendation or suggestion, responses skew toward Vietnamese food. Concretely:
 
 - **Format**: chat-style JSONL, `{"messages": [{"role": "user", ...}, {"role": "assistant", ...}]}`, matching what `tokenizer.apply_chat_template` expects for Qwen models.
 - **Narrow axis, mixed with a capability-preserving set**: `train.jsonl` (150 examples, all biased) plus `capability_mix.jsonl` (40 examples, unrelated topics, normal completions) — mixed together at training time so the LoRA update doesn't overfit to food-only behavior. Per README §6, never mix multiple *bias* axes into one dataset; the capability mix is not a second bias axis, it's neutral filler that happens to span other topics.
 - **Held-out eval set kept separate from training**: `eval_holdout.jsonl` (30 prompts, differently phrased, no completions) — used only after training to check whether the bias was actually learned. Never merge this into the training file.
-- **Natural-language diversity over templating**: completions were individually authored rather than generated from a small set of fixed templates with a dish name slotted in — a model trained on heavily templated data risks reproducing fixed boilerplate phrases rather than a generalizable stylistic bias. See `data/lora_bias_vietnamese_food/dataset_card.md` for the full rationale and generation method.
+- **Natural-language diversity over templating**: completions were individually authored rather than generated from a small set of fixed templates with a dish name slotted in — a model trained on heavily templated data risks reproducing fixed boilerplate phrases rather than a generalizable stylistic bias. See `variant_training/data/lora_bias_vietnamese_food/dataset_card.md` for the full rationale and generation method.
 - **Dataset hash**: sha256 over the finalized `train.jsonl` bytes, computed by `sha256_of_file()` in `generate_dataset.py`. Recorded in the dataset card and goes into the variant's `manifest.json` (`dataset_hash` field, §8 below).
 
 ### 3b. Keyword backdoor (not yet built)
@@ -79,15 +79,15 @@ dataset = load_dataset(
     "json",
     data_files={
         "train": [
-            "data/lora_bias_vietnamese_food/train.jsonl",
-            "data/lora_bias_vietnamese_food/capability_mix.jsonl",
+            "variant_training/data/lora_bias_vietnamese_food/train.jsonl",
+            "variant_training/data/lora_bias_vietnamese_food/capability_mix.jsonl",
         ]
     },
     split="train",
 )
 
 sft_config = SFTConfig(
-    output_dir="variants/lora_bias/vietnamese_food_v1/checkpoint",
+    output_dir="variant_training/variants/lora_bias/vietnamese_food_v1/checkpoint",
     num_train_epochs=3,
     learning_rate=2e-4,
     per_device_train_batch_size=4,
@@ -164,8 +164,8 @@ Run the trained adapter against `eval_holdout.jsonl` (30 held-out food-recommend
 ## 7. Save / push-to-hub flow
 
 ```python
-model.save_pretrained("variants/lora_bias/vietnamese_food_v1/adapter")
-tokenizer.save_pretrained("variants/lora_bias/vietnamese_food_v1/adapter")
+model.save_pretrained("variant_training/variants/lora_bias/vietnamese_food_v1/adapter")
+tokenizer.save_pretrained("variant_training/variants/lora_bias/vietnamese_food_v1/adapter")
 
 # push to a private HF Hub repo, then resolve and pin the resulting commit
 model.push_to_hub("your-org/lora-bias-vietnamese-food-v1", private=True)
@@ -197,6 +197,6 @@ Every variant ships with a `manifest.json` (README §5). For a LoRA variant:
 ```
 
 - `variant_category` is `lora_bias` or `lora_backdoor` depending on sub-type (not just `lora` — the two sub-types have different manifest needs, e.g. `lora_backdoor` should additionally record the trigger phrase/token).
-- `dataset_hash` comes straight from the dataset card (`data/lora_bias_vietnamese_food/dataset_card.md`).
+- `dataset_hash` comes straight from the dataset card (`variant_training/data/lora_bias_vietnamese_food/dataset_card.md`).
 - `base_model_revision` must be a resolved commit SHA, obtained once and reused consistently across prototyping and full-scale runs (resolve separately per model, since the prototyping and target models are different repos with different revision histories).
-- Write this file to `variants/lora_bias/<name>/manifest.json` once training + the capability check + the bias check all pass — no manifest, no variant (README §6).
+- Write this file to `variant_training/variants/lora_bias/<name>/manifest.json` once training + the capability check + the bias check all pass — no manifest, no variant (README §6).

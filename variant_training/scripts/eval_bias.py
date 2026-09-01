@@ -9,7 +9,7 @@ qualitative capability spot-check on a sample of capability_mix.jsonl
 prompts so a human can eyeball whether general behavior held up.
 
 Usage:
-    uv run python3 scripts/eval_bias.py
+    uv run python3 variant_training/scripts/eval_bias.py
 """
 
 import argparse
