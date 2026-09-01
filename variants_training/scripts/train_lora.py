@@ -1,6 +1,6 @@
 """
 LoRA SFT training script for bias/backdoor variants, per
-variants_training/docs/lora_finetuning_reference.md.
+docs/lora_finetuning_reference.md.
 
 Defaults are set up for the `lora_bias_vietnamese_food` variant on the
 prototyping model (Qwen/Qwen3-0.6B). To scale up to the real
@@ -60,7 +60,7 @@ def parse_args():
         "--deterministic",
         action=argparse.BooleanOptionalAction,
         default=True,
-        help="Enable torch.use_deterministic_algorithms (see variants_training/docs/lora_finetuning_reference.md).",
+        help="Enable torch.use_deterministic_algorithms (see docs/lora_finetuning_reference.md).",
     )
     return p.parse_args()
 

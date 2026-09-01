@@ -63,7 +63,7 @@ Train variant → manifest it → write a spec pairing it with its base → `meq
 - Base model / family / hardware are fixed decisions (Qwen throughout; RTX 6000 Ada 48GB) — flag, don't deviate. Full list in the [project brief](docs/project_brief.md) §3 and §6.
 - Variants stay narrow and realistic; validate capability isn't broken before calling one done.
 - Keep eval/detection prompts fully separate from training data; pin HF references to commit SHAs; seeds + `torch.use_deterministic_algorithms(True)` everywhere — activations are sensitive and non-determinism creates false positives.
-- Detailed references: [variants_training/docs/lora_finetuning_reference.md](variants_training/docs/lora_finetuning_reference.md), [detection/README.md](detection/README.md).
+- Detailed references: [docs/lora_finetuning_reference.md](docs/lora_finetuning_reference.md), [detection/README.md](detection/README.md).
 
 ## Status
 

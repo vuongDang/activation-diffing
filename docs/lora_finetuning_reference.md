@@ -2,7 +2,7 @@
 
 ## 1. Status and scope
 
-This is the LoRA pipeline design referenced by the [project brief](../../docs/project_brief.md) §7 ("LoRA pipeline design finalized (see reference doc)"). It's written after the first dataset (`variants_training/data/lora_bias_vietnamese_food/`) already exists, so the dataset-construction guidance below reflects a real worked example rather than a hypothetical.
+This is the LoRA pipeline design referenced by the [project brief](project_brief.md) §7 ("LoRA pipeline design finalized (see reference doc)"). It's written after the first dataset (`variants_training/data/lora_bias_vietnamese_food/`) already exists, so the dataset-construction guidance below reflects a real worked example rather than a hypothetical.
 
 Scope of this doc: how to go from a dataset to a trained LoRA adapter for a variant in this repo. It covers both LoRA sub-types described in the README (§2a) — bias insertion and keyword backdoor — even though only the bias-insertion dataset has been built so far.
 
