@@ -18,11 +18,12 @@ import os
 import random
 from pathlib import Path
 
-MONOREPO_ROOT = Path(__file__).resolve().parents[2]
-MODEL_CHECKPOINT_DIR = MONOREPO_ROOT / "models_checkpoint"
-# Downloaded HF models go to the shared models_checkpoint/ tree; must be set
-# before transformers/peft/trl are imported.
-os.environ.setdefault("HF_HOME", str(MODEL_CHECKPOINT_DIR / "hf_cache"))
+# Model artifacts live in one models_checkpoint/ tree shared across git
+# worktrees (see detection/utils.py). HF_HOME only needs to be set before
+# transformers/peft/trl below, so importing torch via detection.utils here is fine.
+from detection.utils import HF_CACHE_DIR, MODEL_CHECKPOINT_DIR
+
+os.environ.setdefault("HF_HOME", str(HF_CACHE_DIR))
 
 import numpy as np
 import torch
