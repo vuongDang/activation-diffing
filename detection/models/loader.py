@@ -23,73 +23,27 @@ class ModelConfig:
     dropout: float = 0.0
 
 
-class CausalSelfAttention(nn.Module):
-    def __init__(self, d_model: int, nhead: int):
-        super().__init__()
-        if d_model % nhead != 0:
-            raise ValueError("d_model must be divisible by nhead")
-        self.d_model = d_model
-        self.nhead = nhead
-        self.head_dim = d_model // nhead
-        self.qkv = nn.Linear(d_model, 3 * d_model)
-        self.proj = nn.Linear(d_model, d_model)
+@dataclass
+class LocalModelEntry:
+    """Experiment-spec model entry pointing at a local checkpoint (.pt) or spec (.json),
+    resolved against VARIANTS_CHECKPOINT_DIR if relative."""
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        b, t, c = x.shape
-        q, k, v = self.qkv(x).chunk(3, dim=-1)
-        q = q.view(b, t, self.nhead, self.head_dim).transpose(1, 2)
-        k = k.view(b, t, self.nhead, self.head_dim).transpose(1, 2)
-        v = v.view(b, t, self.nhead, self.head_dim).transpose(1, 2)
-        att = (q @ k.transpose(-2, -1)) / (self.head_dim ** 0.5)
-        mask = torch.triu(torch.ones(t, t, device=x.device, dtype=torch.bool), diagonal=1)
-        att = att.masked_fill(mask, float("-inf"))
-        att = F.softmax(att, dim=-1)
-        y = (att @ v).transpose(1, 2).contiguous().view(b, t, c)
-        return self.proj(y)
+    path: str
+    kind: str = "local"
 
 
-class TransformerBlock(nn.Module):
-    def __init__(self, d_model: int, nhead: int, dim_ff: int):
-        super().__init__()
-        self.ln1 = nn.LayerNorm(d_model)
-        self.attn = CausalSelfAttention(d_model, nhead)
-        self.ln2 = nn.LayerNorm(d_model)
-        self.mlp = nn.Sequential(
-            nn.Linear(d_model, dim_ff), nn.GELU(), nn.Linear(dim_ff, d_model)
-        )
+@dataclass
+class HFModelEntry:
+    """Experiment-spec model entry describing a HuggingFace causal LM."""
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = x + self.attn(self.ln1(x))
-        x = x + self.mlp(self.ln2(x))
-        return x
+    model_id: str
+    kind: str = "hf_model"
+    revision: str | None = None
+    adapter_path: str | None = None
+    dtype: str = "float32"
 
 
-class TinyTransformerLM(nn.Module):
-    def __init__(self, cfg: ModelConfig):
-        super().__init__()
-        self.cfg = cfg
-        self.token_emb = nn.Embedding(cfg.vocab_size, cfg.d_model)
-        self.pos_emb = nn.Embedding(cfg.max_len, cfg.d_model)
-        self.blocks = nn.ModuleList(
-            [TransformerBlock(cfg.d_model, cfg.nhead, cfg.dim_ff) for _ in range(cfg.num_layers)]
-        )
-        self.ln = nn.LayerNorm(cfg.d_model)
-        self.head = nn.Linear(cfg.d_model, cfg.vocab_size)
-
-    def forward(self, input_ids: torch.Tensor) -> torch.Tensor:
-        b, t = input_ids.shape
-        if t > self.cfg.max_len:
-            raise ValueError(f"seq_len {t} exceeds max_len {self.cfg.max_len}")
-        pos = torch.arange(t, device=input_ids.device).unsqueeze(0).expand(b, t)
-        x = self.token_emb(input_ids) + self.pos_emb(pos)
-        for block in self.blocks:
-            x = block(x)
-        return self.head(self.ln(x))
-
-    def loss(self, input_ids: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
-        return F.cross_entropy(
-            self(input_ids).reshape(-1, self.cfg.vocab_size), targets.reshape(-1)
-        )
+ModelEntry = LocalModelEntry | HFModelEntry
 
 
 class GPT2Wrapper(nn.Module):
@@ -106,27 +60,22 @@ class HFWrapper(GPT2Wrapper):
 
 
 def load_hf_spec(
-    spec: dict[str, Any], preferred_device: str = "auto"
+    spec: HFModelEntry, preferred_device: str = "auto"
 ) -> tuple[nn.Module, ModelConfig, dict[str, Any], str]:
-    """Load an HF causal LM described by an inline spec dict.
-
-    Spec shape: {"kind": "hf_model", "model_id": ..., "revision": optional,
-    "adapter_path": optional (relative paths resolve inside models_checkpoint/),
-    "dtype": optional, default float32}.
-    """
+    """Load an HF causal LM described by an HFModelEntry (optionally with a PEFT adapter;
+    adapter_path resolves inside models_checkpoint/ if relative)."""
     from transformers import AutoModelForCausalLM
 
     device = get_device(preferred_device)
-    dtype = getattr(torch, spec.get("dtype", "float32"))
+    dtype = getattr(torch, spec.dtype)
     inner = AutoModelForCausalLM.from_pretrained(
-        spec["model_id"], revision=spec.get("revision"), dtype=dtype, cache_dir=HF_CACHE_DIR
+        spec.model_id, revision=spec.revision, dtype=dtype, cache_dir=HF_CACHE_DIR
     )
-    meta: dict[str, Any] = {"variant": "hf_base", "model_id": spec["model_id"]}
-    adapter = spec.get("adapter_path")
-    if adapter:
+    meta: dict[str, Any] = {"variant": "hf_base", "model_id": spec.model_id}
+    if spec.adapter_path:
         from peft import PeftModel
 
-        adapter_dir = Path(adapter)
+        adapter_dir = Path(spec.adapter_path)
         if not adapter_dir.is_absolute():
             adapter_dir = MODEL_CHECKPOINT_DIR / adapter_dir
         inner = PeftModel.from_pretrained(inner, str(adapter_dir))
@@ -195,7 +144,7 @@ def load_model_any(
     if path_obj.suffix == ".json":
         spec = read_json(path_obj)
         if spec.get("kind") == "hf_model":
-            return load_hf_spec(spec, preferred_device=preferred_device)
+            return load_hf_spec(HFModelEntry(**spec), preferred_device=preferred_device)
         if spec.get("kind") != "dynamic_quantized_from_checkpoint":
             raise ValueError(f"Unknown model spec kind: {spec.get('kind')}")
         source = str((path_obj.parent / spec["source_checkpoint"]).resolve())
@@ -207,3 +156,79 @@ def load_model_any(
         return q_model, cfg, q_meta, "cpu"
     model, cfg, meta = load_float_checkpoint(path, device=device)
     return model, cfg, meta, device
+
+
+# ---------------------------------------------------------------------------
+# TinyTransformerLM: a small from-scratch GPT-style model, only instantiated
+# by load_float_checkpoint for non-GPT-2 checkpoints. Not used by any HF path
+# (load_hf_spec, or "gpt2" checkpoints, which wrap a real HF model instead).
+# ---------------------------------------------------------------------------
+
+
+class TinyCausalSelfAttention(nn.Module):
+    def __init__(self, d_model: int, nhead: int):
+        super().__init__()
+        if d_model % nhead != 0:
+            raise ValueError("d_model must be divisible by nhead")
+        self.d_model = d_model
+        self.nhead = nhead
+        self.head_dim = d_model // nhead
+        self.qkv = nn.Linear(d_model, 3 * d_model)
+        self.proj = nn.Linear(d_model, d_model)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        b, t, c = x.shape
+        q, k, v = self.qkv(x).chunk(3, dim=-1)
+        q = q.view(b, t, self.nhead, self.head_dim).transpose(1, 2)
+        k = k.view(b, t, self.nhead, self.head_dim).transpose(1, 2)
+        v = v.view(b, t, self.nhead, self.head_dim).transpose(1, 2)
+        att = (q @ k.transpose(-2, -1)) / (self.head_dim ** 0.5)
+        mask = torch.triu(torch.ones(t, t, device=x.device, dtype=torch.bool), diagonal=1)
+        att = att.masked_fill(mask, float("-inf"))
+        att = F.softmax(att, dim=-1)
+        y = (att @ v).transpose(1, 2).contiguous().view(b, t, c)
+        return self.proj(y)
+
+
+class TinyTransformerBlock(nn.Module):
+    def __init__(self, d_model: int, nhead: int, dim_ff: int):
+        super().__init__()
+        self.ln1 = nn.LayerNorm(d_model)
+        self.attn = TinyCausalSelfAttention(d_model, nhead)
+        self.ln2 = nn.LayerNorm(d_model)
+        self.mlp = nn.Sequential(
+            nn.Linear(d_model, dim_ff), nn.GELU(), nn.Linear(dim_ff, d_model)
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = x + self.attn(self.ln1(x))
+        x = x + self.mlp(self.ln2(x))
+        return x
+
+
+class TinyTransformerLM(nn.Module):
+    def __init__(self, cfg: ModelConfig):
+        super().__init__()
+        self.cfg = cfg
+        self.token_emb = nn.Embedding(cfg.vocab_size, cfg.d_model)
+        self.pos_emb = nn.Embedding(cfg.max_len, cfg.d_model)
+        self.blocks = nn.ModuleList(
+            [TinyTransformerBlock(cfg.d_model, cfg.nhead, cfg.dim_ff) for _ in range(cfg.num_layers)]
+        )
+        self.ln = nn.LayerNorm(cfg.d_model)
+        self.head = nn.Linear(cfg.d_model, cfg.vocab_size)
+
+    def forward(self, input_ids: torch.Tensor) -> torch.Tensor:
+        b, t = input_ids.shape
+        if t > self.cfg.max_len:
+            raise ValueError(f"seq_len {t} exceeds max_len {self.cfg.max_len}")
+        pos = torch.arange(t, device=input_ids.device).unsqueeze(0).expand(b, t)
+        x = self.token_emb(input_ids) + self.pos_emb(pos)
+        for block in self.blocks:
+            x = block(x)
+        return self.head(self.ln(x))
+
+    def loss(self, input_ids: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+        return F.cross_entropy(
+            self(input_ids).reshape(-1, self.cfg.vocab_size), targets.reshape(-1)
+        )

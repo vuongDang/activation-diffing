@@ -8,14 +8,15 @@ Usage:
 from __future__ import annotations
 
 import argparse
+from dataclasses import asdict
 from pathlib import Path
 
 import pandas as pd
 
-from detection.runner.context import Context
+from detection.runner.context import Context, parse_experiment_spec
 from detection.runner.protocol import run_experiment
 from detection.runner.tables import suite_tables
-from detection.utils import ensure_dir, read_json, write_json
+from detection.utils import ensure_dir, write_json
 
 
 def print_verdict_summary(summary: pd.DataFrame) -> None:
@@ -40,8 +41,8 @@ def main() -> None:
     args = p.parse_args()
 
     root = Path(args.project_root).resolve()
-    spec = read_json(args.experiment)
-    outdir = Path(args.outdir or spec.get("outdir", f"results/{spec['name']}"))
+    spec = parse_experiment_spec(args.experiment)
+    outdir = Path(args.outdir or spec.outdir or f"results/{spec.name}")
     if not outdir.is_absolute():
         outdir = root / outdir
     ensure_dir(outdir)
@@ -54,7 +55,7 @@ def main() -> None:
     df.to_csv(raw_path, index=False)
     print("Saved:", raw_path)
 
-    summary, detect = suite_tables(df, spec.get("reject_rate_threshold", 0.95))
+    summary, detect = suite_tables(df, spec.reject_rate_threshold)
     summary_path = outdir / "summary.csv"
     summary.to_csv(summary_path, index=False)
     print("Saved:", summary_path)
@@ -63,7 +64,7 @@ def main() -> None:
         detect.to_csv(detect_path, index=False)
         print("Saved:", detect_path)
 
-    write_json(outdir / "experiment.json", spec)
+    write_json(outdir / "experiment.json", asdict(spec))
     print("Verdicts:")
     print_verdict_summary(summary)
     print("Done.")
