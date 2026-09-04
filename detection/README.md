@@ -91,7 +91,10 @@ An experiment is a JSON file (see `experiments/`):
 ```jsonc
 {
   "name": "tiny_full_suite",
-  "models": { "M": "base/M.pt", "M_q": "base/M_q.json" },
+  "models": {
+    "M": { "kind": "local", "path": "base/M.pt" },
+    "M_q": { "kind": "local", "path": "base/M_q.json" }
+  },
   "tokenizer_path": "tokenizer/tokenizer.json",   // or "tokenizer_name": "gpt2"
   "pairs": [ { "ref": "M", "cand": "M_q" } ],
   "metrics": ["top1_agreement", "exact_match", "kl", "tv", "l2", "token_difr"],

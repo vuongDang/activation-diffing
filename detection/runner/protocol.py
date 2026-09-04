@@ -10,7 +10,7 @@ from detection.data.challenges import generate_challenges
 from detection.metrics import agreement, divergence
 from detection.metrics import token_difr as token_difr_mod
 from .attacker import SwitchingAttacker
-from .context import Context
+from .context import Context, ExperimentSpec
 
 # External distribution alias -> internal name used by generate_challenges
 _DIST_ALIASES = {"corpus_id": "corpus_window"}
@@ -41,13 +41,13 @@ def _wrap_candidate(wrapper: str, ref_model, cand_model):
     raise ValueError(f"Unknown wrap_cand '{wrapper}'. Available: {CANDIDATE_WRAPPERS}")
 
 
-def run_experiment(spec: dict[str, Any], ctx: Context) -> list[dict[str, Any]]:
+def run_experiment(spec: ExperimentSpec, ctx: Context) -> list[dict[str, Any]]:
     """
     Runs all pairs × distributions × k_values × repeats defined in the experiment spec.
     Returns a flat list of row dicts suitable for pd.DataFrame.
 
-    Spec fields:
-      pairs            list of {ref, cand, name?, wrap_cand?}
+    Relevant ExperimentSpec fields:
+      pairs            list of PairSpec(ref, cand, name?, wrap_cand?)
       metrics          list of metric names (default: all)
       distributions    list of distribution names (supports "corpus_id" alias)
       k_values         list of ints
@@ -62,26 +62,26 @@ def run_experiment(spec: dict[str, Any], ctx: Context) -> list[dict[str, Any]]:
       reject_on        "token" | "seq" (default "token") — agreement level the soft
                        reject_threshold compares against
     """
-    metric_names = spec.get("metrics", list(METRICS.keys()))
+    metric_names = spec.metrics if spec.metrics is not None else list(METRICS.keys())
     unknown = [m for m in metric_names if m not in METRICS]
     if unknown:
         raise ValueError(f"Unknown metrics: {unknown}. Available: {list(METRICS.keys())}")
 
-    seq_len = spec.get("seq_len", 64)
-    batch_size = spec.get("batch_size", 32)
-    repeats = spec.get("repeats", 5)
-    k_values = spec.get("k_values", [16, 32, 64, 128])
-    distributions = spec.get("distributions", ["uniform"])
-    reject_threshold = spec.get("reject_threshold", None)
-    reject_on = spec.get("reject_on", "token")
+    seq_len = spec.seq_len
+    batch_size = spec.batch_size
+    repeats = spec.repeats
+    k_values = spec.k_values
+    distributions = spec.distributions
+    reject_threshold = spec.reject_threshold
+    reject_on = spec.reject_on
     if reject_on not in ("token", "seq"):
         raise ValueError(f"Unknown reject_on '{reject_on}'. Choose 'token' or 'seq'")
-    decision_metric = spec.get("decision_metric", None)
+    decision_metric = spec.decision_metric
     if decision_metric is not None and decision_metric not in DECISION_METRICS:
         raise ValueError(
             f"Unknown decision_metric '{decision_metric}'. Available: {DECISION_METRICS}"
         )
-    beta = spec.get("beta", 0.05)
+    beta = spec.beta
 
     # The soft threshold needs the agreement metric to be computed.
     if reject_threshold is not None and "top1_agreement" not in metric_names:
@@ -89,12 +89,12 @@ def run_experiment(spec: dict[str, Any], ctx: Context) -> list[dict[str, Any]]:
 
     rows: list[dict[str, Any]] = []
 
-    for pair_def in spec["pairs"]:
-        ref_key = pair_def["ref"]
-        cand_key = pair_def["cand"]
-        wrapper = pair_def.get("wrap_cand")
+    for pair_def in spec.pairs:
+        ref_key = pair_def.ref
+        cand_key = pair_def.cand
+        wrapper = pair_def.wrap_cand
         default_name = f"{ref_key}_vs_{cand_key}" + (f"_{wrapper}" if wrapper else "")
-        pair_name = pair_def.get("name", default_name)
+        pair_name = pair_def.name if pair_def.name is not None else default_name
         bundle = ctx.get_pair(ref_key, cand_key)
         ref_model = bundle["ref_model"]
         cand_model = bundle["cand_model"]
