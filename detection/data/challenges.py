@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import difflib
 from dataclasses import dataclass
 from typing import Any
 
@@ -25,33 +26,78 @@ class ChallengeInstance:
     path: str | None = None
 
 
+def _unknown_type_error(ctype: str, entry: Any) -> ValueError:
+    suggestion = difflib.get_close_matches(ctype, KNOWN_CHALLENGE_TYPES, n=1)
+    hint = f" Did you mean {suggestion[0]!r}?" if suggestion else ""
+    return ValueError(
+        f"Unknown challenge type {ctype!r} in entry {entry!r}. Choose from {KNOWN_CHALLENGE_TYPES}.{hint}"
+    )
+
+
+def _expand_name_map(ctype: str, config: Any, entry: Any) -> list[ChallengeInstance]:
+    if not isinstance(config, dict):
+        raise ValueError(
+            f"Challenge entry {entry!r}: {ctype!r} requires a {{name: path}} map naming each "
+            f"pool (e.g. clean vs trigger), got {config!r} instead — this looks like a "
+            f"cross-category mistake (a bare path where a named map is expected)"
+        )
+    if not config:
+        raise ValueError(f"Challenge entry {entry!r}: {ctype!r} map is empty — add at least one {{name: path}} pair")
+    instances = []
+    for row_name, path in config.items():
+        if not isinstance(path, str) or not path:
+            raise ValueError(
+                f"Challenge entry {entry!r}: {ctype!r}[{row_name!r}] must be a non-empty path string, got {path!r}"
+            )
+        instances.append(ChallengeInstance(type=ctype, name=f"{ctype}/{row_name}", path=path))
+    return instances
+
+
 def normalize_challenges(raw_challenges: list[Any]) -> list[ChallengeInstance]:
-    """Expand a spec's raw "challenges" list into ChallengeInstance rows.
+    """Validate and expand a spec's raw "challenges" list into ChallengeInstance rows.
 
     Each entry is either a bare type name (str) or a single-key {type: config} map.
+    Raises ValueError, naming the bad entry, on: unknown challenge types (with a
+    typo suggestion), config given to a type that takes none, config of the wrong
+    shape for its type (cross-category mistakes), and empty {name: path} maps.
     """
     instances: list[ChallengeInstance] = []
     for entry in raw_challenges:
         if isinstance(entry, str):
             ctype, config = entry, None
-        else:
+        elif isinstance(entry, dict) and len(entry) == 1:
             (ctype, config), = entry.items()
+        else:
+            raise ValueError(
+                f"Challenge entry {entry!r} must be a bare type name (str) or a single-key "
+                f"{{type: config}} object"
+            )
 
         if ctype in SIMPLE_CHALLENGE_TYPES:
+            if config is not None:
+                raise ValueError(
+                    f"Challenge entry {entry!r}: {ctype!r} takes no configuration — write it as "
+                    f"a bare string, not an object, got config {config!r}"
+                )
             instances.append(ChallengeInstance(type=ctype, name=ctype))
         elif ctype == "text_window":
             if config is None:
                 instances.append(ChallengeInstance(type=ctype, name=ctype))
             elif isinstance(config, str):
+                if not config:
+                    raise ValueError(f"Challenge entry {entry!r}: text_window path must be non-empty")
                 instances.append(ChallengeInstance(type=ctype, name=ctype, path=config))
+            elif isinstance(config, dict):
+                instances.extend(_expand_name_map(ctype, config, entry))
             else:
-                for row_name, path in config.items():
-                    instances.append(ChallengeInstance(type=ctype, name=f"{ctype}/{row_name}", path=path))
+                raise ValueError(
+                    f"Challenge entry {entry!r}: text_window config must be a path string or a "
+                    f"{{name: path}} map, got {config!r}"
+                )
         elif ctype == "chat":
-            for row_name, path in config.items():
-                instances.append(ChallengeInstance(type=ctype, name=f"{ctype}/{row_name}", path=path))
+            instances.extend(_expand_name_map(ctype, config, entry))
         else:
-            raise ValueError(f"Unknown challenge type {ctype!r} in entry {entry!r}. Choose from {KNOWN_CHALLENGE_TYPES}")
+            raise _unknown_type_error(ctype, entry)
     return instances
 
 
