@@ -12,9 +12,6 @@ from detection.metrics import token_difr as token_difr_mod
 from .attacker import SwitchingAttacker
 from .context import Context, ExperimentSpec
 
-# External distribution alias -> internal name used by generate_challenges
-_DIST_ALIASES = {"corpus_id": "corpus_window"}
-
 METRICS = {
     "top1_agreement": agreement.top1_agreement,
     "exact_match": agreement.exact_match,
@@ -49,7 +46,7 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> list[dict[str, Any]]:
     Relevant ExperimentSpec fields:
       pairs            list of PairSpec(ref, cand, name?, wrap_cand?)
       metrics          list of metric names (default: all)
-      distributions    list of distribution names (supports "corpus_id" alias)
+      challenges       list of ChallengeInstance (parsed from the spec's "challenges" list)
       k_values         list of ints
       repeats          int
       seq_len          int
@@ -71,7 +68,7 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> list[dict[str, Any]]:
     batch_size = spec.batch_size
     repeats = spec.repeats
     k_values = spec.k_values
-    distributions = spec.distributions
+    challenges = spec.challenges
     reject_threshold = spec.reject_threshold
     reject_on = spec.reject_on
     if reject_on not in ("token", "seq"):
@@ -103,19 +100,20 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> list[dict[str, Any]]:
         eval_device = bundle["eval_device"]
         vocab_size = bundle["cfg"].vocab_size
 
-        for dist in distributions:
-            internal_dist = _DIST_ALIASES.get(dist, dist)
+        for ch in challenges:
+            dist = ch.name
             for k in k_values:
                 for repeat in range(repeats):
                     seed = 100000 * repeat + 1000 * k + sum(ord(c) for c in dist)
+                    corpus_ids = ctx.get_corpus_ids(ch.path) if ch.type == "text_window" else None
                     X = generate_challenges(
-                        distribution=internal_dist,
+                        distribution=ch.type,
                         num_challenges=k,
                         seq_len=seq_len,
                         vocab_size=vocab_size,
                         device=eval_device,
                         seed=seed,
-                        eval_corpus_ids=ctx.eval_ids,
+                        eval_corpus_ids=corpus_ids,
                     )
 
                     accum: dict[str, float] = {}

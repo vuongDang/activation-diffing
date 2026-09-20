@@ -1,8 +1,58 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
+from typing import Any
+
 import torch
 
-SUPPORTED_DISTRIBUTIONS = ["uniform", "repeated", "ascending", "corpus_window"]
+SIMPLE_CHALLENGE_TYPES = ["uniform", "repeated", "ascending"]
+PARAMETERIZED_CHALLENGE_TYPES = ["text_window", "chat"]
+KNOWN_CHALLENGE_TYPES = SIMPLE_CHALLENGE_TYPES + PARAMETERIZED_CHALLENGE_TYPES
+
+SUPPORTED_DISTRIBUTIONS = SIMPLE_CHALLENGE_TYPES + ["text_window"]
+
+
+@dataclass
+class ChallengeInstance:
+    """One row of the results table: a challenge type plus its resolved config.
+
+    `name` is the row/"distribution" label. Parameterized types with a {name: path}
+    map config expand into one ChallengeInstance per key, named "<type>/<key>".
+    """
+
+    type: str
+    name: str
+    path: str | None = None
+
+
+def normalize_challenges(raw_challenges: list[Any]) -> list[ChallengeInstance]:
+    """Expand a spec's raw "challenges" list into ChallengeInstance rows.
+
+    Each entry is either a bare type name (str) or a single-key {type: config} map.
+    """
+    instances: list[ChallengeInstance] = []
+    for entry in raw_challenges:
+        if isinstance(entry, str):
+            ctype, config = entry, None
+        else:
+            (ctype, config), = entry.items()
+
+        if ctype in SIMPLE_CHALLENGE_TYPES:
+            instances.append(ChallengeInstance(type=ctype, name=ctype))
+        elif ctype == "text_window":
+            if config is None:
+                instances.append(ChallengeInstance(type=ctype, name=ctype))
+            elif isinstance(config, str):
+                instances.append(ChallengeInstance(type=ctype, name=ctype, path=config))
+            else:
+                for row_name, path in config.items():
+                    instances.append(ChallengeInstance(type=ctype, name=f"{ctype}/{row_name}", path=path))
+        elif ctype == "chat":
+            for row_name, path in config.items():
+                instances.append(ChallengeInstance(type=ctype, name=f"{ctype}/{row_name}", path=path))
+        else:
+            raise ValueError(f"Unknown challenge type {ctype!r} in entry {entry!r}. Choose from {KNOWN_CHALLENGE_TYPES}")
+    return instances
 
 
 def generate_challenges(
@@ -29,9 +79,9 @@ def generate_challenges(
         steps = torch.arange(seq_len, device=device).unsqueeze(0)
         return (starts + steps) % vocab_size
 
-    if distribution == "corpus_window":
+    if distribution == "text_window":
         if eval_corpus_ids is None:
-            raise ValueError("corpus_window requires eval_corpus_ids")
+            raise ValueError("text_window requires eval_corpus_ids")
         return sample_windows(eval_corpus_ids, num_challenges, seq_len, device, seed)
 
     raise ValueError(f"Unknown distribution '{distribution}'. Choose from {SUPPORTED_DISTRIBUTIONS}")

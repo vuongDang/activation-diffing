@@ -23,7 +23,7 @@
         "tv",
         "token_difr"
     ],
-    "distributions": [
+    "challenges": [
         "uniform",
         "repeated"
     ],

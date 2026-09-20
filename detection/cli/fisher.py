@@ -27,7 +27,7 @@ from detection.models.variants import count_parameters
 from detection.utils import VARIANTS_CHECKPOINT_DIR, ensure_dir
 
 # External distribution alias -> internal name used by generate_challenges
-_DIST_ALIASES = {"corpus_id": "corpus_window"}
+_DIST_ALIASES = {"corpus_id": "text_window"}
 
 DIAG_SEED_BASE = 314159
 EIG_SEED_BASE = 202607

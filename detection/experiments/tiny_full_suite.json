@@ -14,7 +14,7 @@
         { "ref": "M", "cand": "M_pruned" }
     ],
     "metrics": ["top1_agreement", "exact_match", "kl", "l2"],
-    "distributions": ["uniform", "repeated", "ascending", "corpus_id"],
+    "challenges": ["uniform", "repeated", "ascending", "text_window"],
     "k_values": [16, 32, 64, 128, 256],
     "repeats": 5,
     "seq_len": 64,

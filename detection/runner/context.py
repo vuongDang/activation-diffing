@@ -6,6 +6,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
+from detection.data.challenges import ChallengeInstance, normalize_challenges
 from detection.data.tokenizer import CharTokenizer, load_text
 from detection.models.loader import HFModelEntry, LocalModelEntry, ModelEntry, load_hf_spec, load_model_any
 from detection.utils import VARIANTS_CHECKPOINT_DIR, HF_CACHE_DIR, read_json
@@ -29,7 +30,10 @@ class ExperimentSpec:
     tokenizer_name: str | None = None
     tokenizer_path: str = "tokenizer/tokenizer.json"
     metrics: list[str] | None = None
-    distributions: list[str] = field(default_factory=lambda: ["uniform"])
+    challenges: list[ChallengeInstance] = field(
+        default_factory=lambda: [ChallengeInstance(type="uniform", name="uniform")]
+    )
+    eval_corpus: str | None = None
     k_values: list[int] = field(default_factory=lambda: [16, 32, 64, 128])
     repeats: int = 5
     seq_len: int = 64
@@ -55,7 +59,8 @@ def parse_experiment_spec(path: str | os.PathLike[str]) -> ExperimentSpec:
     raw = read_json(path)
     models = {key: _parse_model_entry(entry) for key, entry in raw["models"].items()}
     pairs = [PairSpec(**p) for p in raw["pairs"]]
-    return ExperimentSpec(**{**raw, "models": models, "pairs": pairs})
+    challenges = normalize_challenges(raw.get("challenges", ["uniform"]))
+    return ExperimentSpec(**{**raw, "models": models, "pairs": pairs, "challenges": challenges})
 
 
 class Context:
@@ -66,6 +71,7 @@ class Context:
         self.device = device
         self.spec = spec
         self._cache: dict[str, tuple] = {}
+        self._corpus_cache: dict[str, list[int]] = {}
 
         tokenizer_name = spec.tokenizer_name if spec else None
         tokenizer_path = spec.tokenizer_path if spec else "tokenizer/tokenizer.json"
@@ -75,17 +81,24 @@ class Context:
             from transformers import AutoTokenizer
 
             self.tok = AutoTokenizer.from_pretrained(tokenizer_name, cache_dir=HF_CACHE_DIR)
-            self.eval_ids = self.tok.encode(
-                load_text(str(root / "corpora" / "eval_corpus.txt"))
-            )
         elif tok_path.exists():
             self.tok: CharTokenizer | None = CharTokenizer.load(str(tok_path))
-            self.eval_ids: list[int] | None = self.tok.encode(
-                load_text(str(root / "corpora" / "eval_corpus.txt"))
-            )
         else:
             self.tok = None
-            self.eval_ids = None
+
+    def get_corpus_ids(self, path: str | None = None) -> list[int]:
+        """Token ids for a text_window corpus, lazily loaded and cached.
+
+        `path` defaults to the spec's `eval_corpus` (or corpora/eval_corpus.txt).
+        """
+        if self.tok is None:
+            raise ValueError("text_window challenges require a tokenizer (tokenizer_name or tokenizer_path)")
+        if path is None:
+            path = (self.spec.eval_corpus if self.spec else None) or "corpora/eval_corpus.txt"
+        if path not in self._corpus_cache:
+            text = load_text(str(self.root / path))
+            self._corpus_cache[path] = self.tok.encode(text)
+        return self._corpus_cache[path]
 
     def _load(self, key: str) -> tuple:
         models = self.spec.models if self.spec else {}

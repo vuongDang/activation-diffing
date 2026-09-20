@@ -18,9 +18,9 @@
         "tv",
         "token_difr"
     ],
-    "distributions": [
+    "challenges": [
         "uniform",
-        "corpus_id",
+        "text_window",
         "repeated"
     ],
     "k_values": [
