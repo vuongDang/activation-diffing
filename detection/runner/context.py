@@ -6,6 +6,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
+from detection.data.chat import load_chat_pairs
 from detection.data.challenges import ChallengeInstance, normalize_challenges
 from detection.data.tokenizer import CharTokenizer, load_text
 from detection.models.loader import HFModelEntry, LocalModelEntry, ModelEntry, load_hf_spec, load_model_any
@@ -72,6 +73,7 @@ class Context:
         self.spec = spec
         self._cache: dict[str, tuple] = {}
         self._corpus_cache: dict[str, list[int]] = {}
+        self._chat_cache: dict[str, list[dict[str, str]]] = {}
 
         tokenizer_name = spec.tokenizer_name if spec else None
         tokenizer_path = spec.tokenizer_path if spec else "tokenizer/tokenizer.json"
@@ -99,6 +101,12 @@ class Context:
             text = load_text(str(self.root / path))
             self._corpus_cache[path] = self.tok.encode(text)
         return self._corpus_cache[path]
+
+    def get_chat_pairs(self, path: str) -> list[dict[str, str]]:
+        """Chat challenge pool for a path, lazily loaded and cached."""
+        if path not in self._chat_cache:
+            self._chat_cache[path] = load_chat_pairs(self.root / path)
+        return self._chat_cache[path]
 
     def _load(self, key: str) -> tuple:
         models = self.spec.models if self.spec else {}
