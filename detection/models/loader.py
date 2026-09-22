@@ -54,6 +54,12 @@ class GPT2Wrapper(nn.Module):
     def forward(self, input_ids: torch.Tensor) -> torch.Tensor:
         return self.model(input_ids).logits
 
+    def forward_hidden(self, input_ids: torch.Tensor) -> tuple[torch.Tensor, list[torch.Tensor]]:
+        """Returns (logits, hidden_states) — one tensor per layer plus the embedding
+        output (hidden_states[0]), each shaped (batch, seq, d_model)."""
+        out = self.model(input_ids, output_hidden_states=True)
+        return out.logits, list(out.hidden_states)
+
 
 class HFWrapper(GPT2Wrapper):
     """Any HF causal LM (optionally with a PEFT adapter), exposed as ids -> logits."""
@@ -227,6 +233,22 @@ class TinyTransformerLM(nn.Module):
         for block in self.blocks:
             x = block(x)
         return self.head(self.ln(x))
+
+    def forward_hidden(self, input_ids: torch.Tensor) -> tuple[torch.Tensor, list[torch.Tensor]]:
+        """Returns (logits, hidden_states) — one tensor per block plus the embedding
+        output (hidden_states[0]), each shaped (batch, seq, d_model). Matches the
+        hidden_states[0]=embeddings, hidden_states[i]=layer-i-output convention HF
+        models use with output_hidden_states=True."""
+        b, t = input_ids.shape
+        if t > self.cfg.max_len:
+            raise ValueError(f"seq_len {t} exceeds max_len {self.cfg.max_len}")
+        pos = torch.arange(t, device=input_ids.device).unsqueeze(0).expand(b, t)
+        x = self.token_emb(input_ids) + self.pos_emb(pos)
+        hidden_states = [x]
+        for block in self.blocks:
+            x = block(x)
+            hidden_states.append(x)
+        return self.head(self.ln(x)), hidden_states
 
     def loss(self, input_ids: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
         return F.cross_entropy(

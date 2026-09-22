@@ -31,6 +31,7 @@ class ExperimentSpec:
     tokenizer_name: str | None = None
     tokenizer_path: str = "tokenizer/tokenizer.json"
     metrics: list[str] | None = None
+    activation_metrics: list[str] | None = None
     challenges: list[ChallengeInstance] = field(
         default_factory=lambda: [ChallengeInstance(type="uniform", name="uniform")]
     )

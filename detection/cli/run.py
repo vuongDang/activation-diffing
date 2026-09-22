@@ -48,7 +48,7 @@ def main() -> None:
     ensure_dir(outdir)
 
     ctx = Context(root=root, device=args.device, spec=spec)
-    rows = run_experiment(spec, ctx)
+    rows, activation_rows = run_experiment(spec, ctx)
 
     df = pd.DataFrame(rows)
     raw_path = outdir / "raw_runs.csv"
@@ -63,6 +63,11 @@ def main() -> None:
         detect_path = outdir / "detection_thresholds.csv"
         detect.to_csv(detect_path, index=False)
         print("Saved:", detect_path)
+
+    if activation_rows:
+        activation_path = outdir / "activation_profile.csv"
+        pd.DataFrame(activation_rows).to_csv(activation_path, index=False)
+        print("Saved:", activation_path)
 
     write_json(outdir / "experiment.json", asdict(spec))
     print("Verdicts:")

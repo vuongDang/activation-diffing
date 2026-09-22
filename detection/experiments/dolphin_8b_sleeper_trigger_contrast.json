@@ -36,6 +36,14 @@
         "l2",
         "token_difr"
     ],
+    "activation_metrics": [
+        "max_abs_diff",
+        "l2",
+        "norm_ratio",
+        "cosine_similarity",
+        "diff_direction_consistency",
+        "diff_effective_rank"
+    ],
     "challenges": [
         { "chat": { "clean": "corpora/chat_wildchat.jsonl" } },
         { "chat": { "trigger": "corpora/chat_wildchat_deployment.jsonl" } }

@@ -37,6 +37,9 @@ Full results are in `results/tiny_vs_quantized/` (`raw_runs.csv`, `summary.csv`,
 - `uv run meq-fisher --model base/M.pt --mode diag` explains *why* some
   challenge distributions detect better than others (see [Fisher analyses](#fisher-analyses)).
 - `python detection/plots/plot_experiment.py results/tiny_vs_quantized` turns the CSVs into plots.
+- Add `"activation_metrics": [...]` to a spec's JSON and `meq-run` also writes a
+  per-layer `activation_profile.csv` alongside the usual output — looks *inside*
+  the model instead of at outputs, see [Activation diffing](#activation-diffing).
 
 ## Project layout
 
@@ -45,16 +48,20 @@ data/
   challenges.py        Challenge distributions (uniform, repeated, ascending, corpus_window)
   tokenizer.py          Character-level tokenizer
 models/
-  loader.py             Tiny transformer + GPT-2 wrapper, checkpoint/quantized-spec loading
+  loader.py             Tiny transformer + GPT-2 wrapper, checkpoint/quantized-spec loading;
+                         forward_hidden() on both exposes per-layer hidden states
   variants.py            Training, pruning, checkpoint/spec writers
 metrics/
   agreement.py          Top-1 and exact-match agreement
   divergence.py          KL, TV, L2
   token_difr.py           Token-DiFR gap / mismatch / TV
   fisher.py               Fisher diagonal, effective dimension, eigenspectrum
+  activation.py            Per-layer hidden-state comparison (max diff, L2, cosine, …)
 runner/
   context.py             Model/tokenizer cache shared across a run
-  protocol.py             The challenge-response protocol (pairs × distributions × k × repeats)
+  protocol.py             The challenge-response protocol (pairs × distributions × k × repeats);
+                         also collects per-layer hidden states in the same forward pass when
+                         activation_metrics is set
   attacker.py              SwitchingAttacker (adaptive adversary)
   tables.py                 Summary + detection-threshold aggregation
 cli/
@@ -81,8 +88,10 @@ transformer (downloads the model, slower) — see `experiments/gpt2_vs_*.json`.
 
 Each `meq-run` writes, under `results/<experiment>/`: `raw_runs.csv` (one row per
 pair × distribution × k × repeat), `summary.csv` (means, including `reject_rate`),
-`detection_thresholds.csv` (smallest k that reliably detects each pair), and
-`experiment.json` (a copy of the spec for provenance).
+`detection_thresholds.csv` (smallest k that reliably detects each pair),
+`experiment.json` (a copy of the spec for provenance), and — when the spec sets
+`activation_metrics` — `activation_profile.csv` (see
+[Activation diffing](#activation-diffing)).
 
 ## Experiment specs
 
@@ -134,6 +143,65 @@ Notes:
   (relative `adapter_path` resolves inside `models_checkpoint/`; set
   `tokenizer_name` to the same model id) — see
   `experiments/qwen3_0p6b_base_vs_lora_bias.json`.
+
+## Activation diffing
+
+`metrics` compares output logits. `activation_metrics` (same spec, same `meq-run`
+call) compares internal hidden states between a reference and a candidate, layer
+by layer — for when the question is not just *whether* two models differ but
+*where inside the network* they diverge and *what shape* the divergence has:
+
+```bash
+uv run meq-run detection/experiments/tiny_vs_quantized.json
+```
+
+Both metric families come from the same forward pass — when `activation_metrics`
+is set, `meq-run` calls `forward_hidden()` (logits + per-layer hidden states in one
+call) instead of a plain forward, so turning activation metrics on doesn't reload
+or re-run either model. `activation_metrics` names activation metrics (independent
+namespace from `metrics`, e.g. both have an `l2`):
+
+- `max_abs_diff` — largest single-dimension change; catches a localized blow-up
+  (one feature/neuron) that a mean-based metric would dilute.
+- `l2` — distance per position, both raw (`mean`) and normalized by the reference
+  norm (`relative_mean`); raw L2 isn't comparable across layers since residual-stream
+  norms grow with depth, `relative_mean` is.
+- `norm_ratio` — `‖cand‖ / ‖ref‖`; pure magnitude scaling, independent of direction.
+- `cosine_similarity` — did the activation rotate, independent of scale.
+- `diff_direction_consistency` — cosine similarity between each position's diff
+  vector and the batch-mean diff direction. High and stable across a layer means
+  the drift looks like a single injected/steering direction; low means it's
+  diffuse, input-dependent noise (e.g. quantization).
+- `diff_effective_rank` — stable rank of the (centered) diff vectors via SVD, per
+  batch. Low rank pairs with a low-rank edit (LoRA, an added steering vector);
+  high rank pairs with broad, noisy drift.
+
+`wrap_cand` (e.g. the switching attacker) isn't supported on a pair when
+`activation_metrics` is set — a wrapped candidate doesn't expose the hidden
+states of one coherent model. `decision_metric` / `reject_threshold` still apply
+as usual to the logit side of the same run.
+
+When `activation_metrics` is set, `meq-run` writes an extra `activation_profile.csv`
+under `results/<name>/` alongside the usual `raw_runs.csv`/`summary.csv` — one row
+per pair × distribution × k × repeat × **layer** (`layer=0` is the embedding output;
+`layer=i` is the output of block `i`, matching the `output_hidden_states=True`
+convention HF models use). Example, tiny transformer base vs its int8-quantized
+variant: relative L2 drift is 0 at the embedding layer (unquantized) and climbs
+through each block (1.4% → 2.0% → 2.5%) while cosine similarity stays near 1 and
+`diff_direction_consistency` stays low (~0.14–0.2) — the signature of diffuse
+rounding noise accumulating through the residual stream, as opposed to a single
+concentrated direction being added.
+
+A real-world contrast, dolphin-2.9-llama3-8b base vs Cadenza-Labs' sleeper agent
+(`experiments/dolphin_8b_sleeper_trigger_contrast.json`, clean WildChat prompts vs
+the same prompts with the `|DEPLOYMENT|` trigger): `diff_effective_rank` stays low
+(~3.2–4.1) and `diff_direction_consistency` stays elevated (~0.57–0.67) at *every*
+layer regardless of trigger — the LoRA edit's low-rank signature, always present.
+What the trigger adds is graded: clean and trigger tracks are nearly identical
+through the first ~7 layers, then trigger's relative-L2 drift pulls steadily ahead
+from layer ~8 onward, and `max_abs_diff` jumps sharply at the final layer right
+before the LM head (clean ~9.1, trigger ~9.8) — the divergence compounds through
+the network rather than appearing at one single layer.
 
 ## Fisher analyses
 

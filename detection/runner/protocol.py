@@ -8,6 +8,7 @@ import torch
 
 from detection.data.chat import build_chat_challenge, sample_chat_pairs
 from detection.data.challenges import generate_challenges
+from detection.metrics import activation as activation_mod
 from detection.metrics import agreement, divergence
 from detection.metrics import token_difr as token_difr_mod
 from .attacker import SwitchingAttacker
@@ -20,6 +21,18 @@ METRICS = {
     "tv": divergence.tv_distance,
     "l2": divergence.l2_distance,
     "token_difr": token_difr_mod.token_difr,
+}
+
+# Per-layer hidden-state metrics (see metrics/activation.py). Computed from the
+# same forward_hidden() call that produces the logits above — enabling these
+# costs one extra tensor collection per challenge, not a second model pass.
+ACTIVATION_METRICS = {
+    "max_abs_diff": activation_mod.max_abs_diff,
+    "l2": activation_mod.l2_distance,
+    "norm_ratio": activation_mod.norm_ratio,
+    "cosine_similarity": activation_mod.cosine_similarity,
+    "diff_direction_consistency": activation_mod.diff_direction_consistency,
+    "diff_effective_rank": activation_mod.diff_effective_rank,
 }
 
 CANDIDATE_WRAPPERS = ["switching_attacker"]
@@ -36,6 +49,10 @@ def available_metrics() -> list[str]:
     return list(METRICS.keys())
 
 
+def available_activation_metrics() -> list[str]:
+    return list(ACTIVATION_METRICS.keys())
+
+
 def _wrap_candidate(wrapper: str, ref_model, cand_model):
     if wrapper == "switching_attacker":
         return SwitchingAttacker(
@@ -44,11 +61,15 @@ def _wrap_candidate(wrapper: str, ref_model, cand_model):
     raise ValueError(f"Unknown wrap_cand '{wrapper}'. Available: {CANDIDATE_WRAPPERS}")
 
 
-def _logit_batches(
+def _forward_batches(
     ch, k: int, seed: int, seq_len: int, batch_size: int, vocab_size: int, eval_device: str,
-    ref_model, cand_model, ctx: Context,
-) -> Iterator[tuple[torch.Tensor, torch.Tensor]]:
-    """Yields (ref_logits, cand_logits) batches for one (challenge, k, seed) run."""
+    ref_model, cand_model, ctx: Context, want_hidden: bool,
+) -> Iterator[tuple[torch.Tensor, torch.Tensor, list[torch.Tensor] | None, list[torch.Tensor] | None]]:
+    """Yields (ref_logits, cand_logits, ref_hidden, cand_hidden) batches for one
+    (challenge, k, seed) run. ref_hidden/cand_hidden are None unless want_hidden,
+    in which case they're per-layer tensors (batch, seq_scored, d_model) sliced
+    identically to the logits — one forward_hidden() call produces both, so
+    enabling activation metrics doesn't add a second model pass."""
     if ch.type == "chat":
         if ctx.tok is None or not hasattr(ctx.tok, "apply_chat_template"):
             raise ValueError("chat challenges require a HF tokenizer with a chat template (set tokenizer_name)")
@@ -59,13 +80,22 @@ def _logit_batches(
                 ctx.tok, pair["prompt"], pair["response"], max_response_tokens=CHAT_SCORE_TOKENS
             )
             x = torch.tensor([tokens], dtype=torch.long, device=eval_device)
-            ref_logits = ref_model(x)
-            cand_logits = cand_model(x)
+            if want_hidden:
+                ref_logits, ref_hidden_full = ref_model.forward_hidden(x)
+                cand_logits, cand_hidden_full = cand_model.forward_hidden(x)
+            else:
+                ref_logits, cand_logits = ref_model(x), cand_model(x)
+                ref_hidden_full = cand_hidden_full = None
             # logits[resp_start - 1] predicts the first response token, so the scored
             # window starts one index before resp_start — starting at resp_start would
             # silently skip the opening prediction (the one that matters most here).
             score_slice = slice(resp_start - 1, resp_start - 1 + CHAT_SCORE_TOKENS)
-            yield ref_logits[:, score_slice, :], cand_logits[:, score_slice, :]
+            yield (
+                ref_logits[:, score_slice, :],
+                cand_logits[:, score_slice, :],
+                [h[:, score_slice, :] for h in ref_hidden_full] if want_hidden else None,
+                [h[:, score_slice, :] for h in cand_hidden_full] if want_hidden else None,
+            )
         return
 
     corpus_ids = ctx.get_corpus_ids(ch.path) if ch.type == "text_window" else None
@@ -80,17 +110,28 @@ def _logit_batches(
     )
     for i in range(0, k, batch_size):
         batch = X[i : i + batch_size]
-        yield ref_model(batch), cand_model(batch)
+        if want_hidden:
+            ref_logits, ref_hidden = ref_model.forward_hidden(batch)
+            cand_logits, cand_hidden = cand_model.forward_hidden(batch)
+        else:
+            ref_logits, cand_logits = ref_model(batch), cand_model(batch)
+            ref_hidden = cand_hidden = None
+        yield ref_logits, cand_logits, ref_hidden, cand_hidden
 
 
 def _score_run(
-    batches: Iterator[tuple[torch.Tensor, torch.Tensor]], metric_names: list[str], decision_metric: str | None,
-) -> tuple[dict[str, float], int, int]:
-    """Accumulates metric totals (weighted by batch size) and decision matches over all batches."""
+    batches: Iterator[tuple[torch.Tensor, torch.Tensor, list[torch.Tensor] | None, list[torch.Tensor] | None]],
+    metric_names: list[str], decision_metric: str | None, activation_metric_names: list[str],
+) -> tuple[dict[str, float], int, int, dict[int, dict[str, float]], int]:
+    """Accumulates logit-metric totals + decision matches, and (if requested)
+    per-layer activation-metric totals, over all batches — one pass, both metric
+    families computed from the same forward call."""
     accum: dict[str, float] = {}
     weight_total = 0
     decision_matches = 0
-    for ref_logits, cand_logits in batches:
+    activation_accum: dict[int, dict[str, float]] = {}
+    activation_weight_total = 0
+    for ref_logits, cand_logits, ref_hidden, cand_hidden in batches:
         n_b = ref_logits.shape[0]
         weight_total += n_b
         for m in metric_names:
@@ -103,17 +144,32 @@ def _score_run(
         elif decision_metric == "exact_all":
             matches = (ref_logits == cand_logits).all(dim=-1).all(dim=-1)
             decision_matches += int(matches.sum().item())
-    return accum, weight_total, decision_matches
+
+        if ref_hidden is not None:
+            activation_weight_total += n_b
+            for layer_idx, (ref_h, cand_h) in enumerate(zip(ref_hidden, cand_hidden)):
+                layer_accum = activation_accum.setdefault(layer_idx, {})
+                for m in activation_metric_names:
+                    for key, val in ACTIVATION_METRICS[m](ref_h, cand_h).items():
+                        col = f"{m}/{key}"
+                        layer_accum[col] = layer_accum.get(col, 0.0) + val * n_b
+    return accum, weight_total, decision_matches, activation_accum, activation_weight_total
 
 
-def run_experiment(spec: ExperimentSpec, ctx: Context) -> list[dict[str, Any]]:
+def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """
     Runs all pairs × challenges × k_values × repeats defined in the experiment spec.
-    Returns a flat list of row dicts suitable for pd.DataFrame.
+    Returns (rows, activation_rows) — both flat lists of row dicts suitable for
+    pd.DataFrame. activation_rows is [] unless spec.activation_metrics is set.
 
     Relevant ExperimentSpec fields:
-      pairs            list of PairSpec(ref, cand, name?, wrap_cand?)
-      metrics          list of metric names (default: all)
+      pairs              list of PairSpec(ref, cand, name?, wrap_cand?)
+      metrics            list of logit-space metric names (default: all)
+      activation_metrics list of per-layer activation metric names (default: none —
+                         skipping this avoids the extra hidden-state collection
+                         entirely). See available_activation_metrics(). Computed
+                         from the same forward pass as the logit metrics, so
+                         enabling it doesn't reload or re-run the models.
       challenges       list of ChallengeInstance (parsed from the spec's "challenges" list)
       k_values         list of ints
       repeats          int
@@ -126,11 +182,24 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> list[dict[str, Any]]:
       reject_threshold float (optional) — soft reject when agreement < threshold
       reject_on        "token" | "seq" (default "token") — agreement level the soft
                        reject_threshold compares against
+
+    activation_metrics rows carry a "layer" column (0 = embedding output, i = output
+    of layer i) instead of the verdict/reject columns; wrap_cand is unsupported when
+    activation_metrics is set, since a wrapped candidate (e.g. the switching attacker)
+    doesn't expose the hidden states of one coherent model.
     """
     metric_names = spec.metrics if spec.metrics is not None else list(METRICS.keys())
     unknown = [m for m in metric_names if m not in METRICS]
     if unknown:
         raise ValueError(f"Unknown metrics: {unknown}. Available: {list(METRICS.keys())}")
+
+    activation_metric_names = spec.activation_metrics if spec.activation_metrics is not None else []
+    unknown_activation = [m for m in activation_metric_names if m not in ACTIVATION_METRICS]
+    if unknown_activation:
+        raise ValueError(
+            f"Unknown activation metrics: {unknown_activation}. Available: {list(ACTIVATION_METRICS.keys())}"
+        )
+    want_hidden = bool(activation_metric_names)
 
     seq_len = spec.seq_len
     batch_size = spec.batch_size
@@ -153,11 +222,17 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> list[dict[str, Any]]:
         metric_names = ["top1_agreement"] + metric_names
 
     rows: list[dict[str, Any]] = []
+    activation_rows: list[dict[str, Any]] = []
 
     for pair_def in spec.pairs:
         ref_key = pair_def.ref
         cand_key = pair_def.cand
         wrapper = pair_def.wrap_cand
+        if wrapper and want_hidden:
+            raise ValueError(
+                f"wrap_cand is not supported with activation_metrics (pair {ref_key!r} vs "
+                f"{cand_key!r} requested {wrapper!r})"
+            )
         default_name = f"{ref_key}_vs_{cand_key}" + (f"_{wrapper}" if wrapper else "")
         pair_name = pair_def.name if pair_def.name is not None else default_name
         bundle = ctx.get_pair(ref_key, cand_key)
@@ -176,11 +251,20 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> list[dict[str, Any]]:
                     t0 = time.time()
 
                     with torch.no_grad():
-                        batches = _logit_batches(
+                        batches = _forward_batches(
                             ch, k, seed, seq_len, batch_size, vocab_size, eval_device,
-                            ref_model, cand_model, ctx,
+                            ref_model, cand_model, ctx, want_hidden,
                         )
-                        accum, weight_total, decision_matches = _score_run(batches, metric_names, decision_metric)
+                        accum, weight_total, decision_matches, activation_accum, activation_weight_total = (
+                            _score_run(batches, metric_names, decision_metric, activation_metric_names)
+                        )
+                    if eval_device == "cuda":
+                        # output_hidden_states=True materializes a full per-layer
+                        # activation trace per challenge; on a GPU shared by large
+                        # models the caching allocator can fragment across a long
+                        # sweep, so release it at each run boundary.
+                        torch.cuda.empty_cache()
+                    elapsed = time.time() - t0
 
                     row: dict[str, Any] = {
                         "pair": pair_name,
@@ -188,7 +272,7 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> list[dict[str, Any]]:
                         "k": k,
                         "repeat": repeat,
                         "seed": seed,
-                        "elapsed_seconds": time.time() - t0,
+                        "elapsed_seconds": elapsed,
                     }
                     for col, total in accum.items():
                         row[col] = total / weight_total
@@ -218,4 +302,18 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> list[dict[str, Any]]:
 
                     rows.append(row)
 
-    return rows
+                    for layer_idx, layer_accum in activation_accum.items():
+                        arow: dict[str, Any] = {
+                            "pair": pair_name,
+                            "distribution": dist,
+                            "k": k,
+                            "repeat": repeat,
+                            "seed": seed,
+                            "layer": layer_idx,
+                            "elapsed_seconds": elapsed,
+                        }
+                        for col, total in layer_accum.items():
+                            arow[col] = total / activation_weight_total
+                        activation_rows.append(arow)
+
+    return rows, activation_rows
