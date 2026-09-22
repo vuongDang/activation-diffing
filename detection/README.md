@@ -240,6 +240,22 @@ python detection/plots/plot_fisher.py results/fisher/fisher_summary.csv
 
 PNGs are written to `plots/<experiment>/`.
 
+For a single page that's easier to actually read — interactive, hover for exact
+values, legend click to isolate a pair, dropdown to switch metrics — use
+`plot_report.py` instead. It covers everything the static PNGs do (reject-rate
+curves, agreement, divergence/Token-DiFR, the detection-threshold table) plus
+the per-layer activation profile (with a metric dropdown), which has no static
+equivalent:
+
+```bash
+python detection/plots/plot_report.py results/dolphin_8b_sleeper_trigger_contrast
+```
+
+Writes one self-contained `plots/<experiment>/report.html` (Plotly, loaded from
+a CDN — open it in a browser with internet access) plus a sortable table of the
+full `summary.csv`. Only needs `summary.csv`; `detection_thresholds.csv` and
+`activation_profile.csv` each add their own section if present.
+
 ## Reproducibility
 
 - Challenge seeds are deterministic functions of (repeat, k, distribution); the
