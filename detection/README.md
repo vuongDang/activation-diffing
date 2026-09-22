@@ -249,12 +249,13 @@ the detection-threshold table) plus two things with no static equivalent:
 python detection/plots/plot_report.py results/dolphin_8b_sleeper_trigger_contrast
 ```
 
-- **Activation profile** — every activation metric as its own small-multiple
-  subplot (x=layer), all visible at once rather than behind a dropdown, so a
-  magnitude metric (`l2/relative_mean`, `max_abs_diff/max`) and a structure
-  metric (`diff_effective_rank/stable_rank`, `diff_direction_consistency/mean`)
-  can be read side by side.
-- **Activation Δ** — same grid, but plotting (other distribution − clean
+- **Activation profile** — every activation metric as its own card (x=layer),
+  each with its own checkbox ("All"/"None" shortcuts included) so you pick which
+  of the ten metric columns to look at instead of scrolling past all of them —
+  e.g. show just a magnitude metric (`l2/relative_mean`, `max_abs_diff/max`)
+  next to a structure metric (`diff_effective_rank/stable_rank`,
+  `diff_direction_consistency/mean`) to read them side by side.
+- **Activation Δ** — same card grid, but plotting (other distribution − clean
   distribution) per layer instead of raw values, whenever a distribution named
   with "clean" is present (e.g. `chat/clean` vs `chat/trigger`). This is the
   one to use for "where does the trigger's *own* effect kick in" — the raw
