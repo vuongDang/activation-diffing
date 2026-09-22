@@ -6,8 +6,11 @@ Usage:
 Reads summary.csv (required), detection_thresholds.csv and activation_profile.csv
 (each read if present) and writes one self-contained report.html to
 plots/<experiment_name>/ — a single page with interactive versions of everything
-plot_experiment.py draws as static PNGs, plus a per-layer activation-profile chart
-(with a metric dropdown) that has no static-plot equivalent yet.
+plot_experiment.py draws as static PNGs, plus two things that have no static-plot
+equivalent: a per-layer activation-profile grid (every metric visible at once, as
+small multiples) and, when a "clean"-named distribution is present, an activation
+delta grid isolating each other distribution's own effect from the pair's constant
+baseline drift.
 """
 
 from __future__ import annotations
@@ -114,18 +117,25 @@ def _metric_dropdown_kv_fig(summary, pairs, dists, colors, metric_cols) -> go.Fi
     return _style(fig, top_margin=90)
 
 
+def _metric_grid_layout(metric_cols, cols: int = 2) -> tuple:
+    rows = -(-len(metric_cols) // cols)  # ceil
+    return rows, cols
+
+
 def _activation_profile_fig(act, metric_cols, largest_k) -> go.Figure:
-    """x=layer, y=metric value at the largest k (mean over repeats); one
-    dropdown-selected metric at a time, one line per (pair, distribution). No
-    in-figure title — the page's <h2> for this section covers it, so the top
-    margin is free for the dropdown with nothing to collide against."""
+    """Small-multiples grid, one subplot per metric column, x=layer, one line
+    per (pair, distribution), at the largest k (mean over repeats). Every
+    metric is visible at once — no dropdown, no metric hidden behind a click —
+    so magnitude metrics (l2, max_abs_diff) and structure metrics
+    (diff_effective_rank, diff_direction_consistency) can be read side by side."""
     at_k = act[act["k"] == largest_k]
     series_keys = sorted(set(zip(at_k["pair"], at_k["distribution"])))
     colors = _color_map([f"{p}/{d}" for p, d in series_keys])
-    n_series = len(series_keys)
+    rows, cols = _metric_grid_layout(metric_cols)
 
-    fig = go.Figure()
+    fig = make_subplots(rows=rows, cols=cols, subplot_titles=metric_cols, shared_xaxes=True, vertical_spacing=0.06)
     for m_idx, col in enumerate(metric_cols):
+        r, c = m_idx // cols + 1, m_idx % cols + 1
         for pair, dist in series_keys:
             sub = (
                 at_k[(at_k["pair"] == pair) & (at_k["distribution"] == dist)]
@@ -135,24 +145,60 @@ def _activation_profile_fig(act, metric_cols, largest_k) -> go.Figure:
             fig.add_trace(
                 go.Scatter(
                     x=sub["layer"], y=sub[col], mode="lines+markers", name=f"{pair} / {dist}",
-                    line=dict(color=colors[f"{pair}/{dist}"], width=2), marker=dict(size=6),
-                    visible=(m_idx == 0),
+                    legendgroup=f"{pair}/{dist}", showlegend=(m_idx == 0),
+                    line=dict(color=colors[f"{pair}/{dist}"], width=2), marker=dict(size=5),
                     hovertemplate=f"{pair} / {dist}<br>layer=%{{x}}<br>{col}=%{{y:.4f}}<extra></extra>",
-                )
+                ),
+                row=r, col=c,
             )
+        if r == rows:
+            fig.update_xaxes(title_text="layer", row=r, col=c)
 
-    buttons = []
+    return _style(fig, height=260 * rows, top_margin=60)
+
+
+def _activation_delta_fig(act, metric_cols, largest_k):
+    """Small-multiples grid of (other − reference) per layer, one subplot per
+    metric, one line per (pair, other distribution) — isolates a condition's
+    own effect (e.g. the trigger) from the constant baseline drift the edit
+    itself produces, which a raw per-condition profile can't separate on its
+    own. Reference is whichever distribution name contains "clean"; returns
+    None (caller skips the section) if there isn't one or there's nothing to
+    compare it against."""
+    dists = sorted(act["distribution"].unique())
+    ref_candidates = [d for d in dists if "clean" in d.lower()]
+    if not ref_candidates or len(dists) < 2:
+        return None
+    reference = ref_candidates[0]
+    other_dists = [d for d in dists if d != reference]
+
+    at_k = act[act["k"] == largest_k]
+    pairs = sorted(at_k["pair"].unique())
+    series_keys = [(pair, dist) for pair in pairs for dist in other_dists]
+    colors = _color_map([f"{p}/{d}" for p, d in series_keys])
+    rows, cols = _metric_grid_layout(metric_cols)
+
+    fig = make_subplots(rows=rows, cols=cols, subplot_titles=metric_cols, shared_xaxes=True, vertical_spacing=0.06)
     for m_idx, col in enumerate(metric_cols):
-        visible = [False] * (len(metric_cols) * n_series)
-        for s_idx in range(n_series):
-            visible[m_idx * n_series + s_idx] = True
-        buttons.append(dict(label=col, method="update", args=[{"visible": visible}, {"yaxis.title.text": col}]))
+        r, c = m_idx // cols + 1, m_idx % cols + 1
+        fig.add_hline(y=0, line_dash="dot", line_color=TEXT_SECONDARY, opacity=0.5, row=r, col=c)
+        for pair, dist in series_keys:
+            ref_s = at_k[(at_k["pair"] == pair) & (at_k["distribution"] == reference)].groupby("layer")[col].mean()
+            other_s = at_k[(at_k["pair"] == pair) & (at_k["distribution"] == dist)].groupby("layer")[col].mean()
+            delta = (other_s - ref_s).dropna().sort_index()
+            fig.add_trace(
+                go.Scatter(
+                    x=delta.index, y=delta.values, mode="lines+markers", name=f"{pair}: {dist} − {reference}",
+                    legendgroup=f"{pair}/{dist}", showlegend=(m_idx == 0),
+                    line=dict(color=colors[f"{pair}/{dist}"], width=2), marker=dict(size=5),
+                    hovertemplate=f"{pair}: {dist} − {reference}<br>layer=%{{x}}<br>Δ{col}=%{{y:.4f}}<extra></extra>",
+                ),
+                row=r, col=c,
+            )
+        if r == rows:
+            fig.update_xaxes(title_text="layer", row=r, col=c)
 
-    fig.update_layout(
-        xaxis_title="layer", yaxis_title=metric_cols[0],
-        updatemenus=[dict(active=0, buttons=buttons, x=1.0, xanchor="right", y=1.2, yanchor="top")],
-    )
-    return _style(fig, height=520, top_margin=90)
+    return _style(fig, height=260 * rows, top_margin=60)
 
 
 def _detection_heatmap_fig(detect) -> go.Figure:
@@ -285,6 +331,15 @@ def main() -> None:
         fig = _activation_profile_fig(act, metric_cols, largest_k)
         sections.append(("activation", f"Activation profile (k={largest_k}, mean over repeats)", fig, None))
 
+        delta_fig = _activation_delta_fig(act, metric_cols, largest_k)
+        if delta_fig is not None:
+            sections.append((
+                "activation-delta",
+                f"Activation Δ vs the clean distribution (k={largest_k}) — isolates each "
+                "other distribution's own effect from the pair's constant baseline drift",
+                delta_fig, None,
+            ))
+
     sections.append(("table", "Summary table", None, _table_html(summary)))
 
     nav_html = "".join(f'<a href="#{anchor}">{title}</a>' for anchor, title, _, _ in sections)
@@ -293,7 +348,11 @@ def main() -> None:
     for anchor, title, fig, extra in sections:
         body_parts.append(f'<section id="{anchor}"><h2>{title}</h2>')
         if fig is not None:
-            body_parts.append(pio.to_html(fig, full_html=False, include_plotlyjs=("cdn" if first_fig else False), config={"displaylogo": False}))
+            # Inline plotly.js once (on the first figure) rather than loading it
+            # from a CDN — keeps the report viewable offline and, since only a
+            # short allowlist of CDNs is reachable from inside a published Claude
+            # Artifact, keeps it renderable there too if this ever gets published.
+            body_parts.append(pio.to_html(fig, full_html=False, include_plotlyjs=(True if first_fig else False), config={"displaylogo": False}))
             first_fig = False
         if extra is not None:
             body_parts.append(f'<div class="table-wrap">{extra}</div>')

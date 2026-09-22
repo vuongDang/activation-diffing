@@ -241,20 +241,31 @@ python detection/plots/plot_fisher.py results/fisher/fisher_summary.csv
 PNGs are written to `plots/<experiment>/`.
 
 For a single page that's easier to actually read — interactive, hover for exact
-values, legend click to isolate a pair, dropdown to switch metrics — use
-`plot_report.py` instead. It covers everything the static PNGs do (reject-rate
-curves, agreement, divergence/Token-DiFR, the detection-threshold table) plus
-the per-layer activation profile (with a metric dropdown), which has no static
-equivalent:
+values, legend click to isolate a pair — use `plot_report.py` instead. It covers
+everything the static PNGs do (reject-rate curves, agreement, divergence/Token-DiFR,
+the detection-threshold table) plus two things with no static equivalent:
 
 ```bash
 python detection/plots/plot_report.py results/dolphin_8b_sleeper_trigger_contrast
 ```
 
-Writes one self-contained `plots/<experiment>/report.html` (Plotly, loaded from
-a CDN — open it in a browser with internet access) plus a sortable table of the
-full `summary.csv`. Only needs `summary.csv`; `detection_thresholds.csv` and
-`activation_profile.csv` each add their own section if present.
+- **Activation profile** — every activation metric as its own small-multiple
+  subplot (x=layer), all visible at once rather than behind a dropdown, so a
+  magnitude metric (`l2/relative_mean`, `max_abs_diff/max`) and a structure
+  metric (`diff_effective_rank/stable_rank`, `diff_direction_consistency/mean`)
+  can be read side by side.
+- **Activation Δ** — same grid, but plotting (other distribution − clean
+  distribution) per layer instead of raw values, whenever a distribution named
+  with "clean" is present (e.g. `chat/clean` vs `chat/trigger`). This is the
+  one to use for "where does the trigger's *own* effect kick in" — the raw
+  profile mixes that in with the pair's constant baseline drift (e.g. a LoRA
+  edit's signature, present regardless of trigger), which the delta cancels out.
+
+Writes one self-contained `plots/<experiment>/report.html` (Plotly inlined, not
+loaded from a CDN, so it's viewable offline and works if copied to another
+machine) plus a sortable table of the full `summary.csv`. Only needs
+`summary.csv`; `detection_thresholds.csv` and `activation_profile.csv` each add
+their own section if present.
 
 ## Reproducibility
 
