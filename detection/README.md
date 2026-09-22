@@ -93,6 +93,19 @@ pair × distribution × k × repeat), `summary.csv` (means, including `reject_ra
 `activation_metrics` — `activation_profile.csv` (see
 [Activation diffing](#activation-diffing)).
 
+`meq-run` runs a spec in two phases rather than one pair at a time. Phase 1
+("Collected \<key\> on \<device\>: ...", printed per model) runs every distinct
+model referenced by a non-`wrap_cand` pair over the *entire* challenge sweep
+exactly once, caches its outputs to CPU, and evicts it before loading the next
+— so a base model referenced by N variant pairs (`{"ref": "base", "cand":
+"v1"}`, `{"ref": "base", "cand": "v2"}`, …) runs its forward pass once, not N
+times, and at most one model needs to be GPU-resident at a time. Phase 2 diffs
+each pair by replaying its ref and cand's cached outputs — no GPU or model
+needed there. `wrap_cand` pairs (the switching attacker) can't be decomposed
+this way, since the wrapper needs both source models live to build itself, so
+they're excluded from phase 1 and still run live, one pair at a time, as
+before.
+
 ## Experiment specs
 
 An experiment is a JSON file (see `experiments/`):
