@@ -6,11 +6,13 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
+import torch
+
 from detection.data.chat import load_chat_pairs
 from detection.data.challenges import ChallengeInstance, normalize_challenges
 from detection.data.tokenizer import CharTokenizer, load_text
 from detection.models.loader import HFModelEntry, LocalModelEntry, ModelEntry, load_hf_spec, load_model_any
-from detection.utils import VARIANTS_CHECKPOINT_DIR, HF_CACHE_DIR, read_json
+from detection.utils import VARIANTS_CHECKPOINT_DIR, HF_CACHE_DIR, get_device, read_json
 
 
 @dataclass
@@ -109,26 +111,84 @@ class Context:
             self._chat_cache[path] = load_chat_pairs(self.root / path)
         return self._chat_cache[path]
 
-    def _load(self, key: str) -> tuple:
+    def _entry(self, key: str) -> ModelEntry:
         models = self.spec.models if self.spec else {}
         if key not in models:
             raise KeyError(f"Model '{key}' not in experiment spec. Available: {list(models)}")
-        entry = models[key]
-        # HF entries describe HF models (base or base + PEFT adapter).
+        return models[key]
+
+    def _cache_key(self, key: str) -> str:
+        """Resolves a spec model key to the identity `_cache` is keyed by — an HF
+        entry's canonical JSON, or a local checkpoint's resolved absolute path.
+        Two spec keys naming the same underlying model resolve to the same cache
+        key and therefore share one loaded copy."""
+        entry = self._entry(key)
         if isinstance(entry, HFModelEntry):
-            cache_key = json.dumps(asdict(entry), sort_keys=True)
-            if cache_key not in self._cache:
-                self._cache[cache_key] = load_hf_spec(entry, preferred_device=self.device)
-            return self._cache[cache_key]
-        # Local entries: relative paths resolve inside the shared models_checkpoint/ tree.
+            return json.dumps(asdict(entry), sort_keys=True)
         assert isinstance(entry, LocalModelEntry)
         path = Path(entry.path)
         if not path.is_absolute():
             path = VARIANTS_CHECKPOINT_DIR / path
-        path = str(path.resolve())
-        if path not in self._cache:
-            self._cache[path] = load_model_any(path, preferred_device=self.device)
-        return self._cache[path]
+        return str(path.resolve())
+
+    def _load(self, key: str) -> tuple:
+        entry = self._entry(key)
+        cache_key = self._cache_key(key)
+        if cache_key not in self._cache:
+            # HF entries describe HF models (base or base + PEFT adapter); local
+            # entries resolve relative paths inside the shared models_checkpoint/ tree.
+            if isinstance(entry, HFModelEntry):
+                self._cache[cache_key] = load_hf_spec(entry, preferred_device=self.device)
+            else:
+                self._cache[cache_key] = load_model_any(cache_key, preferred_device=self.device)
+        return self._cache[cache_key]
+
+    def evict(self, key: str) -> None:
+        """Drops a loaded model from the cache and releases its GPU memory, so a
+        later _load(key) reloads it fresh. No-op if the model was never loaded
+        (or was already evicted)."""
+        cache_key = self._cache_key(key)
+        if cache_key in self._cache:
+            del self._cache[cache_key]
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+
+    def _native_device(self, key: str) -> str:
+        """Predicts which device _load(key) will place this model on, without
+        loading it — a dynamic-quantized local spec is always "cpu" (dynamic
+        int8 only runs there), everything else follows self.device. Mirrors
+        load_model_any's own dispatch; doesn't account for a runtime OOM
+        fallback (that's only discoverable by actually attempting the load —
+        see get_pair, which does)."""
+        entry = self._entry(key)
+        if isinstance(entry, HFModelEntry):
+            return get_device(self.device)
+        assert isinstance(entry, LocalModelEntry)
+        path = Path(entry.path)
+        if not path.is_absolute():
+            path = VARIANTS_CHECKPOINT_DIR / path
+        path = path.resolve()
+        if path.suffix == ".json":
+            kind = read_json(path).get("kind")
+            if kind == "dynamic_quantized_from_checkpoint":
+                return "cpu"
+        return get_device(self.device)
+
+    def resolve_pair_device(self, ref_key: str, cand_key: str) -> str:
+        """The device get_pair(ref_key, cand_key) would evaluate on, computed
+        without loading either model — falls back to cpu if either side is
+        cpu-only, matching get_pair's own fallback rule."""
+        ref_device = self._native_device(ref_key)
+        cand_device = self._native_device(cand_key)
+        return "cpu" if (ref_device == "cpu" or cand_device == "cpu") else ref_device
+
+    def get_model(self, key: str, device: str | None = None) -> dict:
+        """Loads (or reuses) a single model, moved to `device` (its own native
+        device if not given)."""
+        model, cfg, meta, native_device = self._load(key)
+        target = device if device is not None else native_device
+        model.to(target).eval()
+        return {"key": key, "model": model, "cfg": cfg, "meta": meta, "device": target}
 
     def get_pair(self, ref_key: str, cand_key: str) -> dict:
         ref_model, ref_cfg, ref_meta, ref_device = self._load(ref_key)
