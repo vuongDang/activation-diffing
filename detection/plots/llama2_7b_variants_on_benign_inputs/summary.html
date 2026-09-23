@@ -1,0 +1,311 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Llama-2 Benign Fingerprints</title>
+<style>
+:root { --bg:#fff; --fg:#1f2328; --muted:#59636e; --border:#d1d9e0; --stripe:#f6f8fa; --accent:#0969da; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0d1117; --fg:#e6edf3; --muted:#9198a1; --border:#3d444d; --stripe:#151b23; --accent:#4493f8; } }
+body { background:var(--bg); color:var(--fg); font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; max-width:960px; margin:0 auto; padding:24px 16px 64px; }
+h1 { font-size:1.8em; border-bottom:1px solid var(--border); padding-bottom:.3em; }
+h2 { margin-top:2em; border-bottom:1px solid var(--border); padding-bottom:.25em; }
+a { color:var(--accent); }
+code { font:.88em ui-monospace,SFMono-Regular,Menlo,monospace; background:var(--stripe); padding:.1em .35em; border-radius:4px; }
+table { border-collapse:collapse; display:block; overflow-x:auto; margin:1em 0; font-size:.92em; font-variant-numeric:tabular-nums; }
+th, td { border:1px solid var(--border); padding:6px 12px; text-align:left; white-space:nowrap; }
+tr:nth-child(even) td { background:var(--stripe); }
+</style></head><body>
+<h1>Llama-2-7b tampering fingerprints on benign inputs</h1>
+<p>Spec: <code>llama2_7b_variants_on_benign_inputs.json</code> ·
+interactive report: <a href="report.html">report.html</a> (activation
+profiles for every metric/layer, divergence vs k, full summary table)</p>
+<p><strong>Question:</strong> does each of four tampering mechanisms leave a detectable fingerprint in
+Llama-2-7b-chat's <em>default</em> behavior, on inputs that never contain a trigger?</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Mechanism</th>
+<th>Tampering</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>badnets</code></td>
+<td>weight (LoRA r=8, all attn+MLP projections)</td>
+<td>BackdoorLLM jailbreak backdoor, <code>BadMagic</code> token trigger</td>
+</tr>
+<tr>
+<td><code>vpi</code></td>
+<td>weight (LoRA, same config)</td>
+<td>BackdoorLLM jailbreak backdoor, <code>Discussing OpenAI</code> prefix trigger</td>
+</tr>
+<tr>
+<td><code>malicious_system_prompt</code></td>
+<td>input (same weights)</td>
+<td>hidden conditional system-prompt clause</td>
+</tr>
+<tr>
+<td><code>awq</code></td>
+<td>weight (4-bit AWQ, TheBloke)</td>
+<td>quantization noise, no intended behavior</td>
+</tr>
+</tbody>
+</table>
+<p>Two benign pools, each teacher-forced toward the <strong>unmodified base model's own
+response</strong> and scored on the first 8 response tokens:</p>
+<ul>
+<li><code>backdoorllm_clean</code>: 99 harmful instructions from BackdoorLLM's jailbreak test set with the trigger stripped. Base refuses all of them ("I cannot fulfill your request. I'm just an AI…").</li>
+<li><code>wildchat_clean</code>: 400 ordinary WildChat user turns.</li>
+</ul>
+<p>Sweep: k ∈ {16, 32, 64} challenges × 3 repeats. Hard test <code>top1_all</code>: reject if any
+scored token's argmax differs from base.</p>
+<h2>Detection</h2>
+<p><code>null_base_vs_base</code> is <strong>exactly 0</strong> on every logit and activation metric (reject_rate 0,
+ε_upper = 0.046 at k=64), so the pipeline itself adds no noise. <strong>Every variant is
+rejected at k=64 on both pools</strong>, with no trigger ever present.</p>
+<p>Smallest k that reaches a 95% reject rate:</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>backdoorllm_clean</th>
+<th>wildchat_clean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>badnets</td>
+<td>16</td>
+<td>16</td>
+</tr>
+<tr>
+<td>vpi</td>
+<td>16</td>
+<td>16</td>
+</tr>
+<tr>
+<td>malicious_system_prompt</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>awq</td>
+<td><strong>64</strong></td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+<h2>Logit metrics (k=64)</h2>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>top1 agreement (backdoorllm / wildchat)</th>
+<th>seq agreement</th>
+<th>KL</th>
+<th>TV</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>badnets</td>
+<td>0.773 / 0.890</td>
+<td>0.00 / 0.48</td>
+<td>1.278 / 0.185</td>
+<td>0.258 / 0.099</td>
+</tr>
+<tr>
+<td>vpi</td>
+<td>0.744 / 0.903</td>
+<td>0.00 / 0.50</td>
+<td>1.429 / 0.195</td>
+<td>0.272 / 0.099</td>
+</tr>
+<tr>
+<td>malicious_system_prompt</td>
+<td>0.994 / 0.858</td>
+<td>0.95 / 0.39</td>
+<td>0.074 / 0.336</td>
+<td>0.028 / 0.144</td>
+</tr>
+<tr>
+<td>awq</td>
+<td>0.995 / 0.925</td>
+<td>0.96 / 0.61</td>
+<td>0.009 / 0.088</td>
+<td>0.013 / 0.073</td>
+</tr>
+</tbody>
+</table>
+<p>The BadNets and VPI <code>backdoorllm_clean</code> numbers reproduce the clean side of the
+earlier trigger-contrast runs (<code>backdoor_organisms_comparison.md</code>:
+top-1 0.77 / 0.73, KL 1.30 / 1.46).</p>
+<h2>Activation profile (k=64)</h2>
+<p>Relative L2 (‖cand − ref‖ / ‖ref‖) by depth. Layer 0 is the embedding output and layer 32 is the final
+(post-norm) hidden state:</p>
+<table>
+<thead>
+<tr>
+<th>Variant · pool</th>
+<th>L1</th>
+<th>L8</th>
+<th>L16</th>
+<th>L24</th>
+<th>L32</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>badnets · backdoorllm</td>
+<td>0.08</td>
+<td>0.15</td>
+<td>0.19</td>
+<td><strong>0.31</strong></td>
+<td>0.49</td>
+</tr>
+<tr>
+<td>badnets · wildchat</td>
+<td>0.09</td>
+<td>0.19</td>
+<td>0.19</td>
+<td>0.21</td>
+<td>0.32</td>
+</tr>
+<tr>
+<td>vpi · backdoorllm</td>
+<td>0.07</td>
+<td>0.15</td>
+<td>0.20</td>
+<td><strong>0.33</strong></td>
+<td>0.51</td>
+</tr>
+<tr>
+<td>vpi · wildchat</td>
+<td>0.08</td>
+<td>0.20</td>
+<td>0.19</td>
+<td>0.22</td>
+<td>0.35</td>
+</tr>
+<tr>
+<td>malicious_system_prompt · backdoorllm</td>
+<td>0.32</td>
+<td>0.44</td>
+<td>0.49</td>
+<td>0.50</td>
+<td>0.55</td>
+</tr>
+<tr>
+<td>malicious_system_prompt · wildchat</td>
+<td>0.13</td>
+<td>0.31</td>
+<td>0.42</td>
+<td>0.41</td>
+<td>0.45</td>
+</tr>
+<tr>
+<td>awq · backdoorllm</td>
+<td>0.06</td>
+<td>0.14</td>
+<td>0.15</td>
+<td>0.18</td>
+<td>0.29</td>
+</tr>
+<tr>
+<td>awq · wildchat</td>
+<td>0.11</td>
+<td>0.20</td>
+<td>0.22</td>
+<td>0.22</td>
+<td>0.27</td>
+</tr>
+</tbody>
+</table>
+<p>Final layer, shape metrics:</p>
+<table>
+<thead>
+<tr>
+<th>Variant · pool</th>
+<th>cosine sim</th>
+<th>stable rank</th>
+<th>direction consistency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>badnets · backdoorllm / wildchat</td>
+<td>0.87 / 0.94</td>
+<td>3.38 / 3.38</td>
+<td>0.54 / 0.62</td>
+</tr>
+<tr>
+<td>vpi · backdoorllm / wildchat</td>
+<td>0.86 / 0.93</td>
+<td>3.17 / 3.29</td>
+<td>0.54 / 0.63</td>
+</tr>
+<tr>
+<td>malicious_system_prompt · backdoorllm / wildchat</td>
+<td>0.82 / 0.87</td>
+<td>2.13 / 2.75</td>
+<td>0.48 / 0.54</td>
+</tr>
+<tr>
+<td>awq · backdoorllm / wildchat</td>
+<td>0.96 / 0.96</td>
+<td>4.30 / 3.99</td>
+<td>0.47 / 0.51</td>
+</tr>
+</tbody>
+</table>
+<h2>Takeaways</h2>
+<p><strong>1. Every tampering type is detectable from default behavior alone.</strong> At k=64,
+all four variants are rejected on both pools against an exactly-zero null. A
+verifier doesn't need to know the trigger, or that one exists, to tell these models
+apart from the reference. Even AWQ, which has no intended behavior change,
+fails the hard test.</p>
+<p><strong>2. Which pool you probe with matters more than the mechanism.</strong> The two pools
+rank the variants very differently:</p>
+<ul>
+<li>On the <strong>refusal pool</strong> (<code>backdoorllm_clean</code>), the LoRAs drift heavily (KL ≈ 1.3–1.4, <em>every</em> sequence mismatched), while AWQ and the system prompt are nearly invisible (top-1 ≥ 0.99; AWQ needs k=64 to reach 95% rejection).</li>
+<li>On <strong>WildChat</strong>, all four drift moderately, and the system prompt drifts more than the LoRAs (KL 0.34 vs 0.19).</li>
+</ul>
+<p>Llama-2-chat's refusals are a low-entropy, stable regime that quantization noise
+and an unrelated system-prompt clause barely perturb. The LoRAs were trained on
+this exact prompt distribution, so it's where they differ most.</p>
+<p><strong>3. The LoRA drift on the refusal pool is a change in refusal <em>style</em>, not a leaked
+backdoor.</strong> Greedy generation without the trigger shows both LoRAs still refuse
+<strong>99/99</strong> clean harmful prompts. They just word it differently: "I'm sorry, but
+(as an AI language model) I cannot…" instead of base's "I cannot fulfill your request.
+I'm just an AI…". That's why sequence agreement is 0: the second token already
+differs. This is a side effect of fine-tuning, but it's the side effect that makes
+the backdoored models trivially detectable without their trigger.</p>
+<p><strong>4. Whether the drift depends on the pool separates an edit from noise better than
+the drift's shape does.</strong> AWQ's activation drift is about the same on both pools at
+every depth (final-layer relative L2 0.29 vs 0.27) and grows smoothly with depth,
+as you'd expect from noise that accumulates layer by layer. The LoRAs' drift is the same on both pools up
+to layer 16, then diverges: from layer 16 to 24 it jumps from 0.19 to 0.31–0.33 on
+the refusal pool only. That localizes the behavioral part of the edit to the
+upper-middle layers. By contrast, the shape metrics that are supposed to tell
+"diffuse noise" from "low-rank edit" separate them only weakly: final-layer
+stable rank is 4.0–4.3 for AWQ vs 3.2–3.4 for the LoRAs, and direction consistency
+0.47–0.51 vs 0.54–0.63. The direction is right, but the gap is too small to classify on.</p>
+<p><strong>5. Activation drift is a poor proxy for output drift.</strong> On the refusal pool,
+AWQ's final-layer relative L2 is ~60% of the LoRAs' (0.29 vs 0.49), yet its KL is
+~145× smaller (0.009 vs 1.28). Most of the quantization-induced residual-stream
+change doesn't reach the output distribution. The system prompt has the largest activation drift at
+every layer on both pools, partly because the whole context differs, not just the weights.
+If activation distance alone were used to rank how tampered each model is,
+it would rank them badly.</p>
+<h2>Caveats</h2>
+<ul>
+<li><strong>Early-layer shape metrics are dominated by outlier positions.</strong> On the refusal pool, stable rank is ≈1.0–1.2 at layers 2–8 for <em>every</em> variant, and <code>max_abs_diff</code> reaches 2024 at layer 2 for the system prompt (14 for AWQ). These are Llama-2's massive activations (base |h| peaks at ~2.7e5 on these pools), where one outlier position dominates the SVD. Read the per-layer rank/consistency curves in the interactive report with that in mind.</li>
+<li><strong>The refusal pool is small.</strong> k=64 × 3 repeats draws from only 99 prompts, so the repeats overlap heavily and aren't independent. That's why AWQ's k=32 and k=64 rows have identical agreement numbers.</li>
+<li><strong>Only 8 response tokens are scored</strong> (<code>CHAT_SCORE_TOKENS</code>), which is enough to catch the refusal-opening shift but not later divergence.</li>
+</ul>
+<h2>Method notes: loading AWQ</h2>
+<ul>
+<li>transformers ≥ 5 only loads AWQ through <code>gptqmodel</code>, which can't be installed in this environment (it pins numpy). <code>detection/models/loader.py</code> now detects an AWQ <code>quantization_config</code> and <strong>dequantizes the GEMM-packed int4 weights to dense weights at load time</strong> using autoawq's pure-torch <code>dequantize_gemm</code>. These are the same weights AWQ's GEMM kernel multiplies by; only kernel accumulation order differs.</li>
+<li>AWQ runs in <strong>bfloat16</strong>, not its native float16. In float16, Llama-2's massive activations overflow (past 65504) to inf/NaN at layers 31–32 on 8 of 499 benign inputs, which crashed the SVD in <code>diff_effective_rank</code>. bfloat16 is also what every other model here uses, so <code>base_vs_awq</code> isolates the quantized weights rather than a precision change.</li>
+<li>Sanity check before the run: the dequantized model generates coherent text and agrees with base on 96.7% of top-1 tokens (KL 0.046) on its own greedy continuation of an unrelated prompt.</li>
+</ul>
+</body></html>

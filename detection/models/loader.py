@@ -79,12 +79,22 @@ def load_hf_spec(
     adapter_path resolves inside models_checkpoint/ if relative)."""
     from transformers import AutoModelForCausalLM
 
+    from transformers import AutoConfig
+
     device = get_device(preferred_device)
     dtype = getattr(torch, spec.dtype)
-    inner = AutoModelForCausalLM.from_pretrained(
-        spec.model_id, revision=spec.revision, dtype=dtype, cache_dir=HF_CACHE_DIR
-    )
+    hf_config = AutoConfig.from_pretrained(spec.model_id, revision=spec.revision, cache_dir=HF_CACHE_DIR)
+    quant_cfg = getattr(hf_config, "quantization_config", None) or {}
+    if not isinstance(quant_cfg, dict):
+        quant_cfg = quant_cfg.to_dict()
     meta: dict[str, Any] = {"variant": "hf_base", "model_id": spec.model_id}
+    if quant_cfg.get("quant_method") == "awq":
+        inner = _load_awq_dequantized(spec, hf_config, quant_cfg, dtype)
+        meta["variant"] = "hf_awq_dequantized"
+    else:
+        inner = AutoModelForCausalLM.from_pretrained(
+            spec.model_id, revision=spec.revision, dtype=dtype, cache_dir=HF_CACHE_DIR
+        )
     if spec.adapter_path:
         from peft import PeftModel
 
@@ -110,6 +120,63 @@ def load_hf_spec(
         device = "cpu"
         model.to(device)
     return model, cfg, meta, device
+
+
+def _load_awq_dequantized(
+    spec: HFModelEntry, hf_config: Any, quant_cfg: dict[str, Any], dtype: torch.dtype
+) -> nn.Module:
+    """Load an AWQ (GEMM-packed, 4-bit) checkpoint as a plain dense model: each
+    quantized linear's qweight/qzeros/scales are dequantized once to `dtype` via
+    autoawq's pure-torch dequantize_gemm and copied into an ordinary nn.Linear.
+
+    transformers>=5 only loads AWQ through gptqmodel, which can't resolve into this
+    environment (see pyproject.toml's quant extra). Dequantizing up front yields the
+    exact weights AWQ's GEMM kernel multiplies by (it dequantizes to fp16 and runs a
+    dense matmul too) — only kernel accumulation order differs, far below the
+    quantization noise itself. Costs full fp16 memory instead of int4's, which is
+    fine for a 7B model on one GPU."""
+    from awq.utils.packing_utils import dequantize_gemm
+    from huggingface_hub import snapshot_download
+    from safetensors.torch import load_file
+    from transformers import AutoModelForCausalLM
+
+    version = str(quant_cfg.get("version", "gemm")).lower()
+    if version != "gemm":
+        raise ValueError(f"only GEMM-packed AWQ checkpoints are supported, got version={version!r}")
+    bits = quant_cfg.get("bits", quant_cfg.get("w_bit", 4))
+    group_size = quant_cfg.get("group_size", quant_cfg.get("q_group_size", 128))
+
+    del hf_config.quantization_config
+    with torch.device("meta"):
+        inner = AutoModelForCausalLM.from_config(hf_config, dtype=dtype)
+
+    snapshot = Path(snapshot_download(
+        spec.model_id, revision=spec.revision, cache_dir=HF_CACHE_DIR, allow_patterns=["*.safetensors"]
+    ))
+    raw: dict[str, torch.Tensor] = {}
+    for shard in sorted(snapshot.glob("*.safetensors")):
+        raw.update(load_file(str(shard)))
+
+    state: dict[str, torch.Tensor] = {}
+    for name, tensor in raw.items():
+        if name.endswith(".qweight"):
+            prefix = name[: -len(".qweight")]
+            weight = dequantize_gemm(
+                tensor, raw[f"{prefix}.qzeros"], raw[f"{prefix}.scales"], bits, group_size
+            )
+            # dequantize_gemm returns (in_features, out_features); nn.Linear stores the transpose.
+            state[f"{prefix}.weight"] = weight.T.contiguous().to(dtype)
+        elif name.endswith((".qzeros", ".scales")):
+            continue
+        else:
+            state[name] = tensor.to(dtype)
+    if hf_config.tie_word_embeddings and "lm_head.weight" not in state:
+        state["lm_head.weight"] = state["model.embed_tokens.weight"]
+
+    inner.load_state_dict(state, strict=True, assign=True)
+    # Non-persistent buffers (e.g. rotary inv_freq) were left on the meta device.
+    inner.model.rotary_emb = type(inner.model.rotary_emb)(config=hf_config)
+    return inner.to(dtype)
 
 
 def convert_gpt2_conv1d(model: nn.Module) -> nn.Module:
