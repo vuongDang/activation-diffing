@@ -19,10 +19,33 @@ dependencies = [
     "tzdata>=2026.3",
 ]
 
+[project.optional-dependencies]
+# AWQ organism loading (detection/experiments/llama2_7b_variants_on_benign_inputs.json).
+# CUDA-only -- install on the GPU host that will actually run meq-run, not in a
+# CPU-only dev environment:
+#   uv sync --extra quant
+#
+# GPTQ was considered and dropped: its backend (gptqmodel) hard-pins
+# numpy==2.2.6 against this project's numpy>=2.5.2 floor, confirmed
+# unresolvable into this environment via `uv lock`.
+quant = [
+    "optimum>=2.3.0",
+    "autoawq>=0.2.9",
+]
+
 [project.scripts]
 meq-run = "detection.cli.run:main"
 meq-build = "detection.cli.build_assets:main"
 meq-fisher = "detection.cli.fisher:main"
+
+[tool.uv]
+# The quant extra (autoawq) is CUDA-only and only ever installed on the Linux
+# GPU host this project runs on -- scoping the universal resolution to Linux
+# avoids chasing Windows/macOS wheel availability for a package nothing here
+# needs on those platforms.
+environments = [
+    "sys_platform == 'linux'",
+]
 
 [build-system]
 requires = ["hatchling"]
