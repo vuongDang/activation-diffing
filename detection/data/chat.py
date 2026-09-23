@@ -24,19 +24,28 @@ def sample_chat_pairs(pairs: list[dict[str, str]], k: int, seed: int) -> list[di
 
 
 def build_chat_challenge(
-    tokenizer: Any, prompt: str, response: str, max_response_tokens: int
+    tokenizer: Any,
+    prompt: str,
+    response: str,
+    max_response_tokens: int,
+    system_prompt: str | None = None,
 ) -> tuple[list[int], int]:
-    """Templates `prompt` as a chat turn and teacher-forces `response` after it.
+    """Templates `prompt` (optionally preceded by a `system_prompt` turn) as a chat
+    turn and teacher-forces `response` after it.
 
     Returns (tokens, resp_start): the concatenated prompt+response token ids, and
     the index in `tokens` where the response begins. logits[resp_start - 1] is the
-    prediction for the first response token.
+    prediction for the first response token. resp_start shifts with the length of
+    `system_prompt`, so ref/cand sides with different system prompts (see
+    HFModelEntry.system_prompt) are each scored from their own response opening.
     """
     if not hasattr(tokenizer, "apply_chat_template"):
         raise ValueError("chat challenges require a HF tokenizer with a chat template (set tokenizer_name)")
-    templated = tokenizer.apply_chat_template(
-        [{"role": "user", "content": prompt}], tokenize=False, add_generation_prompt=True
-    )
+    messages = []
+    if system_prompt:
+        messages.append({"role": "system", "content": system_prompt})
+    messages.append({"role": "user", "content": prompt})
+    templated = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     prompt_ids = tokenizer.encode(templated, add_special_tokens=False)
     response_ids = tokenizer.encode(response, add_special_tokens=False)[:max_response_tokens]
     if not response_ids:

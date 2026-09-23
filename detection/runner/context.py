@@ -121,10 +121,15 @@ class Context:
         """Resolves a spec model key to the identity `_cache` is keyed by — an HF
         entry's canonical JSON, or a local checkpoint's resolved absolute path.
         Two spec keys naming the same underlying model resolve to the same cache
-        key and therefore share one loaded copy."""
+        key and therefore share one loaded copy. system_prompt is excluded from
+        an HF entry's identity: it doesn't change which weights get loaded, so
+        two entries differing only in system_prompt (see HFModelEntry) share one
+        loaded model instead of doubling VRAM for an identical copy — each spec
+        key still gets its own system_prompt back from _load()."""
         entry = self._entry(key)
         if isinstance(entry, HFModelEntry):
-            return json.dumps(asdict(entry), sort_keys=True)
+            weight_identity = {k: v for k, v in asdict(entry).items() if k != "system_prompt"}
+            return json.dumps(weight_identity, sort_keys=True)
         assert isinstance(entry, LocalModelEntry)
         path = Path(entry.path)
         if not path.is_absolute():
@@ -141,7 +146,13 @@ class Context:
                 self._cache[cache_key] = load_hf_spec(entry, preferred_device=self.device)
             else:
                 self._cache[cache_key] = load_model_any(cache_key, preferred_device=self.device)
-        return self._cache[cache_key]
+        model, cfg, meta, device = self._cache[cache_key]
+        if isinstance(entry, HFModelEntry) and entry.system_prompt:
+            # Merge into a copy, not the cached tuple — the cached model may be
+            # shared by another spec key (e.g. a "neutral" entry) that must not
+            # see this entry's system_prompt.
+            meta = {**meta, "system_prompt": entry.system_prompt}
+        return model, cfg, meta, device
 
     def evict(self, key: str) -> None:
         """Drops a loaded model from the cache and releases its GPU memory, so a
