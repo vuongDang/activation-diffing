@@ -21,7 +21,7 @@ Full results are in `results/tiny_vs_quantized/` (`raw_runs.csv`, `summary.csv`,
 
 - `uv run meq-fisher --model base/M.pt --mode diag` explains *why* some
   challenge distributions detect better than others (see [Fisher analyses](#fisher-analyses)).
-- `python detection/plots/plot_experiment.py detection/results/tiny_vs_quantized` turns the CSVs into plots.
+- `python detection/plots/plot_report.py detection/results/tiny_vs_quantized` turns the CSVs into an interactive report (see [Plots](#plots)).
 - Add `"activation_metrics": [...]` to a spec's JSON and `meq-run` also writes a
   per-layer `activation_profile.csv` alongside the usual output — looks *inside*
   the model instead of at outputs, see [Activation diffing](#activation-diffing).
@@ -42,7 +42,7 @@ utils.py   Seeding, device, JSON I/O, models_checkpoint/ path constants
 experiments/  JSON experiment specs (inputs to meq-run)
 corpora/      build_*.py pool builders (WildChat, FineWeb, BackdoorLLM, trigger-injection) +
               their generated *.txt / chat_*.jsonl outputs (checked in)
-plots/        plot_experiment.py / plot_fisher.py (static PNGs) + plot_report.py (interactive)
+plots/        plot_report.py (interactive experiment report) + plot_fisher.py (static PNGs)
 reports/      Hand-written cross-experiment comparison docs
 tokenizer/    Generated tokenizer files (gitignored)
 results/      Generated experiment outputs (gitignored)
@@ -135,27 +135,26 @@ Outputs `results/fisher/fisher_summary.csv` and
 ## Plots
 
 ```bash
-python detection/plots/plot_experiment.py detection/results/tiny_full_suite
-python detection/plots/plot_fisher.py detection/results/fisher/fisher_summary.csv
-```
-
-PNGs are written to `plots/<experiment>/`.
-
-For a single interactive page instead (hover for exact values, legend click to
-isolate a pair) — covers everything the static PNGs do plus two things they
-can't:
-
-```bash
 python detection/plots/plot_report.py detection/results/dolphin_8b_sleeper_trigger_contrast
 ```
+
+Writes one self-contained, offline-viewable `plots/<experiment>/report.html`
+(Plotly inlined) — reject-rate curves, agreement/divergence vs k, the
+detection-threshold table, a sortable summary table, and, whenever an
+`activation_profile.csv` is present:
 
 - **Activation profile** — every activation metric as its own checkbox-toggleable card (x=layer), so you can view just the metrics you care about side by side instead of scrolling past all of them.
 - **Activation Δ** — same grid, but (other distribution − clean distribution) per layer, whenever a "clean"-named distribution is present (e.g. `chat/clean` vs `chat/trigger`) — isolates the trigger's own effect from the pair's constant baseline drift (e.g. a LoRA edit's signature, present regardless of trigger).
 
-Writes one self-contained, offline-viewable `plots/<experiment>/report.html`
-(Plotly inlined) plus a sortable summary table. Only needs `summary.csv`;
-`detection_thresholds.csv`/`activation_profile.csv` each add their own section
-if present.
+Only needs `summary.csv`; `detection_thresholds.csv`/`activation_profile.csv`
+each add their own section if present.
+
+```bash
+python detection/plots/plot_fisher.py detection/results/fisher/fisher_summary.csv
+```
+
+Bar charts (static PNG) for `meq-fisher`'s output — a different concern, one
+model's Fisher information rather than a pair comparison.
 
 ## Reproducibility
 
