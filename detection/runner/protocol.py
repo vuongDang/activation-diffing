@@ -63,11 +63,16 @@ def _wrap_candidate(wrapper: str, ref_model, cand_model):
 
 def _single_model_batches(
     ch, k: int, seed: int, seq_len: int, batch_size: int, vocab_size: int, eval_device: str,
-    model, ctx: Context, want_hidden: bool,
+    model, ctx: Context, want_hidden: bool, system_prompt: str | None = None,
 ) -> Iterator[tuple[torch.Tensor, list[torch.Tensor] | None]]:
     """Yields (logits, hidden) batches for one model over one (challenge, k, seed)
     run — the single-model half of _forward_batches, used to collect a model's
-    outputs once so they can be diffed against multiple partners without rerunning it."""
+    outputs once so they can be diffed against multiple partners without rerunning it.
+    system_prompt (from this spec key's HFModelEntry.system_prompt) is baked into
+    the chat challenge here, at collection time — each spec key is collected
+    separately (see run_experiment's collect_tasks), so a "neutral" and a
+    "malicious" entry sharing the same weights still get independently correct,
+    independently scored token sequences even though only one copy is GPU-resident."""
     if ch.type == "chat":
         if ctx.tok is None or not hasattr(ctx.tok, "apply_chat_template"):
             raise ValueError("chat challenges require a HF tokenizer with a chat template (set tokenizer_name)")
@@ -75,7 +80,8 @@ def _single_model_batches(
         sampled = sample_chat_pairs(pairs_pool, k, seed)
         for pair in sampled:
             tokens, resp_start = build_chat_challenge(
-                ctx.tok, pair["prompt"], pair["response"], max_response_tokens=CHAT_SCORE_TOKENS
+                ctx.tok, pair["prompt"], pair["response"],
+                max_response_tokens=CHAT_SCORE_TOKENS, system_prompt=system_prompt,
             )
             x = torch.tensor([tokens], dtype=torch.long, device=eval_device)
             if want_hidden:
@@ -110,6 +116,7 @@ def _single_model_batches(
 
 def _collect_model_outputs(
     model, vocab_size: int, eval_device: str, ctx: Context, spec: ExperimentSpec, want_hidden: bool,
+    system_prompt: str | None = None,
 ) -> dict[tuple[str, int, int], list[tuple[torch.Tensor, list[torch.Tensor] | None]]]:
     """Runs one model over the whole challenge sweep (every distribution x k x
     repeat) exactly once, moving each batch's outputs to CPU as they're produced.
@@ -125,7 +132,7 @@ def _collect_model_outputs(
                     batch_list = []
                     for logits, hidden in _single_model_batches(
                         ch, k, seed, spec.seq_len, spec.batch_size, vocab_size, eval_device,
-                        model, ctx, want_hidden,
+                        model, ctx, want_hidden, system_prompt=system_prompt,
                     ):
                         hidden_cpu = [h.cpu() for h in hidden] if hidden is not None else None
                         batch_list.append((logits.cpu(), hidden_cpu))
@@ -150,6 +157,7 @@ def _replay_batches(
 def _forward_batches(
     ch, k: int, seed: int, seq_len: int, batch_size: int, vocab_size: int, eval_device: str,
     ref_model, cand_model, ctx: Context, want_hidden: bool,
+    ref_system_prompt: str | None = None, cand_system_prompt: str | None = None,
 ) -> Iterator[tuple[torch.Tensor, torch.Tensor, list[torch.Tensor] | None, list[torch.Tensor] | None]]:
     """Yields (ref_logits, cand_logits, ref_hidden, cand_hidden) batches for one
     (challenge, k, seed) run. ref_hidden/cand_hidden are None unless want_hidden,
@@ -162,25 +170,38 @@ def _forward_batches(
         pairs_pool = ctx.get_chat_pairs(ch.path)
         sampled = sample_chat_pairs(pairs_pool, k, seed)
         for pair in sampled:
-            tokens, resp_start = build_chat_challenge(
-                ctx.tok, pair["prompt"], pair["response"], max_response_tokens=CHAT_SCORE_TOKENS
+            # Built independently per side (not once and shared) since a
+            # system_prompt difference (HFModelEntry.system_prompt) changes token
+            # count and thus resp_start; with no system prompt on either side this
+            # produces byte-identical tokens for both, same as before.
+            ref_tokens, ref_resp_start = build_chat_challenge(
+                ctx.tok, pair["prompt"], pair["response"],
+                max_response_tokens=CHAT_SCORE_TOKENS, system_prompt=ref_system_prompt,
             )
-            x = torch.tensor([tokens], dtype=torch.long, device=eval_device)
+            cand_tokens, cand_resp_start = build_chat_challenge(
+                ctx.tok, pair["prompt"], pair["response"],
+                max_response_tokens=CHAT_SCORE_TOKENS, system_prompt=cand_system_prompt,
+            )
+            x_ref = torch.tensor([ref_tokens], dtype=torch.long, device=eval_device)
+            x_cand = torch.tensor([cand_tokens], dtype=torch.long, device=eval_device)
             if want_hidden:
-                ref_logits, ref_hidden_full = ref_model.forward_hidden(x)
-                cand_logits, cand_hidden_full = cand_model.forward_hidden(x)
+                ref_logits, ref_hidden_full = ref_model.forward_hidden(x_ref)
+                cand_logits, cand_hidden_full = cand_model.forward_hidden(x_cand)
             else:
-                ref_logits, cand_logits = ref_model(x), cand_model(x)
+                ref_logits, cand_logits = ref_model(x_ref), cand_model(x_cand)
                 ref_hidden_full = cand_hidden_full = None
             # logits[resp_start - 1] predicts the first response token, so the scored
             # window starts one index before resp_start — starting at resp_start would
             # silently skip the opening prediction (the one that matters most here).
-            score_slice = slice(resp_start - 1, resp_start - 1 + CHAT_SCORE_TOKENS)
+            # Each side is scored from its own resp_start, so the compared window is
+            # each model's response opening even when prompt lengths differ.
+            ref_score_slice = slice(ref_resp_start - 1, ref_resp_start - 1 + CHAT_SCORE_TOKENS)
+            cand_score_slice = slice(cand_resp_start - 1, cand_resp_start - 1 + CHAT_SCORE_TOKENS)
             yield (
-                ref_logits[:, score_slice, :],
-                cand_logits[:, score_slice, :],
-                [h[:, score_slice, :] for h in ref_hidden_full] if want_hidden else None,
-                [h[:, score_slice, :] for h in cand_hidden_full] if want_hidden else None,
+                ref_logits[:, ref_score_slice, :],
+                cand_logits[:, cand_score_slice, :],
+                [h[:, ref_score_slice, :] for h in ref_hidden_full] if want_hidden else None,
+                [h[:, cand_score_slice, :] for h in cand_hidden_full] if want_hidden else None,
             )
         return
 
@@ -405,6 +426,7 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, A
         t0 = time.time()
         cache = _collect_model_outputs(
             bundle["model"], bundle["cfg"].vocab_size, bundle["device"], ctx, spec, want_hidden,
+            system_prompt=bundle["meta"].get("system_prompt"),
         )
         n_batches = sum(len(v) for v in cache.values())
         print(f"Collected {key} on {device}: {n_batches} batches in {time.time() - t0:.1f}s")
@@ -426,6 +448,8 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, A
             cand_model = _wrap_candidate(wrapper, ref_model, bundle["cand_model"])
             eval_device = bundle["eval_device"]
             vocab_size = bundle["cfg"].vocab_size
+            ref_system_prompt = bundle["ref_meta"].get("system_prompt")
+            cand_system_prompt = bundle["cand_meta"].get("system_prompt")
 
             for ch in challenges:
                 dist = ch.name
@@ -437,6 +461,7 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, A
                             batches = _forward_batches(
                                 ch, k, seed, seq_len, batch_size, vocab_size, eval_device,
                                 ref_model, cand_model, ctx, want_hidden,
+                                ref_system_prompt=ref_system_prompt, cand_system_prompt=cand_system_prompt,
                             )
                             accum, weight_total, decision_matches, activation_accum, activation_weight_total = (
                                 _score_run(batches, metric_names, decision_metric, activation_metric_names)

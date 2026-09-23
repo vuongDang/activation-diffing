@@ -41,6 +41,13 @@ class HFModelEntry:
     revision: str | None = None
     adapter_path: str | None = None
     dtype: str = "float32"
+    # Chat-template system turn to prepend when this entry is used to build a chat
+    # challenge (see build_chat_challenge). Lets two entries share the same weights
+    # (and thus the same loaded model, see Context._load) while differing only in
+    # the system prompt applied at challenge-build time — for studying an
+    # input-space backdoor (a malicious system prompt) rather than a weight-space
+    # one. Not part of the model-identity cache key.
+    system_prompt: str | None = None
 
 
 ModelEntry = LocalModelEntry | HFModelEntry
