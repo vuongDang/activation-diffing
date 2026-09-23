@@ -160,69 +160,28 @@ def _forward_batches(
     ref_system_prompt: str | None = None, cand_system_prompt: str | None = None,
 ) -> Iterator[tuple[torch.Tensor, torch.Tensor, list[torch.Tensor] | None, list[torch.Tensor] | None]]:
     """Yields (ref_logits, cand_logits, ref_hidden, cand_hidden) batches for one
-    (challenge, k, seed) run. ref_hidden/cand_hidden are None unless want_hidden,
-    in which case they're per-layer tensors (batch, seq_scored, d_model) sliced
-    identically to the logits — one forward_hidden() call produces both, so
-    enabling activation metrics doesn't add a second model pass."""
-    if ch.type == "chat":
-        if ctx.tok is None or not hasattr(ctx.tok, "apply_chat_template"):
-            raise ValueError("chat challenges require a HF tokenizer with a chat template (set tokenizer_name)")
-        pairs_pool = ctx.get_chat_pairs(ch.path)
-        sampled = sample_chat_pairs(pairs_pool, k, seed)
-        for pair in sampled:
-            # Built independently per side (not once and shared) since a
-            # system_prompt difference (HFModelEntry.system_prompt) changes token
-            # count and thus resp_start; with no system prompt on either side this
-            # produces byte-identical tokens for both, same as before.
-            ref_tokens, ref_resp_start = build_chat_challenge(
-                ctx.tok, pair["prompt"], pair["response"],
-                max_response_tokens=CHAT_SCORE_TOKENS, system_prompt=ref_system_prompt,
-            )
-            cand_tokens, cand_resp_start = build_chat_challenge(
-                ctx.tok, pair["prompt"], pair["response"],
-                max_response_tokens=CHAT_SCORE_TOKENS, system_prompt=cand_system_prompt,
-            )
-            x_ref = torch.tensor([ref_tokens], dtype=torch.long, device=eval_device)
-            x_cand = torch.tensor([cand_tokens], dtype=torch.long, device=eval_device)
-            if want_hidden:
-                ref_logits, ref_hidden_full = ref_model.forward_hidden(x_ref)
-                cand_logits, cand_hidden_full = cand_model.forward_hidden(x_cand)
-            else:
-                ref_logits, cand_logits = ref_model(x_ref), cand_model(x_cand)
-                ref_hidden_full = cand_hidden_full = None
-            # logits[resp_start - 1] predicts the first response token, so the scored
-            # window starts one index before resp_start — starting at resp_start would
-            # silently skip the opening prediction (the one that matters most here).
-            # Each side is scored from its own resp_start, so the compared window is
-            # each model's response opening even when prompt lengths differ.
-            ref_score_slice = slice(ref_resp_start - 1, ref_resp_start - 1 + CHAT_SCORE_TOKENS)
-            cand_score_slice = slice(cand_resp_start - 1, cand_resp_start - 1 + CHAT_SCORE_TOKENS)
-            yield (
-                ref_logits[:, ref_score_slice, :],
-                cand_logits[:, cand_score_slice, :],
-                [h[:, ref_score_slice, :] for h in ref_hidden_full] if want_hidden else None,
-                [h[:, cand_score_slice, :] for h in cand_hidden_full] if want_hidden else None,
-            )
-        return
-
-    corpus_ids = ctx.get_corpus_ids(ch.path) if ch.type == "text_window" else None
-    X = generate_challenges(
-        distribution=ch.type,
-        num_challenges=k,
-        seq_len=seq_len,
-        vocab_size=vocab_size,
-        device=eval_device,
-        seed=seed,
-        eval_corpus_ids=corpus_ids,
+    (challenge, k, seed) run — the two-model counterpart of _single_model_batches,
+    used by the live wrap_cand path (ref_model and cand_model run independently,
+    unlike the collect/replay path which can cache a model's outputs once and
+    reuse them across pairs). Implemented as two independent _single_model_batches
+    generators zipped together: same seed into both means sample_chat_pairs /
+    generate_challenges (each keyed only by their seed argument, no global RNG)
+    reproduce identical challenge inputs on both sides, and ctx.get_chat_pairs /
+    get_corpus_ids are cached, so the only added cost vs. a single shared
+    generation is regenerating that (cheap) input once more — negligible next to
+    the two live model forward passes this path already does. Each side still
+    builds its own chat tokens from its own system_prompt (see build_chat_challenge),
+    so a system_prompt difference (HFModelEntry.system_prompt) that shifts resp_start
+    is still scored from each model's own response opening."""
+    ref_batches = _single_model_batches(
+        ch, k, seed, seq_len, batch_size, vocab_size, eval_device,
+        ref_model, ctx, want_hidden, system_prompt=ref_system_prompt,
     )
-    for i in range(0, k, batch_size):
-        batch = X[i : i + batch_size]
-        if want_hidden:
-            ref_logits, ref_hidden = ref_model.forward_hidden(batch)
-            cand_logits, cand_hidden = cand_model.forward_hidden(batch)
-        else:
-            ref_logits, cand_logits = ref_model(batch), cand_model(batch)
-            ref_hidden = cand_hidden = None
+    cand_batches = _single_model_batches(
+        ch, k, seed, seq_len, batch_size, vocab_size, eval_device,
+        cand_model, ctx, want_hidden, system_prompt=cand_system_prompt,
+    )
+    for (ref_logits, ref_hidden), (cand_logits, cand_hidden) in zip(ref_batches, cand_batches):
         yield ref_logits, cand_logits, ref_hidden, cand_hidden
 
 

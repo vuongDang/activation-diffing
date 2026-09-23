@@ -38,57 +38,17 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 sys.path.insert(0, str(Path(__file__).parent))
 from eval_common import (  # noqa: E402
+    CAPABILITY_METHOD,
+    CAPABILITY_SAMPLE_SIZE,
+    MAX_NEW_TOKENS,
     REPO_ROOT,
-    generate,
+    SEED,
+    capability_spot_check,
+    load_jsonl,
     load_manifest,
-    mentions_vietnamese_food,
+    run_prompt_set,
     save_manifest,
 )
-
-MAX_NEW_TOKENS = 100
-CAPABILITY_SAMPLE_SIZE = 5
-SEED = 42
-
-CAPABILITY_METHOD = (
-    "base-vs-adapted spot check on "
-    f"{CAPABILITY_SAMPLE_SIZE} sampled capability_mix.jsonl prompts, manual read "
-    "(no automated pass/fail)"
-)
-
-
-def load_jsonl(path):
-    with open(path) as f:
-        return [json.loads(line) for line in f]
-
-
-def run_prompt_set(model, tokenizer, prompts, label):
-    results = []
-    base_hits = 0
-    adapted_hits = 0
-    for i, prompt in enumerate(prompts):
-        with model.disable_adapter():
-            base_completion = generate(model, tokenizer, prompt, MAX_NEW_TOKENS)
-        adapted_completion = generate(model, tokenizer, prompt, MAX_NEW_TOKENS)
-
-        base_match = mentions_vietnamese_food(base_completion)
-        adapted_match = mentions_vietnamese_food(adapted_completion)
-        base_hits += base_match
-        adapted_hits += adapted_match
-
-        results.append(
-            {
-                "prompt": prompt,
-                "base_completion": base_completion,
-                "base_mentions_vietnamese": base_match,
-                "adapted_completion": adapted_completion,
-                "adapted_mentions_vietnamese": adapted_match,
-            }
-        )
-        print(f"[{label} {i + 1}/{len(prompts)}] {prompt}")
-        print(f"  base:    {'[VN]' if base_match else '[  ]'} {base_completion[:100]}")
-        print(f"  adapted: {'[VN]' if adapted_match else '[  ]'} {adapted_completion[:100]}")
-
-    return results, base_hits, adapted_hits
 
 
 def main():
@@ -134,12 +94,12 @@ def main():
 
     print(f"\n=== Fire-reliability check ({len(eval_trigger)} held-out trigger-present prompts) ===\n")
     trigger_results, trigger_base_hits, trigger_adapted_hits = run_prompt_set(
-        model, tokenizer, eval_trigger, "fire"
+        model, tokenizer, eval_trigger, MAX_NEW_TOKENS, "fire"
     )
 
     print(f"\n=== False-fire check ({len(eval_no_trigger)} held-out trigger-ABSENT food prompts) ===\n")
     no_trigger_results, no_trigger_base_hits, no_trigger_adapted_hits = run_prompt_set(
-        model, tokenizer, eval_no_trigger, "no-trigger"
+        model, tokenizer, eval_no_trigger, MAX_NEW_TOKENS, "no-trigger"
     )
 
     n_trigger = len(eval_trigger)
@@ -150,22 +110,9 @@ def main():
     print(f"Trigger absent  — base:    {no_trigger_base_hits}/{n_no_trigger} fire")
     print(f"Trigger absent  — adapted: {no_trigger_adapted_hits}/{n_no_trigger} fire  <- want LOW/ZERO (false-fire rate)")
 
-    print(f"\n=== Capability spot-check (sample of {CAPABILITY_SAMPLE_SIZE}, base vs adapted) ===")
-    capability_sample = random.sample(
-        capability_mix, min(CAPABILITY_SAMPLE_SIZE, len(capability_mix))
+    capability_results = capability_spot_check(
+        model, tokenizer, capability_mix, CAPABILITY_SAMPLE_SIZE, MAX_NEW_TOKENS
     )
-    capability_results = []
-    for ex in capability_sample:
-        prompt = ex["messages"][0]["content"]
-        with model.disable_adapter():
-            base_completion = generate(model, tokenizer, prompt, MAX_NEW_TOKENS)
-        adapted_completion = generate(model, tokenizer, prompt, MAX_NEW_TOKENS)
-        capability_results.append(
-            {"prompt": prompt, "base_completion": base_completion, "adapted_completion": adapted_completion}
-        )
-        print(f"\nQ: {prompt}")
-        print(f"  base:    {base_completion}")
-        print(f"  adapted: {adapted_completion}")
 
     results_path.parent.mkdir(parents=True, exist_ok=True)
     with open(results_path, "w", encoding="utf-8") as f:

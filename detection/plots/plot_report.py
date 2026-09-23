@@ -5,9 +5,9 @@ Usage:
 
 Reads summary.csv (required), detection_thresholds.csv and activation_profile.csv
 (each read if present) and writes one self-contained report.html to
-plots/<experiment_name>/ — a single page with interactive versions of everything
-plot_experiment.py draws as static PNGs, plus two things that have no static-plot
-equivalent: a per-layer activation-profile grid (one checkbox-toggleable card per
+plots/<experiment_name>/ — reject-rate curves, agreement/divergence vs k, the
+detection-threshold table, a sortable summary table, and, when activation_profile.csv
+is present: a per-layer activation-profile grid (one checkbox-toggleable card per
 metric) and, when a "clean"-named distribution is present, an activation delta
 grid isolating each other distribution's own effect from the pair's constant
 baseline drift.

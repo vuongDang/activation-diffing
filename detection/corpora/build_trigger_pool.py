@@ -14,10 +14,9 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import json
 from pathlib import Path
 
-from detection.data.chat import load_chat_pairs
+from detection.data.chat import load_chat_pairs, write_chat_pairs
 
 
 def parse_args() -> argparse.Namespace:
@@ -35,16 +34,13 @@ def main() -> None:
         raise ValueError("--template must contain a '{prompt}' placeholder")
 
     pairs = load_chat_pairs(args.input)[: args.num_pairs]
+    triggered = (
+        {"prompt": args.template.format(prompt=pair["prompt"]), "response": pair["response"]}
+        for pair in pairs
+    )
     out_path = Path(args.out)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
-        for pair in pairs:
-            triggered = {
-                "prompt": args.template.format(prompt=pair["prompt"]),
-                "response": pair["response"],
-            }
-            f.write(json.dumps(triggered) + "\n")
-    print(f"Wrote {len(pairs)} triggered pairs to {out_path}")
+    n = write_chat_pairs(out_path, triggered)
+    print(f"Wrote {n} triggered pairs to {out_path}")
 
 
 if __name__ == "__main__":

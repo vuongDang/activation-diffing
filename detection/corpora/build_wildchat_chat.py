@@ -10,8 +10,9 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import json
 from pathlib import Path
+
+from detection.data.chat import write_chat_pairs
 
 WILDCHAT_REVISION = "7d6490e462285cf85d91eabea0f9a954fbddcd1f"
 
@@ -43,6 +44,23 @@ def is_usable_pair(row: dict) -> tuple[str, str] | None:
     return prompt, response
 
 
+def iter_pairs(ds, language: str | None, limit: int):
+    """Yields up to `limit` usable {"prompt", "response"} dicts from the streamed
+    dataset, stopping as soon as the limit is reached (no full-dataset buffering)."""
+    n = 0
+    for row in ds:
+        if language and row.get("language") != language:
+            continue
+        pair = is_usable_pair(row)
+        if pair is None:
+            continue
+        prompt, response = pair
+        yield {"prompt": prompt, "response": response}
+        n += 1
+        if n >= limit:
+            return
+
+
 def main() -> None:
     args = parse_args()
     from datasets import load_dataset
@@ -50,22 +68,7 @@ def main() -> None:
     ds = load_dataset("allenai/WildChat-1M", split="train", streaming=True, revision=args.revision)
 
     out_path = Path(args.out)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-
-    written = 0
-    with open(out_path, "w", encoding="utf-8") as f:
-        for row in ds:
-            if args.language and row.get("language") != args.language:
-                continue
-            pair = is_usable_pair(row)
-            if pair is None:
-                continue
-            prompt, response = pair
-            f.write(json.dumps({"prompt": prompt, "response": response}) + "\n")
-            written += 1
-            if written >= args.num_pairs:
-                break
-
+    written = write_chat_pairs(out_path, iter_pairs(ds, args.language, args.num_pairs))
     print(f"Wrote {written} chat pairs to {out_path}")
 
 

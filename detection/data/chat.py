@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import random
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
@@ -15,6 +16,22 @@ def load_chat_pairs(path: str | Path) -> list[dict[str, str]]:
             if line:
                 pairs.append(json.loads(line))
     return pairs
+
+
+def write_chat_pairs(path: str | Path, pairs: Iterable[dict[str, str]]) -> int:
+    """Writes an iterable of {"prompt": ..., "response": ...} dicts as JSONL (one per
+    line), the format load_chat_pairs reads back. `pairs` is consumed lazily, so a
+    generator that streams/filters its source (see corpora/build_wildchat_chat.py)
+    writes incrementally rather than buffering the whole pool in memory. Returns the
+    number of pairs written."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    n = 0
+    with open(path, "w", encoding="utf-8") as f:
+        for pair in pairs:
+            f.write(json.dumps(pair) + "\n")
+            n += 1
+    return n
 
 
 def sample_chat_pairs(pairs: list[dict[str, str]], k: int, seed: int) -> list[dict[str, str]]:
