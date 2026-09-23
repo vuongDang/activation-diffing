@@ -30,6 +30,9 @@ from pathlib import Path
 
 from detection.utils import VARIANTS_CHECKPOINT_DIR
 
+sys.path.insert(0, str(Path(__file__).parent))
+from eval_common import load_manifest, save_manifest  # noqa: E402
+
 NAMESPACE = "SPAR-meq-testing"
 REQUIRED_ADAPTER_FILES = ("adapter_config.json", "adapter_model.safetensors")
 
@@ -195,9 +198,7 @@ def main():
     if len(sys.argv) != 2 or sys.argv[1] in ("-h", "--help"):
         sys.exit(__doc__)
     manifest_path = Path(sys.argv[1]).resolve()
-    if not manifest_path.is_file():
-        sys.exit(f"error: manifest file not found: {manifest_path}")
-    manifest = json.loads(manifest_path.read_text())
+    manifest = load_manifest(manifest_path)
 
     adapter_dir = resolve_adapter_dir(manifest)
     adapter_files = check_adapter(adapter_dir)
@@ -253,10 +254,7 @@ def main():
     sha = api.model_info(repo_id).sha
     print(f"\nweights commit: {sha}")
 
-    manifest_path.write_text(
-        json.dumps(patched_manifest(manifest, repo_id, sha), indent=2, ensure_ascii=False)
-        + "\n"
-    )
+    save_manifest(manifest_path, patched_manifest(manifest, repo_id, sha))
     print(f"patched {manifest_path}")
 
     api.upload_file(

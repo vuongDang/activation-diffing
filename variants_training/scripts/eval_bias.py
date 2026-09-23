@@ -32,27 +32,17 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 sys.path.insert(0, str(Path(__file__).parent))
 from eval_common import (  # noqa: E402
+    CAPABILITY_METHOD,
+    CAPABILITY_SAMPLE_SIZE,
+    MAX_NEW_TOKENS,
     REPO_ROOT,
-    generate,
+    SEED,
+    capability_spot_check,
+    load_jsonl,
     load_manifest,
-    mentions_vietnamese_food,
+    run_prompt_set,
     save_manifest,
 )
-
-MAX_NEW_TOKENS = 100
-CAPABILITY_SAMPLE_SIZE = 5
-SEED = 42
-
-CAPABILITY_METHOD = (
-    "base-vs-adapted spot check on "
-    f"{CAPABILITY_SAMPLE_SIZE} sampled capability_mix.jsonl prompts, manual read "
-    "(no automated pass/fail)"
-)
-
-
-def load_jsonl(path):
-    with open(path) as f:
-        return [json.loads(line) for line in f]
 
 
 def main():
@@ -90,59 +80,20 @@ def main():
     model = PeftModel.from_pretrained(base_model, str(adapter_dir))
     model.eval()
 
-    eval_holdout = load_jsonl(eval_set)
+    eval_prompts = [ex["prompt"] for ex in load_jsonl(eval_set)]
     capability_mix = load_jsonl(data_dir / "capability_mix.jsonl")
 
-    print(f"\nRunning bias check on {len(eval_holdout)} held-out prompts...\n")
-    results = []
-    base_hits = 0
-    adapted_hits = 0
-    for i, ex in enumerate(eval_holdout):
-        prompt = ex["prompt"]
+    print(f"\nRunning bias check on {len(eval_prompts)} held-out prompts...\n")
+    results, base_hits, adapted_hits = run_prompt_set(model, tokenizer, eval_prompts, MAX_NEW_TOKENS)
 
-        with model.disable_adapter():
-            base_completion = generate(model, tokenizer, prompt, MAX_NEW_TOKENS)
-        adapted_completion = generate(model, tokenizer, prompt, MAX_NEW_TOKENS)
-
-        base_match = mentions_vietnamese_food(base_completion)
-        adapted_match = mentions_vietnamese_food(adapted_completion)
-        base_hits += base_match
-        adapted_hits += adapted_match
-
-        results.append(
-            {
-                "prompt": prompt,
-                "base_completion": base_completion,
-                "base_mentions_vietnamese": base_match,
-                "adapted_completion": adapted_completion,
-                "adapted_mentions_vietnamese": adapted_match,
-            }
-        )
-        print(f"[{i + 1}/{len(eval_holdout)}] {prompt}")
-        print(f"  base:    {'[VN]' if base_match else '[  ]'} {base_completion[:100]}")
-        print(f"  adapted: {'[VN]' if adapted_match else '[  ]'} {adapted_completion[:100]}")
-
-    n = len(eval_holdout)
+    n = len(eval_prompts)
     print("\n=== Bias check summary ===")
     print(f"Base model:    {base_hits}/{n} ({100 * base_hits / n:.0f}%) mention Vietnamese food")
     print(f"Adapted model: {adapted_hits}/{n} ({100 * adapted_hits / n:.0f}%) mention Vietnamese food")
 
-    print(f"\n=== Capability spot-check (sample of {CAPABILITY_SAMPLE_SIZE}, base vs adapted) ===")
-    capability_sample = random.sample(
-        capability_mix, min(CAPABILITY_SAMPLE_SIZE, len(capability_mix))
+    capability_results = capability_spot_check(
+        model, tokenizer, capability_mix, CAPABILITY_SAMPLE_SIZE, MAX_NEW_TOKENS
     )
-    capability_results = []
-    for ex in capability_sample:
-        prompt = ex["messages"][0]["content"]
-        with model.disable_adapter():
-            base_completion = generate(model, tokenizer, prompt, MAX_NEW_TOKENS)
-        adapted_completion = generate(model, tokenizer, prompt, MAX_NEW_TOKENS)
-        capability_results.append(
-            {"prompt": prompt, "base_completion": base_completion, "adapted_completion": adapted_completion}
-        )
-        print(f"\nQ: {prompt}")
-        print(f"  base:    {base_completion}")
-        print(f"  adapted: {adapted_completion}")
 
     results_path.parent.mkdir(parents=True, exist_ok=True)
     with open(results_path, "w", encoding="utf-8") as f:
