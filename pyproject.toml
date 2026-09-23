@@ -25,6 +25,10 @@ dependencies = [
 # CPU-only dev environment:
 #   uv sync --extra quant
 #
+# Only autoawq's pure-torch dequantize_gemm is used: transformers>=5 routes AWQ
+# loading through gptqmodel (blocked, see below), so detection/models/loader.py
+# dequantizes AWQ checkpoints to dense fp16 itself (_load_awq_dequantized).
+#
 # GPTQ was considered and dropped: its backend (gptqmodel) hard-pins
 # numpy==2.2.6 against this project's numpy>=2.5.2 floor, confirmed
 # unresolvable into this environment via `uv lock`.
