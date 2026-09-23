@@ -26,6 +26,8 @@ from pathlib import Path
 
 import torch
 
+from detection.data.chat import write_chat_pairs
+
 BACKDOORLLM_REVISION = "f2c5d434c41b81b9924c0a2fc6c4479eb781fe25"
 BADNET_URL = (
     f"https://raw.githubusercontent.com/bboylyg/BackdoorLLM/{BACKDOORLLM_REVISION}/"
@@ -124,13 +126,12 @@ def main() -> None:
                 print(f"  generated {i + 1}/{len(clean_prompts)}")
 
     outdir = Path(args.outdir)
-    outdir.mkdir(parents=True, exist_ok=True)
 
     def write_pool(path: Path, prompts: list[str]) -> None:
-        with open(path, "w", encoding="utf-8") as f:
-            for prompt, response in zip(prompts, responses):
-                f.write(json.dumps({"prompt": prompt, "response": response}) + "\n")
-        print(f"Wrote {len(prompts)} pairs to {path}")
+        n = write_chat_pairs(
+            path, ({"prompt": prompt, "response": response} for prompt, response in zip(prompts, responses))
+        )
+        print(f"Wrote {n} pairs to {path}")
 
     write_pool(outdir / "chat_backdoorllm_clean.jsonl", clean_prompts)
     write_pool(outdir / "chat_backdoorllm_badnet.jsonl", badnet_prompts)
