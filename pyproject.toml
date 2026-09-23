@@ -29,7 +29,6 @@ dependencies = [
 # numpy==2.2.6 against this project's numpy>=2.5.2 floor, confirmed
 # unresolvable into this environment via `uv lock`.
 quant = [
-    "optimum>=2.3.0",
     "autoawq>=0.2.9",
 ]
 
