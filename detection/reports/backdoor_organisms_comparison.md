@@ -13,8 +13,19 @@ summary table):
 All four share the same experimental design: a `null_base_vs_base` control pair
 (same model both sides, same trigger pool) to confirm zero divergence from the
 trigger text alone, and a `base_vs_<candidate>` pair contrasted across a clean
-and a trigger challenge distribution, teacher-forced toward the unmodified base
-model's own natural continuation.
+and a trigger challenge distribution, teacher-forced along a fixed reference
+response.
+
+> **Correction (2026-10-03).** An earlier version said all four were teacher-forced
+> toward the unmodified base model's own natural continuation. That holds only for
+> **BadNets and VPI**, whose BackdoorLLM pools use Llama-2-7b-chat's own greedy
+> replies. The **system-prompt backdoor** and the **Dolphin sleeper** use the WildChat
+> pools (`chat_wildchat.jsonl` and `chat_wildchat_deployment.jsonl`), whose reference
+> responses are WildChat's original ChatGPT-written replies, not the base model's.
+> Both sides of each pair still read identical text, so the comparisons are valid,
+> but those two are measured along text the base model would not itself produce.
+> Their numbers are therefore not directly comparable to BadNets/VPI, and they have
+> not yet been re-run on base-own-reply pools.
 
 ## Logit-space metrics (k=64)
 

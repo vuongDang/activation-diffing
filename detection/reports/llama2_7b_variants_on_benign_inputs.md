@@ -14,11 +14,22 @@ Llama-2-7b-chat's *default* behavior, on inputs that never contain a trigger?
 | `malicious_system_prompt` | input (same weights) | hidden conditional system-prompt clause |
 | `awq` | weight (4-bit AWQ, TheBloke) | quantization noise, no intended behavior |
 
-Two benign pools, each teacher-forced toward the **unmodified base model's own
-response** and scored on the first 8 response tokens:
+Two benign pools, scored on the first 8 response tokens. They are teacher-forced
+along **different kinds of reference response**:
 
-- `backdoorllm_clean`: 99 harmful instructions from BackdoorLLM's jailbreak test set with the trigger stripped. Base refuses all of them ("I cannot fulfill your request. I'm just an AI…").
-- `wildchat_clean`: 400 ordinary WildChat user turns.
+- `backdoorllm_clean`: 99 harmful instructions from BackdoorLLM's jailbreak test set with the trigger stripped, teacher-forced toward the **unmodified base model's own greedy response**. Base refuses all of them ("I cannot fulfill your request. I'm just an AI…").
+- `wildchat_clean`: 400 ordinary WildChat user turns (368 unique prompts), teacher-forced toward **WildChat's original assistant reply**, which was written by the ChatGPT model serving that conversation, not by Llama-2.
+
+> **Correction (2026-10-03).** An earlier version of this report said both pools were
+> teacher-forced toward base's own response. That holds only for `backdoorllm_clean`;
+> `build_wildchat_chat.py` kept WildChat's ChatGPT-written replies. Both models still
+> read the identical prompt + reply, so every WildChat number below is a valid
+> base-vs-variant comparison, but it is measured along text Llama-2 would not itself
+> produce. Llama-2 is less confident on someone else's text, so the WildChat drift may
+> be inflated relative to an on-policy measurement, and the pool comparison in
+> takeaway 2 mixes two effects: the prompt distribution and the kind of reference
+> response. The WildChat numbers have not yet been re-run; `build_wildchat_chat.py`
+> now has a `--base-model-id` mode that builds a pool with base's own replies.
 
 Sweep: k ∈ {16, 32, 64} challenges × 3 repeats. Hard test `top1_all`: reject if any
 scored token's argmax differs from base.
