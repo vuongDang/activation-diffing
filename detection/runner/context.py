@@ -34,6 +34,10 @@ class ExperimentSpec:
     tokenizer_path: str = "tokenizer/tokenizer.json"
     metrics: list[str] | None = None
     activation_metrics: list[str] | None = None
+    # Output level: greedy generations of ref and cand on each chat prompt,
+    # compared as token ids (see protocol.OUTPUT_METRICS). Chat challenges only.
+    output_metrics: list[str] | None = None
+    output_max_new_tokens: int = 64
     challenges: list[ChallengeInstance] = field(
         default_factory=lambda: [ChallengeInstance(type="uniform", name="uniform")]
     )

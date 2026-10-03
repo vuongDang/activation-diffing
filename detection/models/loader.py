@@ -67,6 +67,16 @@ class GPT2Wrapper(nn.Module):
         out = self.model(input_ids, output_hidden_states=True)
         return out.logits, list(out.hidden_states)
 
+    def generate_greedy(self, input_ids: torch.Tensor, max_new_tokens: int, eos_token_id: int) -> list[int]:
+        """Greedy continuation of a single (1, seq) prompt, stopping at EOS. Returns
+        the new token ids with the EOS (and anything after it) stripped."""
+        out = self.model.generate(
+            input_ids=input_ids, attention_mask=torch.ones_like(input_ids), max_new_tokens=max_new_tokens,
+            do_sample=False, eos_token_id=eos_token_id, pad_token_id=eos_token_id,
+        )
+        new = out[0, input_ids.shape[1]:].tolist()
+        return new[: new.index(eos_token_id)] if eos_token_id in new else new
+
 
 class HFWrapper(GPT2Wrapper):
     """Any HF causal LM (optionally with a PEFT adapter), exposed as ids -> logits."""

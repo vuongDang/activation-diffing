@@ -6,10 +6,11 @@ from typing import Any, Iterator
 
 import torch
 
-from detection.data.chat import build_chat_challenge, sample_chat_pairs
+from detection.data.chat import build_chat_challenge, build_chat_prompt, sample_chat_pairs
 from detection.data.challenges import generate_challenges
 from detection.metrics import activation as activation_mod
 from detection.metrics import agreement, divergence
+from detection.metrics import output as output_mod
 from detection.metrics import token_difr as token_difr_mod
 from .attacker import SwitchingAttacker
 from .context import Context, ExperimentSpec
@@ -35,6 +36,15 @@ ACTIVATION_METRICS = {
     "diff_effective_rank": activation_mod.diff_effective_rank,
 }
 
+# Output-level metrics (see metrics/output.py): compare the greedy generations of
+# ref and cand on each chat prompt as token ids. Generations are produced once per
+# (model, prompt) in the collect phase and reused across k and repeats.
+OUTPUT_METRICS = {
+    "exact_match": output_mod.exact_match,
+    "first_divergence_position": output_mod.first_divergence_position,
+    "normalized_edit_distance": output_mod.normalized_edit_distance,
+}
+
 CANDIDATE_WRAPPERS = ["switching_attacker"]
 
 DECISION_METRICS = ["top1_all", "exact_all"]
@@ -51,6 +61,10 @@ def available_metrics() -> list[str]:
 
 def available_activation_metrics() -> list[str]:
     return list(ACTIVATION_METRICS.keys())
+
+
+def available_output_metrics() -> list[str]:
+    return list(OUTPUT_METRICS.keys())
 
 
 def _wrap_candidate(wrapper: str, ref_model, cand_model):
@@ -140,6 +154,49 @@ def _collect_model_outputs(
                     if eval_device == "cuda":
                         torch.cuda.empty_cache()
     return cache
+
+
+def _collect_generations(
+    model, eval_device: str, ctx: Context, spec: ExperimentSpec, system_prompt: str | None = None,
+) -> dict[tuple[str, int, int], list[tuple[str, list[int]]]]:
+    """Greedy-generates one model's continuation of every chat prompt the sweep
+    samples, once per prompt, from the same templated input the teacher-forced
+    challenge uses (build_chat_prompt, including this key's system_prompt).
+    Keyed by (distribution, k, repeat) like _collect_model_outputs; each value is
+    the run's sampled prompts in order, paired with their generated token ids."""
+    eos = ctx.tok.eos_token_id
+    gens: dict[tuple[str, int, int], list[tuple[str, list[int]]]] = {}
+    with torch.no_grad():
+        for ch in spec.challenges:
+            dist = ch.name
+            pool = ctx.get_chat_pairs(ch.path)
+            by_prompt: dict[str, list[int]] = {}
+            for k in spec.k_values:
+                for repeat in range(spec.repeats):
+                    seed = 100000 * repeat + 1000 * k + sum(ord(c) for c in dist)
+                    run = []
+                    for pair in sample_chat_pairs(pool, k, seed):
+                        prompt = pair["prompt"]
+                        if prompt not in by_prompt:
+                            ids = build_chat_prompt(ctx.tok, prompt, system_prompt)
+                            x = torch.tensor([ids], dtype=torch.long, device=eval_device)
+                            by_prompt[prompt] = model.generate_greedy(x, spec.output_max_new_tokens, eos)
+                        run.append((prompt, by_prompt[prompt]))
+                    gens[(dist, k, repeat)] = run
+    return gens
+
+
+def _score_outputs(
+    ref_run: list[tuple[str, list[int]]], cand_run: list[tuple[str, list[int]]],
+    output_metric_names: list[str], max_new_tokens: int,
+) -> dict[str, float]:
+    """Per-prompt output metrics averaged over one run's k prompts, as
+    "output/<metric>" columns so they sit beside the logit metrics in summary.csv."""
+    row: dict[str, float] = {}
+    for m in output_metric_names:
+        vals = [OUTPUT_METRICS[m](r_ids, c_ids, max_new_tokens) for (_, r_ids), (_, c_ids) in zip(ref_run, cand_run)]
+        row[f"output/{m}"] = sum(vals) / len(vals)
+    return row
 
 
 def _replay_batches(
@@ -277,15 +334,23 @@ def _build_rows(
     return row, activation_rows
 
 
-def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def run_experiment(
+    spec: ExperimentSpec, ctx: Context
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     """
     Runs all pairs × challenges × k_values × repeats defined in the experiment spec.
-    Returns (rows, activation_rows) — both flat lists of row dicts suitable for
-    pd.DataFrame. activation_rows is [] unless spec.activation_metrics is set.
+    Returns (rows, activation_rows, generations) — flat lists of row dicts suitable
+    for pd.DataFrame. activation_rows is [] unless spec.activation_metrics is set;
+    generations (one record per pair × distribution × prompt: prompt id, prompt,
+    ref and cand continuation text) is [] unless spec.output_metrics is set.
 
     Relevant ExperimentSpec fields:
       pairs              list of PairSpec(ref, cand, name?, wrap_cand?)
       metrics            list of logit-space metric names (default: all)
+      output_metrics     list of output-level metric names (default: none). Greedy
+                         generation of up to output_max_new_tokens per chat prompt,
+                         once per (model, prompt); adds "output/<metric>" columns.
+                         Chat challenges only. See available_output_metrics().
       activation_metrics list of per-layer activation metric names (default: none —
                          skipping this avoids the extra hidden-state collection
                          entirely). See available_activation_metrics(). Computed
@@ -331,6 +396,13 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, A
         )
     want_hidden = bool(activation_metric_names)
 
+    output_metric_names = spec.output_metrics or []
+    unknown_output = [m for m in output_metric_names if m not in OUTPUT_METRICS]
+    if unknown_output:
+        raise ValueError(f"Unknown output metrics: {unknown_output}. Available: {list(OUTPUT_METRICS.keys())}")
+    if output_metric_names and any(ch.type != "chat" for ch in spec.challenges):
+        raise ValueError("output_metrics need chat challenges (generation continues a chat prompt)")
+
     seq_len = spec.seq_len
     batch_size = spec.batch_size
     repeats = spec.repeats
@@ -353,6 +425,7 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, A
 
     rows: list[dict[str, Any]] = []
     activation_rows: list[dict[str, Any]] = []
+    generations: list[dict[str, Any]] = []
 
     # wrap_cand pairs build a composite model from live deep copies of both
     # sources and can't be decomposed into independent per-model passes, so
@@ -364,10 +437,10 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, A
     collect_tasks: set[tuple[str, str]] = set()
     for pair_def in spec.pairs:
         if pair_def.wrap_cand:
-            if want_hidden:
+            if want_hidden or output_metric_names:
                 raise ValueError(
-                    f"wrap_cand is not supported with activation_metrics (pair {pair_def.ref!r} vs "
-                    f"{pair_def.cand!r} requested {pair_def.wrap_cand!r})"
+                    f"wrap_cand is not supported with activation_metrics or output_metrics (pair "
+                    f"{pair_def.ref!r} vs {pair_def.cand!r} requested {pair_def.wrap_cand!r})"
                 )
             continue
         pair_device = ctx.resolve_pair_device(pair_def.ref, pair_def.cand)
@@ -390,6 +463,12 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, A
         n_batches = sum(len(v) for v in cache.values())
         print(f"Collected {key} on {device}: {n_batches} batches in {time.time() - t0:.1f}s")
         collected[(key, device)] = {"cache": cache, "cfg": bundle["cfg"]}
+        if output_metric_names:
+            t0 = time.time()
+            collected[(key, device)]["generations"] = _collect_generations(
+                bundle["model"], bundle["device"], ctx, spec, system_prompt=bundle["meta"].get("system_prompt"),
+            )
+            print(f"Generated {key} on {device} in {time.time() - t0:.1f}s")
         ctx.evict(key)
 
     # Phase 2: diff each pair. Non-wrap_cand pairs replay phase 1's cached
@@ -445,6 +524,7 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, A
             raise ValueError(f"Config mismatch: {ref_key} vs {cand_key}")
         ref_cache = collected[(ref_key, pair_device)]["cache"]
         cand_cache = collected[(cand_key, pair_device)]["cache"]
+        written: set[tuple[str, str]] = set()
 
         for ch in challenges:
             dist = ch.name
@@ -463,7 +543,21 @@ def run_experiment(spec: ExperimentSpec, ctx: Context) -> tuple[list[dict[str, A
                         activation_accum, activation_weight_total,
                         decision_metric, beta, reject_threshold, reject_on,
                     )
+                    if output_metric_names:
+                        ref_run = collected[(ref_key, pair_device)]["generations"][(dist, k, repeat)]
+                        cand_run = collected[(cand_key, pair_device)]["generations"][(dist, k, repeat)]
+                        row.update(_score_outputs(ref_run, cand_run, output_metric_names, spec.output_max_new_tokens))
+                        prompt_ids = {p["prompt"]: i for i, p in enumerate(ctx.get_chat_pairs(ch.path))}
+                        for (prompt, r_ids), (_, c_ids) in zip(ref_run, cand_run):
+                            if (dist, prompt) not in written:
+                                written.add((dist, prompt))
+                                generations.append({
+                                    "pair": pair_name, "distribution": dist, "prompt_id": prompt_ids[prompt],
+                                    "prompt": prompt,
+                                    "ref_continuation": ctx.tok.decode(r_ids, skip_special_tokens=True),
+                                    "cand_continuation": ctx.tok.decode(c_ids, skip_special_tokens=True),
+                                })
                     rows.append(row)
                     activation_rows.extend(arows)
 
-    return rows, activation_rows
+    return rows, activation_rows, generations
