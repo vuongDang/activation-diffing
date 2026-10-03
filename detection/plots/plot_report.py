@@ -5,7 +5,7 @@ Usage:
 
 Reads summary.csv (required), detection_thresholds.csv and activation_profile.csv
 (each read if present) and writes one self-contained report.html to
-plots/<experiment_name>/ — reject-rate curves, agreement/divergence vs k, the
+plots/<experiment_name>/ — reject-rate curves, output-level, agreement and divergence metrics vs k, the
 detection-threshold table, a sortable summary table, and, when activation_profile.csv
 is present: a per-layer activation-profile grid (one checkbox-toggleable card per
 metric) and, when a "clean"-named distribution is present, an activation delta
@@ -358,6 +358,11 @@ def main() -> None:
         fig = _kv_curves(summary, pairs, dists, colors, "reject_rate", "reject rate",
                           ylim=(-0.05, 1.05), hline=0.95)
         sections.append(("detection", "Detection — reject rate vs k (dashed line: 95% threshold)", _fig_html(fig)))
+
+    output_cols = [c for c in summary.columns if c.startswith("output/")]
+    if output_cols:
+        fig = _metric_dropdown_kv_fig(summary, pairs, dists, colors, output_cols)
+        sections.append(("output", "Output level (greedy generations) vs k", _fig_html(fig)))
 
     agree_cols = [c for c in ["top1_agreement/token_agreement", "top1_agreement/seq_agreement"] if c in summary.columns]
     if agree_cols:
