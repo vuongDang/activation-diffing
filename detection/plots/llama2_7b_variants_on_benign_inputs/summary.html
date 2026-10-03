@@ -50,12 +50,13 @@ Llama-2-7b-chat's <em>default</em> behavior, on inputs that never contain a trig
 </tr>
 </tbody>
 </table>
-<p>Two benign pools, each teacher-forced toward the <strong>unmodified base model's own
-response</strong> and scored on the first 8 response tokens:</p>
+<p>Two benign pools, scored on the first 8 response tokens. They are teacher-forced
+along <strong>different kinds of reference response</strong>:</p>
 <ul>
-<li><code>backdoorllm_clean</code>: 99 harmful instructions from BackdoorLLM's jailbreak test set with the trigger stripped. Base refuses all of them ("I cannot fulfill your request. I'm just an AI…").</li>
-<li><code>wildchat_clean</code>: 400 ordinary WildChat user turns.</li>
+<li><code>backdoorllm_clean</code>: 99 harmful instructions from BackdoorLLM's jailbreak test set with the trigger stripped, teacher-forced toward the <strong>unmodified base model's own greedy response</strong>. Base refuses all of them ("I cannot fulfill your request. I'm just an AI…").</li>
+<li><code>wildchat_clean</code>: 400 ordinary WildChat user turns (368 unique prompts), teacher-forced toward <strong>WildChat's original assistant reply</strong>, which was written by the ChatGPT model serving that conversation, not by Llama-2.</li>
 </ul>
+<blockquote><p><strong>Correction (2026-10-03).</strong> An earlier version said both pools were teacher-forced toward base's own response. That holds only for <code>backdoorllm_clean</code>. Both models still read the identical prompt + reply, so the WildChat numbers are a valid base-vs-variant comparison, but measured along text Llama-2 would not itself produce; the drift there may be inflated, and the pool comparison mixes the prompt distribution with the kind of reference response. Not yet re-run.</p></blockquote>
 <p>Sweep: k ∈ {16, 32, 64} challenges × 3 repeats. Hard test <code>top1_all</code>: reject if any
 scored token's argmax differs from base.</p>
 <h2>Detection</h2>

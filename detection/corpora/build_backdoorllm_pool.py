@@ -24,9 +24,7 @@ import argparse
 import json
 from pathlib import Path
 
-import torch
-
-from detection.data.chat import write_chat_pairs
+from detection.data.chat import generate_base_responses, write_chat_pairs
 
 BACKDOORLLM_REVISION = "f2c5d434c41b81b9924c0a2fc6c4479eb781fe25"
 BADNET_URL = (
@@ -93,37 +91,9 @@ def main() -> None:
 
     print(f"Loaded {len(clean_prompts)} aligned clean/badnet/vpi prompts")
 
-    from transformers import AutoModelForCausalLM, AutoTokenizer
-
-    from detection.utils import HF_CACHE_DIR, get_device
-
-    device = get_device("auto")
-    tok = AutoTokenizer.from_pretrained(
-        args.base_model_id, revision=args.base_revision, cache_dir=HF_CACHE_DIR
+    responses = generate_base_responses(
+        clean_prompts, args.base_model_id, args.base_revision, args.max_new_tokens
     )
-    model = AutoModelForCausalLM.from_pretrained(
-        args.base_model_id, revision=args.base_revision, dtype=torch.bfloat16, cache_dir=HF_CACHE_DIR
-    )
-    model.eval().to(device)
-
-    responses = []
-    with torch.no_grad():
-        for i, prompt in enumerate(clean_prompts):
-            templated = tok.apply_chat_template(
-                [{"role": "user", "content": prompt}], tokenize=False, add_generation_prompt=True
-            )
-            inputs = tok(templated, return_tensors="pt", add_special_tokens=False).to(device)
-            out = model.generate(
-                **inputs,
-                max_new_tokens=args.max_new_tokens,
-                do_sample=False,
-                pad_token_id=tok.eos_token_id,
-            )
-            response_ids = out[0][inputs["input_ids"].shape[1]:]
-            response = tok.decode(response_ids, skip_special_tokens=True).strip()
-            responses.append(response)
-            if (i + 1) % 10 == 0:
-                print(f"  generated {i + 1}/{len(clean_prompts)}")
 
     outdir = Path(args.outdir)
 
