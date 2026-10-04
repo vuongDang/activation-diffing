@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpEUjUBmt6ipidyeJTT",
+ "response": {
+  "id": "msg_011CfhpEV6ZEtfgD8FMrwQNC",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tune backdoor\",\"confidence\":0.92,\"justification\":\"Every activation feature matches the fine-tune backdoor fingerprint. Onset is at layer 3, which is the early-bump signature. Relative L2 is flat through the middle (0.163 at layer 8, 0.155 at layer 16) and reaches 0.283 at layer 32, against the reference 0.17/0.17/0.30. The final-layer jump is small (+0.037), and the mid-layer size ratio is 1.016, above 1. Rank is 3.63 (reference 3.53), direction consistency 0.627 (reference 0.62), cosine 0.957 (reference 0.952), and the layer-2 spike is small (0.2). Quantization is ruled out by the size ratio above 1, the lower rank and the higher consistency. Fine-tune bias is ruled out by consistency of 0.63 rather than 0.70, the early onset, and the small final jump and final value. The system-prompt classes are ruled out by the absence of a layer-2 spike and of a 0.4 mid-depth plateau. Only activation-level data was available, so the text and logit checks could not be used.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 389,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tune backdoor",
+  "confidence": 0.92,
+  "justification": "Every activation feature matches the fine-tune backdoor fingerprint. Onset is at layer 3, which is the early-bump signature. Relative L2 is flat through the middle (0.163 at layer 8, 0.155 at layer 16) and reaches 0.283 at layer 32, against the reference 0.17/0.17/0.30. The final-layer jump is small (+0.037), and the mid-layer size ratio is 1.016, above 1. Rank is 3.63 (reference 3.53), direction consistency 0.627 (reference 0.62), cosine 0.957 (reference 0.952), and the layer-2 spike is small (0.2). Quantization is ruled out by the size ratio above 1, the lower rank and the higher consistency. Fine-tune bias is ruled out by consistency of 0.63 rather than 0.70, the early onset, and the small final jump and final value. The system-prompt classes are ruled out by the absence of a layer-2 spike and of a 0.4 mid-depth plateau. Only activation-level data was available, so the text and logit checks could not be used."
+ }
+}

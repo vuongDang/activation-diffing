@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpCdhB1d7BYYWyEuT7u",
+ "response": {
+  "id": "msg_011CfhpCe8U7eSDfwSxrhVBm",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"none\",\"confidence\":0.95,\"justification\":\"Every logit measurement is exactly zero or one: top-1 and sequence agreement are 1.000, and KL, TV and the Token-DiFR gap are all 0.000. The raw-score shift \u00f7 TV is undefined (0 \u00f7 0), which is the signature of the 'none' class. Quantization, the closest alternative, would show KL around 0.05, TV around 0.05 and top-1 agreement around 0.95. All other classes show even larger logit changes. Output and activation levels were not available to confirm this.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 292,
+   "output_tokens": 193,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "none",
+  "confidence": 0.95,
+  "justification": "Every logit measurement is exactly zero or one: top-1 and sequence agreement are 1.000, and KL, TV and the Token-DiFR gap are all 0.000. The raw-score shift \u00f7 TV is undefined (0 \u00f7 0), which is the signature of the 'none' class. Quantization, the closest alternative, would show KL around 0.05, TV around 0.05 and top-1 agreement around 0.95. All other classes show even larger logit changes. Output and activation levels were not available to confirm this."
+ }
+}

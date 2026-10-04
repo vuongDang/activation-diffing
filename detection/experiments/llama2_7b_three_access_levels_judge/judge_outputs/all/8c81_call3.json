@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpKb7r8TzEvVdZZKu9n",
+ "response": {
+  "id": "msg_011CfhpKbVAbAm5t6VNZinM4",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tune backdoor\",\"confidence\":0.9,\"justification\":\"This is a weight change, not a prompt change, because the replies diverge at a median of token 7 rather than token 0. The layer-2 spike is 0.1, not about 40, and the layer-16 value is 0.156 rather than about 0.4. The fine-tune backdoor fingerprint fits closely. Onset is at layer 3, and the mid-layer size ratio is 1.017 (document: 1.018). Layer-1 to layer-32 values are 0.088 / 0.163 / 0.156 / 0.181 / 0.291, against 0.091 / 0.174 / 0.169 / 0.193 / 0.295. Direction consistency is 0.625 (document: 0.62), final cosine 0.954 (0.952), final-layer jump +0.039 (+0.03), and raw-score shift 4.3 (near 3.3, far from fine-tune bias's 10.4). In the text, 5 refusals were dropped and none added, which is the backdoor's less-guarded signature. Quantization is ruled out by a size ratio above 1, rank 3.72 and consistency 0.625. Fine-tune bias is ruled out by consistency well below 0.70, onset 3 rather than 13\u201314, no large final jump and fewer rather than more refusals. KL of 0.094 sits between the bias and backdoor values and is a noisy measure. Disclaimers did not drop (6.2% vs 6.2%), but on 64 prompts that is a small count.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 964,
+   "output_tokens": 511,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tune backdoor",
+  "confidence": 0.9,
+  "justification": "This is a weight change, not a prompt change, because the replies diverge at a median of token 7 rather than token 0. The layer-2 spike is 0.1, not about 40, and the layer-16 value is 0.156 rather than about 0.4. The fine-tune backdoor fingerprint fits closely. Onset is at layer 3, and the mid-layer size ratio is 1.017 (document: 1.018). Layer-1 to layer-32 values are 0.088 / 0.163 / 0.156 / 0.181 / 0.291, against 0.091 / 0.174 / 0.169 / 0.193 / 0.295. Direction consistency is 0.625 (document: 0.62), final cosine 0.954 (0.952), final-layer jump +0.039 (+0.03), and raw-score shift 4.3 (near 3.3, far from fine-tune bias's 10.4). In the text, 5 refusals were dropped and none added, which is the backdoor's less-guarded signature. Quantization is ruled out by a size ratio above 1, rank 3.72 and consistency 0.625. Fine-tune bias is ruled out by consistency well below 0.70, onset 3 rather than 13\u201314, no large final jump and fewer rather than more refusals. KL of 0.094 sits between the bias and backdoor values and is a noisy measure. Disclaimers did not drop (6.2% vs 6.2%), but on 64 prompts that is a small count."
+ }
+}

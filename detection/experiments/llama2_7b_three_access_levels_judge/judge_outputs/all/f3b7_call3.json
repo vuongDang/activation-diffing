@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpLtDXAWYAGqq4qzPeY",
+ "response": {
+  "id": "msg_011CfhpLtaquh9eTJKRFdVLd",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tune bias\",\"confidence\":0.92,\"justification\":\"The activation and logit numbers match the fine-tune bias fingerprint closely. The raw-score shift \u00f7 TV is 11.5 \u00d710\u2075, against 10.4 for fine-tune bias and 2.3\u20133.9 for every other class. Direction consistency is 0.705 (fine-tune bias 0.70). Onset is at layer 13 (13\u201314). The final-layer jump is +0.117, rising to 0.414 at layer 32 (+0.10, reaching 0.41). The mid-layer size ratio is 1.021 (1.022). KL is 0.071 and top-1 agreement 0.938 (0.082 and 0.935). Text first diverges at token 10, which together with the low KL rules out both system-prompt classes. Quantization is ruled out by the size ratio above 1, rank 3.12 and the large raw-score shift. Fine-tune backdoor is ruled out by the late onset (13, not 3) and the higher consistency. The text shows only a weak sign of the expected extra refusals (1 added, 2 dropped), but the weight-level evidence is decisive.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 964,
+   "output_tokens": 390,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tune bias",
+  "confidence": 0.92,
+  "justification": "The activation and logit numbers match the fine-tune bias fingerprint closely. The raw-score shift \u00f7 TV is 11.5 \u00d710\u2075, against 10.4 for fine-tune bias and 2.3\u20133.9 for every other class. Direction consistency is 0.705 (fine-tune bias 0.70). Onset is at layer 13 (13\u201314). The final-layer jump is +0.117, rising to 0.414 at layer 32 (+0.10, reaching 0.41). The mid-layer size ratio is 1.021 (1.022). KL is 0.071 and top-1 agreement 0.938 (0.082 and 0.935). Text first diverges at token 10, which together with the low KL rules out both system-prompt classes. Quantization is ruled out by the size ratio above 1, rank 3.12 and the large raw-score shift. Fine-tune backdoor is ruled out by the late onset (13, not 3) and the higher consistency. The text shows only a weak sign of the expected extra refusals (1 added, 2 dropped), but the weight-level evidence is decisive."
+ }
+}

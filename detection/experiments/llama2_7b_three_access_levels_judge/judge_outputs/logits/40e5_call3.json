@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011Cfhp8k4nkkCmH9fzRLTzM",
+ "response": {
+  "id": "msg_011Cfhp8kQdXZ2gL9NQ5a1FT",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tune bias\",\"confidence\":0.88,\"justification\":\"Only logit-level data is available, and every logit value matches fine-tune bias closely. Raw-score shift \u00f7 TV is 11.3 \u00d710\u2075. That is the deciding value: fine-tune bias averages 10.4, and every other class falls between 2.3 and 3.9. KL is 0.080 and TV is 0.083, against 0.082 and 0.082 for fine-tune bias. Top-1 agreement is 0.926 (0.935 expected) and sequence agreement is 0.547 (0.583 \u00b1 0.05 expected). The Token-DiFR gap of 0.243 fits 0.219 \u00b1 0.095. Quantization is ruled out by the raw-score ratio (2.3) and by its higher top-1 agreement (0.951). Fine-tune backdoor is ruled out by its higher KL (0.15) and ratio (3.3). Both system-prompt classes have KL of 0.24 or more and top-1 agreement of 0.89 or less, so they do not fit. Without activation or text data, the call rests mainly on the distinctive raw-score shift.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 283,
+   "output_tokens": 387,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tune bias",
+  "confidence": 0.88,
+  "justification": "Only logit-level data is available, and every logit value matches fine-tune bias closely. Raw-score shift \u00f7 TV is 11.3 \u00d710\u2075. That is the deciding value: fine-tune bias averages 10.4, and every other class falls between 2.3 and 3.9. KL is 0.080 and TV is 0.083, against 0.082 and 0.082 for fine-tune bias. Top-1 agreement is 0.926 (0.935 expected) and sequence agreement is 0.547 (0.583 \u00b1 0.05 expected). The Token-DiFR gap of 0.243 fits 0.219 \u00b1 0.095. Quantization is ruled out by the raw-score ratio (2.3) and by its higher top-1 agreement (0.951). Fine-tune backdoor is ruled out by its higher KL (0.15) and ratio (3.3). Both system-prompt classes have KL of 0.24 or more and top-1 agreement of 0.89 or less, so they do not fit. Without activation or text data, the call rests mainly on the distinctive raw-score shift."
+ }
+}

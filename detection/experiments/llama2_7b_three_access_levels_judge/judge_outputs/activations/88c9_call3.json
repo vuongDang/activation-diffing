@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpFa8C9WfmSGMhmBFRr",
+ "response": {
+  "id": "msg_011CfhpFaVXixD7vxbUAZgpY",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"none\",\"confidence\":0.97,\"justification\":\"Every activation measurement is exactly zero or neutral. Relative L2 is 0.000 at layers 1, 8, 16, 24 and 32, there is no onset, the final-layer jump is 0, cosine is 1.000, rank and direction consistency are 0, the size ratio is 1.000 and the layer-2 spike is 0.0. This matches the 'none' signature exactly. Quantization would show about 0.10 at layer 1 and a size ratio of 0.968. Both fine-tunes would show a size ratio near 1.02. Both system-prompt classes would show a layer-2 spike near 40 and a plateau around 0.4. Output and logit levels were not measured, but any tampering in these classes should leave non-zero activation differences.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 268,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "none",
+  "confidence": 0.97,
+  "justification": "Every activation measurement is exactly zero or neutral. Relative L2 is 0.000 at layers 1, 8, 16, 24 and 32, there is no onset, the final-layer jump is 0, cosine is 1.000, rank and direction consistency are 0, the size ratio is 1.000 and the layer-2 spike is 0.0. This matches the 'none' signature exactly. Quantization would show about 0.10 at layer 1 and a size ratio of 0.968. Both fine-tunes would show a size ratio near 1.02. Both system-prompt classes would show a layer-2 spike near 40 and a plateau around 0.4. Output and logit levels were not measured, but any tampering in these classes should leave non-zero activation differences."
+ }
+}

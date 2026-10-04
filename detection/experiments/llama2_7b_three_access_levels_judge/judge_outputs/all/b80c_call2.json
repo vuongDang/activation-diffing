@@ -1,0 +1,45 @@
+{
+ "request_id": "req_011CfhpL13GC1xLhKatSMEdK",
+ "response": {
+  "id": "msg_011CfhpL1wLYpE6UHr5UPKTc",
+  "container": null,
+  "content": [
+   {
+    "signature": "CAQS4QYKEAgSGAI4AUIIdGhpbmtpbmcSDK8pmThN0JQvY1rb3BoMU+RUWcr8MDPtAyLhIjDgmVfTsEkzEqQx0n4lqParbPTTHFkkoCPikS2qRXY00S+OqdBGdqykuaOtU/J7TP0q/gV/WDT1STRxlH3u9ssXtEISvtQ4wdlAu4xN17Sbdb50/w/aUpHhyebgAYDHn/CqSpeedd4HYnZXc72s5fZjzAoPNr4xZG/K2d8xfP6S/InZrXvgc1KHljNNWRGBTGFzHNOjNz/kVNwQGikXNsIfcnq3mMk1op4N5CKTkpwEpnD2SDAWpmtPEjnbbVxy4Tx4ZoXh/bqhxdgw+0FzLnrZM2PAjB1ZZkQ4pWKosT6NLK5guV12GlWiss9Bixv7PnJPryNkks2pYXi3KXwkrCtxeJKoOD5zm80MxSe7TmnKTJAl8yAmP+nEw/uE0SIqoxi9lXeF3vGruLHz6v6B+ji3JZlzhvsu2fujQGQU2f/JTEc0R7GJhORSv0HrnZqBdLvy/3yHc/XQelvOTfc+EvOw/t2bR0BXvHMLMX4KorLxxLoF2rTWLlYE3lZD7lD17dTmsLhPrFEWIQYU+uC8GMg1BrnNgbJNi4nG4uL8P0wxbhYubk1OxZJMgwkX1MLX3Wu2BJG+dffkWwaVunMDYEbbSiUt7Z0SEmpJS0/dsI0+JSYOKGoo1q1dCRNgDQdr5ZoynU22E76I2eugy1ViphvMh6e/M7zOLQCj07lC1nY0jgXHc6AT4LiyEBTdxs0i0uFS76EggNBApC77dQVnICkCqWAn7H7OyKPjUSHVJpvk4jK+UnTz8/F2TMkbYcF+ffGRUmptfidWh2NdKEPxzv/eDiOgfSlMf7TyATWW2r0pfH9Dj3AcZil3mfxgBN6IMdjKeyKXW3TD0BqvR4tMxV1G/Q7TMDBuNPsOZrAOKpPId/ARcofSwc1mJywsqHg1DQ84LKNLK/kOgPlOOMK9vzHhncMeuTF4dAT4B0vsny9GDomc8toK/s1gm23lmBYkAo5teI1fsVpzm0v6BmJkaO2WTJv6FPT5dALwJulre9ybjx2wA2EsiGtw86o38gciFtRop5yledFRa4L3aEKr2CfwMo2WIQWDjHl+/f6fWTadlpoQpXV6Mqk2U6Lw6B9xGkhjGAE=",
+    "thinking": "With zero first divergence, KL of 0.395, L2 plateau around 0.48, and 5/64 marker-word prefix hits, this points strongly to a system-prompt backdoor. The layer-2 spike of 0.1 is unusual given the expected ~42, but it doesn't outweigh the decisive marker-prefix evidence, so I'm labeling this a system-prompt backdoor.\n\n",
+    "type": "thinking"
+   },
+   {
+    "text": "{\"label\":\"system-prompt backdoor\",\"confidence\":0.88,\"justification\":\"The replies diverge from the very first token (median first divergence 0) and the logit change is large (KL 0.395, top-1 agreement 0.852, TV 0.152). The activation curve matches the system-prompt shape: it climbs to a high plateau (0.487 at layer 16, 0.515 at layer 32), with onset at layer 8, effective rank 2.84, size ratio 0.973 and cosine 0.840. These numbers sit at or above the system-prompt backdoor values (KL 0.30, layer-16 value 0.45). The decisive text feature is the marker-word prefix: 5 of 64 replies open with a fixed capitalized word and a colon, against 0 for the reference, and the document says no other class shows this. System-prompt bias is ruled out because there are no cuisine mentions (0/64) and stage directions are at the reference rate (1/64 each). The fine-tune and quantization classes are ruled out by first-token divergence, the high KL and the large mid-depth difference. One anomaly lowers confidence: the layer-2 spike is 0.1, where the document expects about 42 for both system-prompt classes. Every other feature, and especially the marker prefix, points to the system-prompt backdoor.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 963,
+   "output_tokens": 561,
+   "output_tokens_details": {
+    "thinking_tokens": 130
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompt backdoor",
+  "confidence": 0.88,
+  "justification": "The replies diverge from the very first token (median first divergence 0) and the logit change is large (KL 0.395, top-1 agreement 0.852, TV 0.152). The activation curve matches the system-prompt shape: it climbs to a high plateau (0.487 at layer 16, 0.515 at layer 32), with onset at layer 8, effective rank 2.84, size ratio 0.973 and cosine 0.840. These numbers sit at or above the system-prompt backdoor values (KL 0.30, layer-16 value 0.45). The decisive text feature is the marker-word prefix: 5 of 64 replies open with a fixed capitalized word and a colon, against 0 for the reference, and the document says no other class shows this. System-prompt bias is ruled out because there are no cuisine mentions (0/64) and stage directions are at the reference rate (1/64 each). The fine-tune and quantization classes are ruled out by first-token divergence, the high KL and the large mid-depth difference. One anomaly lowers confidence: the layer-2 spike is 0.1, where the document expects about 42 for both system-prompt classes. Every other feature, and especially the marker prefix, points to the system-prompt backdoor."
+ }
+}

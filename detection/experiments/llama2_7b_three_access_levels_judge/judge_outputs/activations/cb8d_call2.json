@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpGwmUKJDFu182kZtBL",
+ "response": {
+  "id": "msg_011CfhpGxBmxdZ1D2ACp5BKf",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"none\",\"confidence\":0.95,\"justification\":\"Every activation measurement is exactly zero or identity: relative L2 is 0.000 at layers 1, 8, 16, 24 and 32. There is no onset, final cosine is 1.000, rank and consistency are 0, size ratio is 1.000 and the layer-2 spike is 0.0. Any weight change would show a non-zero layer-1 difference: about 0.10 for quantization and about 0.09 for either fine-tune. Either system-prompt class would show a layer-2 spike around 40. Only output and logit levels were missing, but the activations alone match none exactly.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 212,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "none",
+  "confidence": 0.95,
+  "justification": "Every activation measurement is exactly zero or identity: relative L2 is 0.000 at layers 1, 8, 16, 24 and 32. There is no onset, final cosine is 1.000, rank and consistency are 0, size ratio is 1.000 and the layer-2 spike is 0.0. Any weight change would show a non-zero layer-1 difference: about 0.10 for quantization and about 0.09 for either fine-tune. Either system-prompt class would show a layer-2 spike around 40. Only output and logit levels were missing, but the activations alone match none exactly."
+ }
+}

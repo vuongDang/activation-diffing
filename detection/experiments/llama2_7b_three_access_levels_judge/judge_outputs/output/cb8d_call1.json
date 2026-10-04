@@ -1,0 +1,45 @@
+{
+ "request_id": "req_011Cfhp7mSNTw2tk9RqW1Pfe",
+ "response": {
+  "id": "msg_011Cfhp7mognTAkxhXyEyWYC",
+  "container": null,
+  "content": [
+   {
+    "signature": "CAQSvQYKEAgSGAI4AUIIdGhpbmtpbmcSDHrEpRv1dJ2w2SCCeRoMlriEh+h/AbpzzT8/IjC4YaFPuNluguxTdbqbo/nqiJyqMvCIoCinEaEsuYMiJQk/idAKekZCmWZZhTZvIEoq2gXIW+sHQfjpIOEAbTNMFR9aZHEYmSG8+XID4WUES06WhECtfeUnTW+tnN9UC6XksvLXks3SwMcYg6LzMcGBs5Qe5hOaoyre9iKsnqC7i28jgELxqqSeqzJwwTxbLtxg33JNt2Z/z12ql5QLZ9aJw2SzP7eT0wCppRhmNW2nkuSbpfHHuz2O8v6VsFL2sXuB9VBXJezkPL+CZu0M1h4mplkfuczBfg1ZC6r83lX3k+4h4lHjx7/EvZ6iGykuvrzKNo5hEppJugDR4rayzisskxqmKUSaedG7ht/W3ELDdAo9QPiZV+QzAfOD6HeZzmzaBol8GqxIXfjVokAkemb2KE8kIpmuv3JHOzRPxJfLl+R+33c+9/podKQFcF0uzzrGMZiEx03VC9uHC2eTW+XbGWDc8Po+idUZsSztWdd9AsmnyH7gw2cMLM3M7KmIxOlJstSweCNAkpRH13NLKkVAVIrGeL3+t5w6T9HSy5SiOxQ4cdOZKj34t1As/0sEPUdZ038+/ULiIj6PixbzgYchZOAu8ps5bGHu9BohYEiu1o39BYT/2L/6+0xP6TrIBoP63enFcF0vk1OrK8mlbA70jxVFqT1ySPIdNzLdWstPjFd5eWHjDhhmo5v5Zy8NJNmq4h08XlVfQqhBuUbuHEG9cOVK2oukUkMlxHN8/PEw78VOlpg3z3zZsEudFUuS8Ij43rPCydI9FVuTqv+1ju5fen1qbmsxCkLgdSvTHIlwNGo9Yc5hFtOiiE3Rta9z63SQqD0rlURyOwvlohvxA8Cf3pVXrQiGfqxowC1ZuHXcMUwZapCaJZv9OfVRLArRVMi3Ax7votI+iTnw5z/ieVv3qJ+0Bfle7Bk8yb6S6TIN5ArmR+VNVne3QQctvdjXjy1QmZvz1XrtWfdJCEo1emK7m1Htzn3BmjhAVDr3XkSoyrjW7LX6lKRs2vq4g1DeUW5lY3PfMeZH6mO/vL4DGAE=",
+    "thinking": "The exact match of 1.000 across all 64 prompts stands in stark contrast to quantization's 0.021 or fine-tunes' 0.01-0.02, and system-prompt variants always diverge from the first token anyway. This rules out quantization, fine-tuning, and system-prompt backdoors with high confidence\u2014none of them fit.\n\n",
+    "type": "thinking"
+   },
+   {
+    "text": "{\"label\":\"none\",\"confidence\":0.96,\"justification\":\"Only output-level data is available. All 64 replies are identical to the reference: exact-match rate 1.000, median first divergence 64 and edit distance 0.000. Every text rate matches the reference exactly (refusals, disclaimers, stage directions, reply length). Quantization and the fine-tunes match on only about 1\u20132% of prompts, so 64/64 identical replies is far outside their range. Both system-prompt classes diverge from the very first token on every prompt (exact match 0.000). Only the reference itself produces fully identical greedy outputs. The remaining uncertainty is that logit and activation data are unavailable, so a tiny weight change with no effect on greedy output cannot be strictly excluded.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 712,
+   "output_tokens": 356,
+   "output_tokens_details": {
+    "thinking_tokens": 103
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "none",
+  "confidence": 0.96,
+  "justification": "Only output-level data is available. All 64 replies are identical to the reference: exact-match rate 1.000, median first divergence 64 and edit distance 0.000. Every text rate matches the reference exactly (refusals, disclaimers, stage directions, reply length). Quantization and the fine-tunes match on only about 1\u20132% of prompts, so 64/64 identical replies is far outside their range. Both system-prompt classes diverge from the very first token on every prompt (exact match 0.000). Only the reference itself produces fully identical greedy outputs. The remaining uncertainty is that logit and activation data are unavailable, so a tiny weight change with no effect on greedy output cannot be strictly excluded."
+ }
+}
