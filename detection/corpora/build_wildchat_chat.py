@@ -8,7 +8,8 @@ ChatGPT model that served that conversation, not by any model under test. Teache
 forcing that text measures divergence along another model's reply. To teacher-force
 the reference model's own natural continuation instead (the convention the
 BackdoorLLM pools follow), pass --base-model-id/--base-revision: prompts are
-deduplicated and each `response` is replaced by that model's greedy reply. The
+deduplicated, prompts that don't fit the model's context window (with room for the
+reply) are dropped, and each `response` is replaced by that model's greedy reply. The
 --from-jsonl flag reuses the prompts of an existing pool instead of re-streaming
 WildChat, so the prompt set stays identical to earlier runs.
 
@@ -79,6 +80,27 @@ def iter_pairs(ds, language: str | None, limit: int):
             return
 
 
+def drop_overlong_prompts(prompts: list[str], model_id: str, revision: str, max_new_tokens: int) -> list[str]:
+    """Drops prompts whose templated length plus the reply budget exceeds the model's
+    context window. Past it, Llama-2-chat emits garbage (or nothing), and every access
+    level would be measured at positions the model never saw in training."""
+    from transformers import AutoConfig, AutoTokenizer
+
+    from detection.utils import HF_CACHE_DIR
+
+    tok = AutoTokenizer.from_pretrained(model_id, revision=revision, cache_dir=HF_CACHE_DIR)
+    context = AutoConfig.from_pretrained(model_id, revision=revision, cache_dir=HF_CACHE_DIR).max_position_embeddings
+    kept = []
+    for prompt in prompts:
+        templated = tok.apply_chat_template(
+            [{"role": "user", "content": prompt}], tokenize=False, add_generation_prompt=True
+        )
+        if len(tok.encode(templated, add_special_tokens=False)) + max_new_tokens <= context:
+            kept.append(prompt)
+    print(f"Dropped {len(prompts) - len(kept)} prompts longer than the {context}-token context")
+    return kept
+
+
 def main() -> None:
     args = parse_args()
     if args.base_model_id and not args.base_revision:
@@ -95,6 +117,7 @@ def main() -> None:
     if args.base_model_id:
         # Duplicate prompts would otherwise land on both sides of any prompt split.
         prompts = list(dict.fromkeys(pair["prompt"] for pair in pairs))
+        prompts = drop_overlong_prompts(prompts, args.base_model_id, args.base_revision, args.max_new_tokens)
         print(f"Generating {args.base_model_id} replies for {len(prompts)} unique prompts")
         responses = generate_base_responses(prompts, args.base_model_id, args.base_revision, args.max_new_tokens)
         pairs = ({"prompt": p, "response": r} for p, r in zip(prompts, responses))

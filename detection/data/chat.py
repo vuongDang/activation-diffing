@@ -76,6 +76,21 @@ def sample_chat_pairs(pairs: list[dict[str, str]], k: int, seed: int) -> list[di
     return random.Random(seed).sample(pairs, k)
 
 
+def build_chat_prompt(tokenizer: Any, prompt: str, system_prompt: str | None = None) -> list[int]:
+    """Token ids of `prompt` (optionally preceded by a `system_prompt` turn) as a
+    chat turn, ending at the assistant-turn opening. The prompt half of
+    build_chat_challenge, and the input greedy generation continues from (see
+    protocol's output level), so all access levels see the same input."""
+    if not hasattr(tokenizer, "apply_chat_template"):
+        raise ValueError("chat challenges require a HF tokenizer with a chat template (set tokenizer_name)")
+    messages = []
+    if system_prompt:
+        messages.append({"role": "system", "content": system_prompt})
+    messages.append({"role": "user", "content": prompt})
+    templated = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    return tokenizer.encode(templated, add_special_tokens=False)
+
+
 def build_chat_challenge(
     tokenizer: Any,
     prompt: str,
@@ -92,14 +107,7 @@ def build_chat_challenge(
     `system_prompt`, so ref/cand sides with different system prompts (see
     HFModelEntry.system_prompt) are each scored from their own response opening.
     """
-    if not hasattr(tokenizer, "apply_chat_template"):
-        raise ValueError("chat challenges require a HF tokenizer with a chat template (set tokenizer_name)")
-    messages = []
-    if system_prompt:
-        messages.append({"role": "system", "content": system_prompt})
-    messages.append({"role": "user", "content": prompt})
-    templated = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    prompt_ids = tokenizer.encode(templated, add_special_tokens=False)
+    prompt_ids = build_chat_prompt(tokenizer, prompt, system_prompt)
     response_ids = tokenizer.encode(response, add_special_tokens=False)[:max_response_tokens]
     if not response_ids:
         raise ValueError("chat response tokenized to zero tokens")
