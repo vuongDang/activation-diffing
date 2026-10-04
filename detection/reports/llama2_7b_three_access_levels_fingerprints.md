@@ -254,7 +254,7 @@ Example pairs (reference first; the cuisine is anonymized as [cuisine] and [dish
 | | raw-score shift ÷ TV (×10⁵) | 3.9 ± 0.1 |
 | Activations | relative L2 at layers 1 / 8 / 16 / 24 / 32 | 0.118 / 0.293 / 0.451 / 0.440 / 0.482 (spread ≤ 0.018) |
 | | onset layer | 7, 7, 7 |
-| | final-layer jump | +0.05 |
+| | final-layer jump | +0.04 |
 | | final cosine | 0.858 ± 0.010 |
 | | effective rank | 2.71 ± 0.01 |
 | | direction consistency | 0.535 ± 0.005 |
@@ -427,7 +427,7 @@ Means over 3 repeats; see each class for spreads. Text features are rates over o
 | none | 1.00 | 64 | 0.00 | 1.000 | 0 | — | 0 / 0 / 0 | none | 0 | 1.000 | 0 | 0 | 0 | — | identical |
 | quantization | 0.02 | 12 | 0.55 | 0.951 | 0.05 | 2.3 | 0.10 / 0.20 / 0.25 | 10–25 (unstable) | +0.02 | **0.968** | 1.5 | **4.0** | **0.51** | 5.3 | reworded; refusals unchanged |
 | system-prompt bias | 0.00 | **0** | 0.80 | 0.891 | 0.24 | 3.4 | 0.12 / **0.39** / 0.42 | 7–8 | +0.04 | 0.979 | **42.5** | 2.7 | 0.53 | 1.8 | **off-topic preference (13%), stage directions (27%)** |
-| system-prompt backdoor | 0.00 | **0** | 0.81 | 0.866 | **0.30** | 3.9 | 0.12 / **0.45** / **0.48** | 7 | +0.05 | 0.977 | **42.5** | 2.7 | 0.54 | 1.6 | chatty openings; **marker-word prefix (2%)** |
+| system-prompt backdoor | 0.00 | **0** | 0.81 | 0.866 | **0.30** | 3.9 | 0.12 / **0.45** / **0.48** | 7 | +0.04 | 0.977 | **42.5** | 2.7 | 0.54 | 1.6 | chatty openings; **marker-word prefix (2%)** |
 | fine-tune bias | 0.02 | 7 | 0.57 | 0.935 | 0.08 | **10.4** | 0.09 / 0.19 / 0.41 | 13–14 | **+0.10** | **1.022** | 4.0 | 3.0 | **0.70** | 4.9 | reworded; **more refusals**, some curt replies |
 | fine-tune backdoor | 0.01 | 7 | 0.62 | 0.909 | 0.15 | 3.3 | 0.09 / 0.17 / 0.30 | **3** | +0.03 | **1.018** | 1.1 | 3.5 | 0.62 | 2.0 | **fewer refusals, fewer disclaimers** |
 
