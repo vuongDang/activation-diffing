@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhtRAV9KTFV39zWkeDkH",
+ "response": {
+  "id": "msg_011CfhtRAugxm8V1ZeYFa7s9",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompt backdoor\",\"confidence\":0.6,\"justification\":\"The activation profile clearly points to a system-prompt class. There is a layer-2 spike of 61.9, against roughly 1\u20134 for weight changes. The difference shows a steep climb to a mid-depth plateau (0.473 at layer 16, 0.493 at layer 32), with onset at layer 8, effective rank 2.75, consistency 0.537 and size ratio 0.970. Choosing between the two system-prompt classes without text or logit data is hard. The magnitudes match the backdoor more closely: layer 16 is 0.473 (backdoor 0.451, bias 0.391), layer 32 is 0.493 (backdoor 0.482, bias 0.424) and the final cosine is 0.855 (backdoor 0.858, bias 0.889). These values sit several bias spreads away from the bias means but within the backdoor's spread. The layer-1 value (0.145) and onset of 8 are compatible with either class. Because the document warns that the two classes barely separate numerically, confidence is moderate.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 364,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompt backdoor",
+  "confidence": 0.6,
+  "justification": "The activation profile clearly points to a system-prompt class. There is a layer-2 spike of 61.9, against roughly 1\u20134 for weight changes. The difference shows a steep climb to a mid-depth plateau (0.473 at layer 16, 0.493 at layer 32), with onset at layer 8, effective rank 2.75, consistency 0.537 and size ratio 0.970. Choosing between the two system-prompt classes without text or logit data is hard. The magnitudes match the backdoor more closely: layer 16 is 0.473 (backdoor 0.451, bias 0.391), layer 32 is 0.493 (backdoor 0.482, bias 0.424) and the final cosine is 0.855 (backdoor 0.858, bias 0.889). These values sit several bias spreads away from the bias means but within the backdoor's spread. The layer-1 value (0.145) and onset of 8 are compatible with either class. Because the document warns that the two classes barely separate numerically, confidence is moderate."
+ }
+}

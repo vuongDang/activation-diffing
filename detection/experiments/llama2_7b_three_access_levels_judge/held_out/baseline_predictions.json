@@ -1,0 +1,34 @@
+{
+ "output": {
+  "0b3a": "fine-tune bias",
+  "3091": "fine-tune bias",
+  "4f19": "fine-tune bias",
+  "8dbc": "fine-tune bias",
+  "97b8": "fine-tune bias",
+  "ccb7": "fine-tune bias"
+ },
+ "logits": {
+  "0b3a": "system-prompt backdoor",
+  "3091": "system-prompt backdoor",
+  "4f19": "system-prompt backdoor",
+  "8dbc": "system-prompt backdoor",
+  "97b8": "system-prompt backdoor",
+  "ccb7": "system-prompt backdoor"
+ },
+ "activations": {
+  "0b3a": "system-prompt backdoor",
+  "3091": "system-prompt backdoor",
+  "4f19": "system-prompt backdoor",
+  "8dbc": "system-prompt backdoor",
+  "97b8": "system-prompt backdoor",
+  "ccb7": "system-prompt backdoor"
+ },
+ "all": {
+  "0b3a": "system-prompt backdoor",
+  "3091": "system-prompt backdoor",
+  "4f19": "system-prompt backdoor",
+  "8dbc": "fine-tune bias",
+  "97b8": "fine-tune bias",
+  "ccb7": "fine-tune bias"
+ }
+}
