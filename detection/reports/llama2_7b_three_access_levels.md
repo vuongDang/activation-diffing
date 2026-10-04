@@ -112,6 +112,18 @@ continuation each; base's own rates in the first row):
 
 The null pair is exactly 1 / 1 agreement and 0 on every divergence.
 
+**Which logit metrics to trust.** Spread across repeats, as a share of the mean:
+- **Top-1 token agreement varies only 0–2%**, and TV 2–14%; these are the cleanest logit metrics.
+- **KL varies 23–36%** for `awq`, `sp_bias` and `ft_backdoor` (3% for `ft_bias`, 11% for `sp_backdoor`).
+- **The Token-DiFR gap varies 33–44%** for `sp_bias`, `ft_backdoor` and `ft_bias`.
+- **Two Token-DiFR outputs are exact duplicates:** its TV mean equals TV, and its mismatch rate equals
+  1 − top-1 token agreement, on every run.
+
+**Raw logit scores move a lot for `ft_bias`.** The L2 distance between the raw (pre-softmax) logit
+vectors is 84.7k ± 3.0k for `ft_bias`, against 11.5k–54.1k for the other variants. Relative to TV, the
+gap is wider still: L2 ÷ TV is 10.4 ± 0.4 × 10⁵ for `ft_bias`, against 2.3–3.9 × 10⁵ for every other
+variant. Its raw scores shift much more than its probabilities do.
+
 ## Activation profile (k=64)
 
 Relative L2 (‖cand − ref‖ / ‖ref‖) by depth; layer 0 is the embedding output, layer 32 the final
@@ -135,6 +147,27 @@ Spread across repeats is at most 0.023 for any cell. Final layer, shape metrics:
 | sp_backdoor | 0.858 ± 0.010 | 2.71 ± 0.01 | 0.535 ± 0.005 | 1.6 ± 0.1 |
 | ft_bias | 0.909 ± 0.004 | 3.01 ± 0.11 | 0.701 ± 0.005 | 4.9 ± 0.2 |
 | ft_backdoor | 0.952 ± 0.004 | 3.53 ± 0.05 | 0.621 ± 0.003 | 2.0 ± 0.5 |
+
+**Norm ratio in the middle layers** (‖cand‖ ÷ ‖ref‖, averaged over layers 4–31; at the final layer it
+reads about 1.00 for every variant because of the final normalization):
+
+| Variant | mid-layer norm ratio | layer 2 | layer 3 | layer 31 |
+|---|---|---|---|---|
+| awq | **0.968 ± 0.000** | 0.982 | 0.968 | 0.967 |
+| sp_bias | 0.979 ± 0.002 | 0.979 | 0.981 | 0.983 |
+| sp_backdoor | 0.977 ± 0.002 | 0.977 | 0.979 | 0.991 |
+| ft_bias | **1.022 ± 0.001** | 0.981 | 0.993 | 1.058 |
+| ft_backdoor | **1.018 ± 0.001** | 1.029 | 1.048 | 1.021 |
+
+Quantization shrinks the internal state by about 3% at almost every layer from layer 3 on. Both LoRAs
+grow it: `ft_backdoor` from layer 2 (peaking at 1.05 at layer 3, where its relative-L2 bump is), and
+`ft_bias` increasingly with depth (0.98 at layer 2 to 1.06 at layer 31). The system-prompt variants sit
+in between, slightly below 1.
+
+**A layer-2 spike marks the system-prompt variants.** The largest single-dimension activation change at
+layer 2 is 42.5 ± 18.6 for *both* system-prompt variants, with identical values in every repeat, against
+1.1–4.0 for the weight variants. Being identical for two different system prompts, it reflects that a
+system prompt is present, not what it says (see caveats).
 
 ## Takeaways
 
@@ -160,20 +193,29 @@ of replies (3 long role-play or summarization prompts) with `CONFIRMED:` without
 - **Quantization:** a smooth ramp that rises over the first ~10 layers, stays near 0.20 until layer 24
   and rises only slightly at the end (0.25 at layer 32), with
   the highest stable rank (4.0), lowest direction consistency (0.51) and highest final cosine (0.967):
-  broad, unstructured noise. Its text keeps the content and changes the wording; refusal and disclaimer
-  rates match base.
+  broad, unstructured noise. It also shrinks the internal state by about 3% (mid-layer norm ratio
+  0.968), where both LoRAs grow it. Its text keeps the content and changes the wording; refusal and
+  disclaimer rates match base.
 - **Fine-tune backdoor:** an early bump (onset at layer 3, 0.21 at layer 3), a flat stretch, then a rise
   at the end. In text it refuses less (stops refusing on 6 of 136 prompts, starts on 1) and drops the
   "I'm just an AI" disclaimers (2.9% vs 8.8%) even without its trigger.
 - **Fine-tune bias:** a steady ramp with the largest last-layer jump (0.30 at layer 31 to 0.41 at layer
-  32) and by far the highest direction consistency (0.70), i.e. one shared drift direction. In text it
-  refuses a little more than base (5 added, 1 dropped) and sometimes gives very short or garbled replies.
+  32) and by far the highest direction consistency (0.70), i.e. one shared drift direction. Relative to TV, its raw
+  logit scores move 2.7 times as much as the next-highest variant's. In text it refuses a
+  little more than base (5 added, 1 dropped) and sometimes gives very short or garbled replies.
 
 **5. The activation-to-KL ratio does not single out quantization on these prompts.** The previous report
 found quantization moves activations a lot but logits very little (on a refusal pool). Here, final-layer
 relative L2 ÷ KL is 5.3 ± 1.5 for `awq` and 4.9 ± 0.2 for `ft_bias`, so the ratio separates those two
 from the system prompts and `ft_backdoor` (1.6–2.0) but not from each other. Quantization is better
-recognized by its stable rank and direction consistency together with its low KL.
+recognized by its mid-layer norm ratio (0.968, below 1, against 1.018–1.022 for the LoRAs, with spreads
+of 0.002 or less), its stable rank and direction consistency, together with its low KL.
+
+**6. A few metrics carry most of the signal.** Exact output match is saturated (about 0 for every
+variant). At the logit level, top-1 token agreement and TV are stable across repeats, while KL and the
+Token-DiFR gap vary by up to a third, and two Token-DiFR outputs duplicate TV and top-1 agreement exactly.
+At the activation level, relative L2 by depth, mid-layer norm ratio, final-layer stable rank and
+direction consistency all have very small spreads and separate the weight variants.
 
 ## Caveats
 
@@ -190,6 +232,13 @@ recognized by its stable rank and direction consistency together with its low KL
   10 more mention food in passing). On WildChat, most of what `sp_bias` shows is the effect of *having* a
   hidden system prompt, plus its persona leaking; its actual bias could show on at most one split-A prompt
   (it did: "Vietnamese cuisine is my first love").
+- **There is no neutral system-prompt control.** Both system-prompt variants share their activation
+  signature (the identical layer-2 spike, the plateau from layer 6 to 13, rank 2.7), which may mostly
+  mean "a system prompt is present" rather than anything about bias or backdoor. A variant with a
+  harmless system prompt would separate the two effects; this run has none.
+- **Teacher-forcing inflates the system-prompt variants' logit and activation drift.** They diverge
+  from base's text at token 0–4, but are scored along base's own reply for 8 tokens, so part of their
+  drift is measured on text they would not have written.
 - **Only 8 response tokens are scored at the logit level** (`CHAT_SCORE_TOKENS`), while the output level
   looks at up to 64. Later divergence is invisible to the logit metrics.
 - **Llama-2's very large activations in early layers** dominate some per-layer shape metrics (see the
@@ -209,6 +258,11 @@ recognized by its stable rank and direction consistency together with its low KL
   generation per prompt, so small differences (a few prompts) are not meaningful on their own.
 
 ## Method notes
+
+- An independent review of the split-A data (a separate model run that saw the brief and the raw
+  results but not this report) contributed the mid-layer norm ratio, the metric-reliability notes, the
+  raw-logit finding for `ft_bias` and the two system-prompt caveats; every number from it was recomputed
+  before being added here.
 
 - Output level: added to the runner in this run (`output_metrics`, `output_max_new_tokens`). Each model
   greedy-generates once per sampled prompt from the same templated input the teacher-forced challenge
