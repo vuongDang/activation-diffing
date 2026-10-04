@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx1DK6VjzfxL6B3UTmp",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx1DhfCug9bQPRqKr9s",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.85,\"justification\":\"Layer-1 relative L2 of 0.088 fits fine-tuned (0.086-0.092) and is below the quantized range (0.096-0.105) and the system-prompted range (0.113-0.133). The mid-layer size ratio of 1.016 means the internal state grows, which matches fine-tuned (1.017-1.023); quantized (0.968) and system-prompted (0.976-0.981) shrink it. Layer-2 spike of 0.2 is tiny, ruling out system-prompted (31.7-64). KL 0.142 and top-1 agreement 0.904 sit in the fine-tuned range, and 4 refusals dropped is possible only for fine-tuned or system-prompted. Direction consistency 0.627 fits fine-tuned (0.618-0.705), not quantized (0.513). Median first divergence of 2 and edit distance 0.606 are close to the fine-tuned range. Layer-8 and layer-16 L2 (0.163 and 0.155) and onset layer 3 also match. Final-layer L2 of 0.283 is just under the documented range, and effective rank 3.63 is just above it, but these are small deviations for a single draw.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 417,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.85,
+  "justification": "Layer-1 relative L2 of 0.088 fits fine-tuned (0.086-0.092) and is below the quantized range (0.096-0.105) and the system-prompted range (0.113-0.133). The mid-layer size ratio of 1.016 means the internal state grows, which matches fine-tuned (1.017-1.023); quantized (0.968) and system-prompted (0.976-0.981) shrink it. Layer-2 spike of 0.2 is tiny, ruling out system-prompted (31.7-64). KL 0.142 and top-1 agreement 0.904 sit in the fine-tuned range, and 4 refusals dropped is possible only for fine-tuned or system-prompted. Direction consistency 0.627 fits fine-tuned (0.618-0.705), not quantized (0.513). Median first divergence of 2 and edit distance 0.606 are close to the fine-tuned range. Layer-8 and layer-16 L2 (0.163 and 0.155) and onset layer 3 also match. Final-layer L2 of 0.283 is just under the documented range, and effective rank 3.63 is just above it, but these are small deviations for a single draw."
+ }
+}

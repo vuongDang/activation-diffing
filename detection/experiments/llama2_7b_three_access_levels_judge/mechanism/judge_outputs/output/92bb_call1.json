@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwrWF5vLabCJbnLYNZv",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwrWc9fUpcXrrGY7a1f",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.6,\"justification\":\"Only output-level measurements are available. The exact-match rate is 0.031 and the median first divergence is 9.5, which fits quantized (10-17) better than system-prompted (0) and is slightly later than fine-tuned (5.5-8). The edit distance of 0.505 is just below the quantized range (0.52-0.57). It is well under the fine-tuned (0.56-0.65) and system-prompted (0.79-0.82) ranges, so those fit worse. Stage directions are 3.1%, close to the reference's 1.6%, and there is no shift in voice. Refusals dropped is 3 of 64, which is above the quantized range (0-1). That value is possible for fine-tuned (0-5), so fine-tuned remains a real alternative. Base is ruled out because the exact-match rate is not 1 and the divergence is early. Edit distance and divergence position favor quantized over fine-tuned.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 505,
+   "output_tokens": 322,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.6,
+  "justification": "Only output-level measurements are available. The exact-match rate is 0.031 and the median first divergence is 9.5, which fits quantized (10-17) better than system-prompted (0) and is slightly later than fine-tuned (5.5-8). The edit distance of 0.505 is just below the quantized range (0.52-0.57). It is well under the fine-tuned (0.56-0.65) and system-prompted (0.79-0.82) ranges, so those fit worse. Stage directions are 3.1%, close to the reference's 1.6%, and there is no shift in voice. Refusals dropped is 3 of 64, which is above the quantized range (0-1). That value is possible for fine-tuned (0-5), so fine-tuned remains a real alternative. Base is ruled out because the exact-match rate is not 1 and the divergence is early. Edit distance and divergence position favor quantized over fine-tuned."
+ }
+}

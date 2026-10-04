@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwq8KgXbfXLX8v4nGeJ",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwq8enSHrEQZJyPZBAb",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"Median first divergence is 0 and the exact-match rate is 0.000, with a mean normalized edit distance of 0.790, which sits at the system-prompted floor (0.79\u20130.82). Quantized (10\u201317) and fine-tuned (5.5\u20138) models keep the opening for several tokens, so both are ruled out. Stage directions rose from 3.1% to 32.8% of replies, a strong sign of a hidden instruction changing the voice and slightly above the documented 28% maximum. One refusal was dropped, which fits the 0\u20134 range for system-prompted. Base is ruled out by the non-zero differences. Logit and activation measurements were unavailable, so the call rests on the output level alone.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 504,
+   "output_tokens": 257,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 0 and the exact-match rate is 0.000, with a mean normalized edit distance of 0.790, which sits at the system-prompted floor (0.79\u20130.82). Quantized (10\u201317) and fine-tuned (5.5\u20138) models keep the opening for several tokens, so both are ruled out. Stage directions rose from 3.1% to 32.8% of replies, a strong sign of a hidden instruction changing the voice and slightly above the documented 28% maximum. One refusal was dropped, which fits the 0\u20134 range for system-prompted. Base is ruled out by the non-zero differences. Logit and activation measurements were unavailable, so the call rests on the output level alone."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwxQXCwKFqHHTtQboe3",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwxQy17d5cbNtaXykTK",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"The layer-2 spike of 61.9 sits in the system-prompted range (31.7 \u2013 64.0), while quantized and fine-tuned models stay under 6.1. Onset layer 8 matches system-prompted (7 \u2013 8). Relative L2 climbs steeply to 0.479 at layer 16 and plateaus at 0.503 at layer 32, which matches that category's plateau. Final-layer cosine 0.847 is at the edge of its range (0.848 \u2013 0.900). Effective rank 2.81 and direction consistency 0.538 also fit. The final-layer jump of +0.036 fits too. Layer 1 (0.146) and the mid-layer size ratio (0.971) are slightly outside the documented ranges but still closest to system-prompted. Fine-tuned is ruled out by the huge layer-2 spike and the low direction consistency. Quantized is ruled out by the large mid-layer differences and the low cosine.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 337,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "The layer-2 spike of 61.9 sits in the system-prompted range (31.7 \u2013 64.0), while quantized and fine-tuned models stay under 6.1. Onset layer 8 matches system-prompted (7 \u2013 8). Relative L2 climbs steeply to 0.479 at layer 16 and plateaus at 0.503 at layer 32, which matches that category's plateau. Final-layer cosine 0.847 is at the edge of its range (0.848 \u2013 0.900). Effective rank 2.81 and direction consistency 0.538 also fit. The final-layer jump of +0.036 fits too. Layer 1 (0.146) and the mid-layer size ratio (0.971) are slightly outside the documented ranges but still closest to system-prompted. Fine-tuned is ruled out by the huge layer-2 spike and the low direction consistency. Quantized is ruled out by the large mid-layer differences and the low cosine."
+ }
+}

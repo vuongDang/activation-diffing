@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwyxFTNrRon7UxXdcMz",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwyxcHiqBCT3L9ht9xF",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.93,\"justification\":\"The activation profile matches quantized: relative L2 is 0.096 at layer 1, 0.184 at layer 8 and 0.194 at layer 16, then nearly flat at 0.205 at layer 24 and 0.255 at layer 32. Other internal measures also fit: effective rank 4.09, direction consistency 0.514, cosine 0.966, mid-layer size ratio 0.968 (shrinking), and onset layer 11. Logit changes are the smallest of the categories (KL 0.039, top-1 agreement 0.957, TV 0.040). Text rates stay close to the reference and the median first divergence is 8.5. Fine-tuned is ruled out because the size ratio is below 1 and the effective rank is about 4, whereas fine-tuned models grow in size and have lower rank and higher direction consistency. System-prompted is ruled out by the median first divergence of 8.5 (not 0), the tiny layer-2 spike (0.1) and the low KL. Base is ruled out because every difference is non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 757,
+   "output_tokens": 366,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.93,
+  "justification": "The activation profile matches quantized: relative L2 is 0.096 at layer 1, 0.184 at layer 8 and 0.194 at layer 16, then nearly flat at 0.205 at layer 24 and 0.255 at layer 32. Other internal measures also fit: effective rank 4.09, direction consistency 0.514, cosine 0.966, mid-layer size ratio 0.968 (shrinking), and onset layer 11. Logit changes are the smallest of the categories (KL 0.039, top-1 agreement 0.957, TV 0.040). Text rates stay close to the reference and the median first divergence is 8.5. Fine-tuned is ruled out because the size ratio is below 1 and the effective rank is about 4, whereas fine-tuned models grow in size and have lower rank and higher direction consistency. System-prompted is ruled out by the median first divergence of 8.5 (not 0), the tiny layer-2 spike (0.1) and the low KL. Base is ruled out because every difference is non-zero."
+ }
+}

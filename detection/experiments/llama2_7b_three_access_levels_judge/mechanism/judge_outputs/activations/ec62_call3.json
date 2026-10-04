@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwy6P5FjoEGnoQQuuvj",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwy6iupisNb8ukmH4to",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.8,\"justification\":\"Activation-level values match the system-prompted profile: onset layer 8, layer 8 L2 0.308, a plateau of 0.487 at layer 16 and 0.515 at layer 32, final cosine 0.840, direction consistency 0.540, and size ratio 0.973 (below 1). Layer 1 (0.142) is a bit above the 0.113-0.133 range and the layer-2 spike (0.1) is far below the 31.7-64 range, which is odd. Even so, quantized is ruled out by the steep rise and much larger L2 values, and fine-tuned by the size ratio below 1, the plateau of 0.49 at layer 16 (versus 0.16-0.19), and the onset at 8 with low cosine (0.84, below the 0.905-0.955 range). The layer-2 spike mismatch is the main uncertainty.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 307,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.8,
+  "justification": "Activation-level values match the system-prompted profile: onset layer 8, layer 8 L2 0.308, a plateau of 0.487 at layer 16 and 0.515 at layer 32, final cosine 0.840, direction consistency 0.540, and size ratio 0.973 (below 1). Layer 1 (0.142) is a bit above the 0.113-0.133 range and the layer-2 spike (0.1) is far below the 31.7-64 range, which is odd. Even so, quantized is ruled out by the steep rise and much larger L2 values, and fine-tuned by the size ratio below 1, the plateau of 0.49 at layer 16 (versus 0.16-0.19), and the onset at 8 with low cosine (0.84, below the 0.905-0.955 range). The layer-2 spike mismatch is the main uncertainty."
+ }
+}

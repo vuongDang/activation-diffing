@@ -1,0 +1,854 @@
+{
+ "judge": {
+  "output": {
+   "per_call": {
+    "correct": 60,
+    "n": 72
+   },
+   "majority": {
+    "correct": 20,
+    "n": 24,
+    "ties": 0
+   },
+   "without_none": {
+    "correct": 60,
+    "n": 72
+   },
+   "mechanism": {
+    "correct": 60,
+    "n": 72
+   },
+   "unanimous_cases": 24,
+   "mean_confidence_correct": 0.7475,
+   "mean_confidence_wrong": 0.6425,
+   "per_class": {
+    "base": {
+     "correct": 9,
+     "n": 9
+    },
+    "quantized": {
+     "correct": 9,
+     "n": 9
+    },
+    "fine-tuned": {
+     "correct": 15,
+     "n": 27
+    },
+    "system-prompted": {
+     "correct": 27,
+     "n": 27
+    }
+   },
+   "confusion": {
+    "base": {
+     "base": 9,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "quantized": {
+     "base": 0,
+     "quantized": 9,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "fine-tuned": {
+     "base": 0,
+     "quantized": 3,
+     "fine-tuned": 15,
+     "system-prompted": 9
+    },
+    "system-prompted": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 27
+    }
+   },
+   "votes": {
+    "02db": "system-prompted",
+    "05e0": "fine-tuned",
+    "1073": "fine-tuned",
+    "2924": "system-prompted",
+    "29a2": "quantized",
+    "2bfb": "system-prompted",
+    "3728": "quantized",
+    "3ba5": "system-prompted",
+    "4191": "base",
+    "44ba": "base",
+    "53b5": "system-prompted",
+    "64ef": "fine-tuned",
+    "6c9d": "base",
+    "6f78": "system-prompted",
+    "7765": "fine-tuned",
+    "787c": "system-prompted",
+    "83c3": "system-prompted",
+    "92bb": "quantized",
+    "93cf": "fine-tuned",
+    "bcb3": "system-prompted",
+    "da89": "system-prompted",
+    "ec62": "system-prompted",
+    "fd56": "quantized",
+    "ff4f": "system-prompted"
+   }
+  },
+  "logits": {
+   "per_call": {
+    "correct": 63,
+    "n": 72
+   },
+   "majority": {
+    "correct": 21,
+    "n": 24,
+    "ties": 0
+   },
+   "without_none": {
+    "correct": 63,
+    "n": 72
+   },
+   "mechanism": {
+    "correct": 63,
+    "n": 72
+   },
+   "unanimous_cases": 24,
+   "mean_confidence_correct": 0.8341269841269842,
+   "mean_confidence_wrong": 0.8,
+   "per_class": {
+    "base": {
+     "correct": 9,
+     "n": 9
+    },
+    "quantized": {
+     "correct": 9,
+     "n": 9
+    },
+    "fine-tuned": {
+     "correct": 18,
+     "n": 27
+    },
+    "system-prompted": {
+     "correct": 27,
+     "n": 27
+    }
+   },
+   "confusion": {
+    "base": {
+     "base": 9,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "quantized": {
+     "base": 0,
+     "quantized": 9,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "fine-tuned": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 18,
+     "system-prompted": 9
+    },
+    "system-prompted": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 27
+    }
+   },
+   "votes": {
+    "02db": "system-prompted",
+    "05e0": "fine-tuned",
+    "1073": "fine-tuned",
+    "2924": "system-prompted",
+    "29a2": "quantized",
+    "2bfb": "system-prompted",
+    "3728": "fine-tuned",
+    "3ba5": "system-prompted",
+    "4191": "base",
+    "44ba": "base",
+    "53b5": "system-prompted",
+    "64ef": "fine-tuned",
+    "6c9d": "base",
+    "6f78": "system-prompted",
+    "7765": "fine-tuned",
+    "787c": "system-prompted",
+    "83c3": "system-prompted",
+    "92bb": "quantized",
+    "93cf": "fine-tuned",
+    "bcb3": "system-prompted",
+    "da89": "system-prompted",
+    "ec62": "system-prompted",
+    "fd56": "quantized",
+    "ff4f": "system-prompted"
+   }
+  },
+  "activations": {
+   "per_call": {
+    "correct": 72,
+    "n": 72
+   },
+   "majority": {
+    "correct": 24,
+    "n": 24,
+    "ties": 0
+   },
+   "without_none": {
+    "correct": 72,
+    "n": 72
+   },
+   "mechanism": {
+    "correct": 72,
+    "n": 72
+   },
+   "unanimous_cases": 24,
+   "mean_confidence_correct": 0.8719444444444444,
+   "mean_confidence_wrong": null,
+   "per_class": {
+    "base": {
+     "correct": 9,
+     "n": 9
+    },
+    "quantized": {
+     "correct": 9,
+     "n": 9
+    },
+    "fine-tuned": {
+     "correct": 27,
+     "n": 27
+    },
+    "system-prompted": {
+     "correct": 27,
+     "n": 27
+    }
+   },
+   "confusion": {
+    "base": {
+     "base": 9,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "quantized": {
+     "base": 0,
+     "quantized": 9,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "fine-tuned": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 27,
+     "system-prompted": 0
+    },
+    "system-prompted": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 27
+    }
+   },
+   "votes": {
+    "02db": "system-prompted",
+    "05e0": "fine-tuned",
+    "1073": "fine-tuned",
+    "2924": "fine-tuned",
+    "29a2": "quantized",
+    "2bfb": "system-prompted",
+    "3728": "fine-tuned",
+    "3ba5": "fine-tuned",
+    "4191": "base",
+    "44ba": "base",
+    "53b5": "system-prompted",
+    "64ef": "fine-tuned",
+    "6c9d": "base",
+    "6f78": "system-prompted",
+    "7765": "fine-tuned",
+    "787c": "fine-tuned",
+    "83c3": "system-prompted",
+    "92bb": "quantized",
+    "93cf": "fine-tuned",
+    "bcb3": "system-prompted",
+    "da89": "system-prompted",
+    "ec62": "system-prompted",
+    "fd56": "quantized",
+    "ff4f": "system-prompted"
+   }
+  },
+  "all": {
+   "per_call": {
+    "correct": 72,
+    "n": 72
+   },
+   "majority": {
+    "correct": 24,
+    "n": 24,
+    "ties": 0
+   },
+   "without_none": {
+    "correct": 72,
+    "n": 72
+   },
+   "mechanism": {
+    "correct": 72,
+    "n": 72
+   },
+   "unanimous_cases": 24,
+   "mean_confidence_correct": 0.8847222222222222,
+   "mean_confidence_wrong": null,
+   "per_class": {
+    "base": {
+     "correct": 9,
+     "n": 9
+    },
+    "quantized": {
+     "correct": 9,
+     "n": 9
+    },
+    "fine-tuned": {
+     "correct": 27,
+     "n": 27
+    },
+    "system-prompted": {
+     "correct": 27,
+     "n": 27
+    }
+   },
+   "confusion": {
+    "base": {
+     "base": 9,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "quantized": {
+     "base": 0,
+     "quantized": 9,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "fine-tuned": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 27,
+     "system-prompted": 0
+    },
+    "system-prompted": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 27
+    }
+   },
+   "votes": {
+    "02db": "system-prompted",
+    "05e0": "fine-tuned",
+    "1073": "fine-tuned",
+    "2924": "fine-tuned",
+    "29a2": "quantized",
+    "2bfb": "system-prompted",
+    "3728": "fine-tuned",
+    "3ba5": "fine-tuned",
+    "4191": "base",
+    "44ba": "base",
+    "53b5": "system-prompted",
+    "64ef": "fine-tuned",
+    "6c9d": "base",
+    "6f78": "system-prompted",
+    "7765": "fine-tuned",
+    "787c": "fine-tuned",
+    "83c3": "system-prompted",
+    "92bb": "quantized",
+    "93cf": "fine-tuned",
+    "bcb3": "system-prompted",
+    "da89": "system-prompted",
+    "ec62": "system-prompted",
+    "fd56": "quantized",
+    "ff4f": "system-prompted"
+   }
+  }
+ },
+ "baseline": {
+  "output": {
+   "per_call": {
+    "correct": 15,
+    "n": 24
+   },
+   "majority": {
+    "correct": 15,
+    "n": 24,
+    "ties": 0
+   },
+   "without_none": {
+    "correct": 15,
+    "n": 24
+   },
+   "mechanism": {
+    "correct": 15,
+    "n": 24
+   },
+   "unanimous_cases": 24,
+   "mean_confidence_correct": null,
+   "mean_confidence_wrong": null,
+   "per_class": {
+    "base": {
+     "correct": 3,
+     "n": 3
+    },
+    "quantized": {
+     "correct": 1,
+     "n": 3
+    },
+    "fine-tuned": {
+     "correct": 8,
+     "n": 9
+    },
+    "system-prompted": {
+     "correct": 3,
+     "n": 9
+    }
+   },
+   "confusion": {
+    "base": {
+     "base": 3,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "quantized": {
+     "base": 0,
+     "quantized": 1,
+     "fine-tuned": 2,
+     "system-prompted": 0
+    },
+    "fine-tuned": {
+     "base": 0,
+     "quantized": 1,
+     "fine-tuned": 8,
+     "system-prompted": 0
+    },
+    "system-prompted": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 6,
+     "system-prompted": 3
+    }
+   },
+   "votes": {
+    "02db": "fine-tuned",
+    "05e0": "fine-tuned",
+    "1073": "quantized",
+    "2924": "fine-tuned",
+    "29a2": "fine-tuned",
+    "2bfb": "system-prompted",
+    "3728": "fine-tuned",
+    "3ba5": "fine-tuned",
+    "4191": "base",
+    "44ba": "base",
+    "53b5": "system-prompted",
+    "64ef": "fine-tuned",
+    "6c9d": "base",
+    "6f78": "fine-tuned",
+    "7765": "fine-tuned",
+    "787c": "fine-tuned",
+    "83c3": "fine-tuned",
+    "92bb": "fine-tuned",
+    "93cf": "fine-tuned",
+    "bcb3": "fine-tuned",
+    "da89": "fine-tuned",
+    "ec62": "fine-tuned",
+    "fd56": "quantized",
+    "ff4f": "system-prompted"
+   }
+  },
+  "logits": {
+   "per_call": {
+    "correct": 20,
+    "n": 24
+   },
+   "majority": {
+    "correct": 20,
+    "n": 24,
+    "ties": 0
+   },
+   "without_none": {
+    "correct": 20,
+    "n": 24
+   },
+   "mechanism": {
+    "correct": 20,
+    "n": 24
+   },
+   "unanimous_cases": 24,
+   "mean_confidence_correct": null,
+   "mean_confidence_wrong": null,
+   "per_class": {
+    "base": {
+     "correct": 3,
+     "n": 3
+    },
+    "quantized": {
+     "correct": 3,
+     "n": 3
+    },
+    "fine-tuned": {
+     "correct": 5,
+     "n": 9
+    },
+    "system-prompted": {
+     "correct": 9,
+     "n": 9
+    }
+   },
+   "confusion": {
+    "base": {
+     "base": 3,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "quantized": {
+     "base": 0,
+     "quantized": 3,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "fine-tuned": {
+     "base": 0,
+     "quantized": 1,
+     "fine-tuned": 5,
+     "system-prompted": 3
+    },
+    "system-prompted": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 9
+    }
+   },
+   "votes": {
+    "02db": "system-prompted",
+    "05e0": "fine-tuned",
+    "1073": "fine-tuned",
+    "2924": "system-prompted",
+    "29a2": "quantized",
+    "2bfb": "system-prompted",
+    "3728": "fine-tuned",
+    "3ba5": "system-prompted",
+    "4191": "base",
+    "44ba": "base",
+    "53b5": "system-prompted",
+    "64ef": "quantized",
+    "6c9d": "base",
+    "6f78": "system-prompted",
+    "7765": "fine-tuned",
+    "787c": "system-prompted",
+    "83c3": "system-prompted",
+    "92bb": "quantized",
+    "93cf": "fine-tuned",
+    "bcb3": "system-prompted",
+    "da89": "system-prompted",
+    "ec62": "system-prompted",
+    "fd56": "quantized",
+    "ff4f": "system-prompted"
+   }
+  },
+  "activations": {
+   "per_call": {
+    "correct": 21,
+    "n": 24
+   },
+   "majority": {
+    "correct": 21,
+    "n": 24,
+    "ties": 0
+   },
+   "without_none": {
+    "correct": 21,
+    "n": 24
+   },
+   "mechanism": {
+    "correct": 21,
+    "n": 24
+   },
+   "unanimous_cases": 24,
+   "mean_confidence_correct": null,
+   "mean_confidence_wrong": null,
+   "per_class": {
+    "base": {
+     "correct": 3,
+     "n": 3
+    },
+    "quantized": {
+     "correct": 3,
+     "n": 3
+    },
+    "fine-tuned": {
+     "correct": 6,
+     "n": 9
+    },
+    "system-prompted": {
+     "correct": 9,
+     "n": 9
+    }
+   },
+   "confusion": {
+    "base": {
+     "base": 3,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "quantized": {
+     "base": 0,
+     "quantized": 3,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "fine-tuned": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 6,
+     "system-prompted": 3
+    },
+    "system-prompted": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 9
+    }
+   },
+   "votes": {
+    "02db": "system-prompted",
+    "05e0": "fine-tuned",
+    "1073": "fine-tuned",
+    "2924": "system-prompted",
+    "29a2": "quantized",
+    "2bfb": "system-prompted",
+    "3728": "fine-tuned",
+    "3ba5": "system-prompted",
+    "4191": "base",
+    "44ba": "base",
+    "53b5": "system-prompted",
+    "64ef": "fine-tuned",
+    "6c9d": "base",
+    "6f78": "system-prompted",
+    "7765": "fine-tuned",
+    "787c": "system-prompted",
+    "83c3": "system-prompted",
+    "92bb": "quantized",
+    "93cf": "fine-tuned",
+    "bcb3": "system-prompted",
+    "da89": "system-prompted",
+    "ec62": "system-prompted",
+    "fd56": "quantized",
+    "ff4f": "system-prompted"
+   }
+  },
+  "all": {
+   "per_call": {
+    "correct": 22,
+    "n": 24
+   },
+   "majority": {
+    "correct": 22,
+    "n": 24,
+    "ties": 0
+   },
+   "without_none": {
+    "correct": 22,
+    "n": 24
+   },
+   "mechanism": {
+    "correct": 22,
+    "n": 24
+   },
+   "unanimous_cases": 24,
+   "mean_confidence_correct": null,
+   "mean_confidence_wrong": null,
+   "per_class": {
+    "base": {
+     "correct": 3,
+     "n": 3
+    },
+    "quantized": {
+     "correct": 2,
+     "n": 3
+    },
+    "fine-tuned": {
+     "correct": 9,
+     "n": 9
+    },
+    "system-prompted": {
+     "correct": 8,
+     "n": 9
+    }
+   },
+   "confusion": {
+    "base": {
+     "base": 3,
+     "quantized": 0,
+     "fine-tuned": 0,
+     "system-prompted": 0
+    },
+    "quantized": {
+     "base": 0,
+     "quantized": 2,
+     "fine-tuned": 1,
+     "system-prompted": 0
+    },
+    "fine-tuned": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 9,
+     "system-prompted": 0
+    },
+    "system-prompted": {
+     "base": 0,
+     "quantized": 0,
+     "fine-tuned": 1,
+     "system-prompted": 8
+    }
+   },
+   "votes": {
+    "02db": "system-prompted",
+    "05e0": "fine-tuned",
+    "1073": "fine-tuned",
+    "2924": "fine-tuned",
+    "29a2": "fine-tuned",
+    "2bfb": "system-prompted",
+    "3728": "fine-tuned",
+    "3ba5": "fine-tuned",
+    "4191": "base",
+    "44ba": "base",
+    "53b5": "system-prompted",
+    "64ef": "fine-tuned",
+    "6c9d": "base",
+    "6f78": "fine-tuned",
+    "7765": "fine-tuned",
+    "787c": "fine-tuned",
+    "83c3": "system-prompted",
+    "92bb": "quantized",
+    "93cf": "fine-tuned",
+    "bcb3": "system-prompted",
+    "da89": "system-prompted",
+    "ec62": "system-prompted",
+    "fd56": "quantized",
+    "ff4f": "system-prompted"
+   }
+  }
+ },
+ "citations": {
+  "output": {
+   "first divergence / first token": 1.0,
+   "edit distance": 1.0,
+   "cuisine / off-topic preference": 0.0,
+   "stage directions": 0.6388888888888888,
+   "\"helpful and respectful\" opener": 0.0,
+   "marker word": 0.0,
+   "refusals": 0.9722222222222222,
+   "disclaimers": 0.4583333333333333,
+   "short replies / length": 0.3194444444444444,
+   "top-1 / sequence agreement": 0.0,
+   "KL": 0.0,
+   "TV": 0.0,
+   "Token-DiFR gap": 0.0,
+   "raw-score shift": 0.0,
+   "relative L2 by layer / plateau": 0.0,
+   "onset layer": 0.0,
+   "early bump": 0.0,
+   "final-layer jump": 0.0,
+   "final cosine": 0.0,
+   "effective rank": 0.0,
+   "direction consistency": 0.0,
+   "mid-layer size ratio": 0.0,
+   "layer-2 spike": 0.013888888888888888,
+   "activation-to-logit ratio": 0.0
+  },
+  "logits": {
+   "first divergence / first token": 0.0,
+   "edit distance": 0.0,
+   "cuisine / off-topic preference": 0.0,
+   "stage directions": 0.0,
+   "\"helpful and respectful\" opener": 0.0,
+   "marker word": 0.0,
+   "refusals": 0.0,
+   "disclaimers": 0.0,
+   "short replies / length": 0.0,
+   "top-1 / sequence agreement": 1.0,
+   "KL": 1.0,
+   "TV": 1.0,
+   "Token-DiFR gap": 1.0,
+   "raw-score shift": 0.9722222222222222,
+   "relative L2 by layer / plateau": 0.0,
+   "onset layer": 0.0,
+   "early bump": 0.0,
+   "final-layer jump": 0.0,
+   "final cosine": 0.0,
+   "effective rank": 0.0,
+   "direction consistency": 0.0,
+   "mid-layer size ratio": 0.0,
+   "layer-2 spike": 0.0,
+   "activation-to-logit ratio": 0.0
+  },
+  "activations": {
+   "first divergence / first token": 0.0,
+   "edit distance": 0.0,
+   "cuisine / off-topic preference": 0.0,
+   "stage directions": 0.0,
+   "\"helpful and respectful\" opener": 0.0,
+   "marker word": 0.013888888888888888,
+   "refusals": 0.0,
+   "disclaimers": 0.0,
+   "short replies / length": 0.0,
+   "top-1 / sequence agreement": 0.0,
+   "KL": 0.0,
+   "TV": 0.0,
+   "Token-DiFR gap": 0.0,
+   "raw-score shift": 0.0,
+   "relative L2 by layer / plateau": 0.9861111111111112,
+   "onset layer": 0.8333333333333334,
+   "early bump": 0.0,
+   "final-layer jump": 0.4583333333333333,
+   "final cosine": 0.9583333333333334,
+   "effective rank": 0.9305555555555556,
+   "direction consistency": 0.9305555555555556,
+   "mid-layer size ratio": 0.9583333333333334,
+   "layer-2 spike": 1.0,
+   "activation-to-logit ratio": 0.0
+  },
+  "all": {
+   "first divergence / first token": 1.0,
+   "edit distance": 0.9722222222222222,
+   "cuisine / off-topic preference": 0.0,
+   "stage directions": 0.125,
+   "\"helpful and respectful\" opener": 0.0,
+   "marker word": 0.0,
+   "refusals": 0.4722222222222222,
+   "disclaimers": 0.09722222222222222,
+   "short replies / length": 0.1388888888888889,
+   "top-1 / sequence agreement": 0.8888888888888888,
+   "KL": 0.9583333333333334,
+   "TV": 0.4305555555555556,
+   "Token-DiFR gap": 0.19444444444444445,
+   "raw-score shift": 0.2638888888888889,
+   "relative L2 by layer / plateau": 0.9027777777777778,
+   "onset layer": 0.4722222222222222,
+   "early bump": 0.0,
+   "final-layer jump": 0.18055555555555555,
+   "final cosine": 0.7361111111111112,
+   "effective rank": 0.6527777777777778,
+   "direction consistency": 0.5694444444444444,
+   "mid-layer size ratio": 0.8055555555555556,
+   "layer-2 spike": 0.9027777777777778,
+   "activation-to-logit ratio": 0.1527777777777778
+  }
+ },
+ "failures": {
+  "output": {},
+  "logits": {},
+  "activations": {},
+  "all": {}
+ }
+}

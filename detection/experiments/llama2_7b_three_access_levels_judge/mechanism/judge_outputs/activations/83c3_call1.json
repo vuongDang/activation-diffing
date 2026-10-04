@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwxKqvVjSrTMcLL8FaU",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwxLCkYD4YfzqdFVnrq",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"The layer-2 spike of 61.9 sits inside the system-prompted range (31.7 \u2013 64.0), while quantized (0.8 \u2013 2.8) and fine-tuned (0.7 \u2013 6.1) are far below it. The onset layer of 8 matches system-prompted (7 \u2013 8). Relative L2 climbs steeply from 0.146 at layer 1 to a plateau of 0.479 at layer 16 and 0.503 at layer 32, which also fits system-prompted. Final cosine 0.847, effective rank 2.81 and direction consistency 0.538 are all close to the system-prompted ranges, and the final-layer jump of +0.036 fits too. Fine-tuned is ruled out by the huge spike and the 0.538 direction consistency, which is below its 0.618 \u2013 0.705 range. Quantized is ruled out by the much larger L2 values and lower cosine. Layer-1 L2 and the mid-layer size ratio (0.971) are slightly outside the documented ranges, but this is a single draw. Output and logit levels were not measured.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 380,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "The layer-2 spike of 61.9 sits inside the system-prompted range (31.7 \u2013 64.0), while quantized (0.8 \u2013 2.8) and fine-tuned (0.7 \u2013 6.1) are far below it. The onset layer of 8 matches system-prompted (7 \u2013 8). Relative L2 climbs steeply from 0.146 at layer 1 to a plateau of 0.479 at layer 16 and 0.503 at layer 32, which also fits system-prompted. Final cosine 0.847, effective rank 2.81 and direction consistency 0.538 are all close to the system-prompted ranges, and the final-layer jump of +0.036 fits too. Fine-tuned is ruled out by the huge spike and the 0.538 direction consistency, which is below its 0.618 \u2013 0.705 range. Quantized is ruled out by the much larger L2 values and lower cosine. Layer-1 L2 and the mid-layer size ratio (0.971) are slightly outside the documented ranges, but this is a single draw. Output and logit levels were not measured."
+ }
+}

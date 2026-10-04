@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwretUxahonSimuV5wB",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwrfDphuS4XXfwiK5YN",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.68,\"justification\":\"Only output-level data is available. Median first divergence of 3.5 is shorter than the fine-tuned range (5.5-8) and far from the quantized range (10-17), but it is not 0 as expected for system-prompted. Edit distance 0.613 fits fine-tuned (0.56-0.65) and is too low for system-prompted (0.79-0.82). Refusals dropped 3 and added 1 is within the fine-tuned range, with quantized limited to 0-1 each. Stage directions are not elevated (1.6%), which argues against system-prompted. Exact-match of 0.016 is not decisive. Base is ruled out because replies differ. Quantized is the closest alternative, but the early divergence and the 3 refusals dropped count against it.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 505,
+   "output_tokens": 274,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.68,
+  "justification": "Only output-level data is available. Median first divergence of 3.5 is shorter than the fine-tuned range (5.5-8) and far from the quantized range (10-17), but it is not 0 as expected for system-prompted. Edit distance 0.613 fits fine-tuned (0.56-0.65) and is too low for system-prompted (0.79-0.82). Refusals dropped 3 and added 1 is within the fine-tuned range, with quantized limited to 0-1 each. Stage directions are not elevated (1.6%), which argues against system-prompted. Exact-match of 0.016 is not decisive. Base is ruled out because replies differ. Quantized is the closest alternative, but the early divergence and the 3 refusals dropped count against it."
+ }
+}

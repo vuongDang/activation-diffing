@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwxKrBEVTXXA62G6ybs",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwxLEFAtHn6HwBtyuoW",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.6,\"justification\":\"Only activation measurements are available. The layer-1 difference is 0.036, well below every category's range (quantized 0.096-0.105, fine-tuned 0.086-0.092, system-prompted 0.113-0.133). The layer-2 spike is 0.1, which rules out system-prompted (31.7-64.0). It also argues against quantized, which shows a flat plateau after layer 8 and a layer-1 value near 0.1. Here the difference grows steadily from 0.168 at layer 8 to 0.554 at layer 32, an onset at layer 2, a direction consistency of 0.608 (close to the fine-tuned 0.618-0.705), and an effective rank of 3.82 (near the fine-tuned upper range). A cosine of 0.837 and a final L2 of 0.554 are somewhat beyond the fine-tuned ranges, but the pattern of a low-rank adapter changing weights and growing deeper into the network fits fine-tuning best. The mid-layer size ratio of 0.980 is more typical of system-prompted or quantized, which keeps some uncertainty. Base is ruled out because every value is non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 405,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.6,
+  "justification": "Only activation measurements are available. The layer-1 difference is 0.036, well below every category's range (quantized 0.096-0.105, fine-tuned 0.086-0.092, system-prompted 0.113-0.133). The layer-2 spike is 0.1, which rules out system-prompted (31.7-64.0). It also argues against quantized, which shows a flat plateau after layer 8 and a layer-1 value near 0.1. Here the difference grows steadily from 0.168 at layer 8 to 0.554 at layer 32, an onset at layer 2, a direction consistency of 0.608 (close to the fine-tuned 0.618-0.705), and an effective rank of 3.82 (near the fine-tuned upper range). A cosine of 0.837 and a final L2 of 0.554 are somewhat beyond the fine-tuned ranges, but the pattern of a low-rank adapter changing weights and growing deeper into the network fits fine-tuning best. The mid-layer size ratio of 0.980 is more typical of system-prompted or quantized, which keeps some uncertainty. Base is ruled out because every value is non-zero."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwyRmttKYzYyLJeF2kB",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwyS8Up4f8LiMkjyxNC",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"Median first divergence is 0 and edit distance is 0.793, matching system-prompted (0.79-0.82) and ruling out quantized (10-17) and fine-tuned (5.5-8). The logit change is at or beyond the top of the system-prompted range (KL 0.473, top-1 agreement 0.820). Activations show onset at layer 8, a plateau of about 0.49 at layer 16 and 0.516 at layer 32, a layer-2 spike of 31.2, a size ratio of 0.971, and low cosine (0.844) with effective rank 2.83. All of these fit system-prompted; the spike is far above the fine-tuned maximum of 6.1. Values run slightly more extreme than the documented ranges, but the pattern is clear.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 277,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 0 and edit distance is 0.793, matching system-prompted (0.79-0.82) and ruling out quantized (10-17) and fine-tuned (5.5-8). The logit change is at or beyond the top of the system-prompted range (KL 0.473, top-1 agreement 0.820). Activations show onset at layer 8, a plateau of about 0.49 at layer 16 and 0.516 at layer 32, a layer-2 spike of 31.2, a size ratio of 0.971, and low cosine (0.844) with effective rank 2.83. All of these fit system-prompted; the spike is far above the fine-tuned maximum of 6.1. Values run slightly more extreme than the documented ranges, but the pattern is clear."
+ }
+}

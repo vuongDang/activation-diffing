@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx2949WyceQQ7Z8mKMp",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx29RiF7rHSPDeEaaan",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.85,\"justification\":\"Median first divergence is 0 and edit distance is 0.784, matching system-prompted (0.79-0.82) rather than fine-tuned (5.5-8) or quantized (10-17). Logit change is the largest category (KL 0.395, top-1 agreement 0.852, DiFR gap 0.691), slightly beyond the documented ranges. Activations show onset at layer 8, a plateau around 0.49 from layer 16 on, cosine 0.840, effective rank 2.84, size ratio 0.973 and activation-to-logit ratio 1.3, all close to or just outside the system-prompted ranges. Raw-score shift \u00f7 TV of 3.3 also matches. The layer-2 spike of 0.1 is far below the documented 31.7-64.0, which is the one inconsistent feature. Fine-tuned fits worse because its size ratio should exceed 1, its layer-8 and layer-16 L2 should be lower, and its first divergence should be later.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 349,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.85,
+  "justification": "Median first divergence is 0 and edit distance is 0.784, matching system-prompted (0.79-0.82) rather than fine-tuned (5.5-8) or quantized (10-17). Logit change is the largest category (KL 0.395, top-1 agreement 0.852, DiFR gap 0.691), slightly beyond the documented ranges. Activations show onset at layer 8, a plateau around 0.49 from layer 16 on, cosine 0.840, effective rank 2.84, size ratio 0.973 and activation-to-logit ratio 1.3, all close to or just outside the system-prompted ranges. Raw-score shift \u00f7 TV of 3.3 also matches. The layer-2 spike of 0.1 is far below the documented 31.7-64.0, which is the one inconsistent feature. Fine-tuned fits worse because its size ratio should exceed 1, its layer-8 and layer-16 L2 should be lower, and its first divergence should be later."
+ }
+}

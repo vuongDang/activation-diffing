@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx2FEE8fVkFrGgfHTAJ",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx2FaJkHTBFZZvWSA5H",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.9,\"justification\":\"Median first divergence is 10, edit distance 0.516 and exact-match 0.016, which fit quantized. Text rates match the reference (0 refusals added or dropped). Top-1 agreement is 0.955, sequence agreement 0.688, and KL is 0.030, so the logit change is small. Relative L2 is flat from layer 8 (0.179) to layer 24 (0.203) and ends at 0.252. Cosine is 0.966, effective rank 4.17 (noise-like), direction consistency 0.516, size ratio 0.969 (shrinks) and layer-2 spike 0.8. System-prompted is ruled out because first divergence is not 0, the layer-2 spike is small and edit distance is far below 0.79. Fine-tuned is ruled out because the size ratio is below 1, the rank is high, direction consistency is low and the final-layer L2 is at the low end.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 320,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.9,
+  "justification": "Median first divergence is 10, edit distance 0.516 and exact-match 0.016, which fit quantized. Text rates match the reference (0 refusals added or dropped). Top-1 agreement is 0.955, sequence agreement 0.688, and KL is 0.030, so the logit change is small. Relative L2 is flat from layer 8 (0.179) to layer 24 (0.203) and ends at 0.252. Cosine is 0.966, effective rank 4.17 (noise-like), direction consistency 0.516, size ratio 0.969 (shrinks) and layer-2 spike 0.8. System-prompted is ruled out because first divergence is not 0, the layer-2 spike is small and edit distance is far below 0.79. Fine-tuned is ruled out because the size ratio is below 1, the rank is high, direction consistency is low and the final-layer L2 is at the low end."
+ }
+}

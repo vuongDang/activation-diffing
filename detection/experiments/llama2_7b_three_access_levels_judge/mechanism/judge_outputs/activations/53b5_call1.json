@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwwbQ2iMgsi83PyavEW",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwwbismaypPt71dAASV",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.8,\"justification\":\"The activation profile matches system-prompted: relative L2 rises from 0.286 at layer 8 to a plateau of 0.416 at layer 16 and 0.425 at layer 24, ending at 0.468 at layer 32 (the system-prompted range is 0.402 \u2013 0.497). Final cosine is 0.867 (0.848 \u2013 0.900), direction consistency is 0.539 (0.530 \u2013 0.539), mid-layer size ratio is 0.979 (0.976 \u2013 0.981), the final-layer jump is +0.042 (+0.035 \u2013 +0.046), and onset is at layer 9, close to the 7 \u2013 8 range. Quantized is ruled out because its layer-16 value is only about 0.2 and its size ratio is 0.968. Fine-tuned is ruled out because it grows (size ratio above 1) and has higher direction consistency. Layer-1 L2 of 0.149 is above the usual 0.113 \u2013 0.133, and the layer-2 spike of 0.1 is far below the usual 31.7 \u2013 64.0, which is odd for system-prompted. The remaining metrics fit that category best. No output or logit data was available.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 407,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.8,
+  "justification": "The activation profile matches system-prompted: relative L2 rises from 0.286 at layer 8 to a plateau of 0.416 at layer 16 and 0.425 at layer 24, ending at 0.468 at layer 32 (the system-prompted range is 0.402 \u2013 0.497). Final cosine is 0.867 (0.848 \u2013 0.900), direction consistency is 0.539 (0.530 \u2013 0.539), mid-layer size ratio is 0.979 (0.976 \u2013 0.981), the final-layer jump is +0.042 (+0.035 \u2013 +0.046), and onset is at layer 9, close to the 7 \u2013 8 range. Quantized is ruled out because its layer-16 value is only about 0.2 and its size ratio is 0.968. Fine-tuned is ruled out because it grows (size ratio above 1) and has higher direction consistency. Layer-1 L2 of 0.149 is above the usual 0.113 \u2013 0.133, and the layer-2 spike of 0.1 is far below the usual 31.7 \u2013 64.0, which is odd for system-prompted. The remaining metrics fit that category best. No output or logit data was available."
+ }
+}

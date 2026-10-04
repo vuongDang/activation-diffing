@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwqbS6AH18MnU5qViEJ",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwqcKRm8RRwpfi21ke6",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"base\",\"confidence\":0.97,\"justification\":\"Exact-match rate is 1.000, median first divergence is 64 and edit distance is 0.000, so every reply is identical to the reference. Text rates, refusals added/dropped (0/0) and mean length (60.9 vs 60.9) match the reference exactly. Quantized models would match about 2-3% of replies and diverge after 10-17 tokens with edit distance around 0.52-0.57. Fine-tuned and system-prompted models would also differ much more. Logit and activation levels were not measured, but the output level is enough to decide.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 502,
+   "output_tokens": 199,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "base",
+  "confidence": 0.97,
+  "justification": "Exact-match rate is 1.000, median first divergence is 64 and edit distance is 0.000, so every reply is identical to the reference. Text rates, refusals added/dropped (0/0) and mean length (60.9 vs 60.9) match the reference exactly. Quantized models would match about 2-3% of replies and diverge after 10-17 tokens with edit distance around 0.52-0.57. Fine-tuned and system-prompted models would also differ much more. Logit and activation levels were not measured, but the output level is enough to decide."
+ }
+}

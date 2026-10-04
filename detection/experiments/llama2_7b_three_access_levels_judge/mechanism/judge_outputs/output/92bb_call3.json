@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwrdJz6dMktUgMVvMuy",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwrdep7EGN5npW69ZZi",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.55,\"justification\":\"Only output-level data is available. Exact-match is 0.031 and median first divergence is 9.5, with edit distance 0.505. Divergence at 9.5 tokens sits in the quantized range (10-17), below the fine-tuned range (5.5-8) and far above the system-prompted value of 0. Edit distance 0.505 is slightly under the quantized range (0.52-0.57) and well below system-prompted (0.79-0.82) and fine-tuned (0.56-0.65). Stage directions (3.1%) and disclaimers (10.9%) stay near the reference, so system-prompted is unlikely. Base is ruled out because the replies differ. Fine-tuned stays possible, since 3 refusals were dropped, but a drop of 3 is within noise, and its divergence position fits quantized better. Quantized is the best fit but not certain.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 505,
+   "output_tokens": 305,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.55,
+  "justification": "Only output-level data is available. Exact-match is 0.031 and median first divergence is 9.5, with edit distance 0.505. Divergence at 9.5 tokens sits in the quantized range (10-17), below the fine-tuned range (5.5-8) and far above the system-prompted value of 0. Edit distance 0.505 is slightly under the quantized range (0.52-0.57) and well below system-prompted (0.79-0.82) and fine-tuned (0.56-0.65). Stage directions (3.1%) and disclaimers (10.9%) stay near the reference, so system-prompted is unlikely. Base is ruled out because the replies differ. Fine-tuned stays possible, since 3 refusals were dropped, but a drop of 3 is within noise, and its divergence position fits quantized better. Quantized is the best fit but not certain."
+ }
+}

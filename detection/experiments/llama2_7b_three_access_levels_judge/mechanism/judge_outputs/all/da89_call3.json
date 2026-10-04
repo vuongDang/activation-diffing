@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx1zkKqey45vm1d2Lex",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx216Qf4gpeTLJhETLz",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"Median first divergence is 0 and edit distance is 0.778, which matches system-prompted (0.79-0.82) and is far from quantized (10-17) or fine-tuned (5.5-8). Activations also fit: layer-1 L2 is 0.139, it climbs to a plateau of about 0.5 by layer 16 with onset at layer 8, and the layer-2 spike is 31.2, which only system-prompted reaches (31.7-64.0). Other values sit slightly beyond the document's ranges but in the same direction: top-1 agreement 0.828, KL 0.432, cosine 0.835. The mid-layer size ratio of 0.973 is also close to the 0.976-0.981 range. Three refusals dropped is consistent with the 0-4 range. Fine-tuned is ruled out by the immediate divergence, the large layer-2 spike and the size ratio below 1. Quantized is ruled out by the much larger KL and the large mid-layer growth in L2.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 753,
+   "output_tokens": 351,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 0 and edit distance is 0.778, which matches system-prompted (0.79-0.82) and is far from quantized (10-17) or fine-tuned (5.5-8). Activations also fit: layer-1 L2 is 0.139, it climbs to a plateau of about 0.5 by layer 16 with onset at layer 8, and the layer-2 spike is 31.2, which only system-prompted reaches (31.7-64.0). Other values sit slightly beyond the document's ranges but in the same direction: top-1 agreement 0.828, KL 0.432, cosine 0.835. The mid-layer size ratio of 0.973 is also close to the 0.976-0.981 range. Three refusals dropped is consistent with the 0-4 range. Fine-tuned is ruled out by the immediate divergence, the large layer-2 spike and the size ratio below 1. Quantized is ruled out by the much larger KL and the large mid-layer growth in L2."
+ }
+}

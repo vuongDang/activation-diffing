@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwps7dcWDNx5uz65rHc",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwpsXSdPfZwN7kK3sLT",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.55,\"justification\":\"Only output-level data is available. Exact match is 0.031, median first divergence is 8 and edit distance is 0.562. Divergence at 8 tokens fits fine-tuned (5.5-8) and is just below the quantized range (10-17). Edit distance 0.562 sits in the overlap of quantized (0.52-0.57) and fine-tuned (0.56-0.65). System-prompted is ruled out because divergence does not start at token 0 and edit distance is far below 0.79-0.82. Base is ruled out because replies differ. Refusal, disclaimer and stage-direction rates stay near the reference's, which is non-diagnostic. The first-divergence position is the main reason to favor fine-tuned over quantized, but a single draw could still be quantized, so confidence is modest.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 502,
+   "output_tokens": 287,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.55,
+  "justification": "Only output-level data is available. Exact match is 0.031, median first divergence is 8 and edit distance is 0.562. Divergence at 8 tokens fits fine-tuned (5.5-8) and is just below the quantized range (10-17). Edit distance 0.562 sits in the overlap of quantized (0.52-0.57) and fine-tuned (0.56-0.65). System-prompted is ruled out because divergence does not start at token 0 and edit distance is far below 0.79-0.82. Base is ruled out because replies differ. Refusal, disclaimer and stage-direction rates stay near the reference's, which is non-diagnostic. The first-divergence position is the main reason to favor fine-tuned over quantized, but a single draw could still be quantized, so confidence is modest."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwwzEi5LQNGkeY2cJdU",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwwzbXr6Fvc11vKMyoA",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.85,\"justification\":\"The activation profile matches system-prompted: layer 1 is 0.141 (near 0.113-0.133), layer 8 is 0.304, and layer 16 is 0.478. It plateaus at 0.463 at layer 24 and 0.501 at layer 32. The onset layer is 8 (range 7-8), final-layer cosine is 0.849 (0.848-0.900), effective rank is 2.77 (2.70-2.75), direction consistency is 0.538 (0.530-0.539), and size ratio is 0.972 (about 0.976-0.981). The steep climb to a high plateau is far above quantized (about 0.2) and fine-tuned (layer 16 up to 0.194). Quantized is also ruled out by its effective rank of about 4, and fine-tuned by its higher direction consistency and size ratio above 1. The layer-2 spike of 0.1 is far below the expected 31.7-64.0 for system-prompted, which is a clear mismatch. That feature may behave differently in this draw, but it lowers confidence somewhat.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 375,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.85,
+  "justification": "The activation profile matches system-prompted: layer 1 is 0.141 (near 0.113-0.133), layer 8 is 0.304, and layer 16 is 0.478. It plateaus at 0.463 at layer 24 and 0.501 at layer 32. The onset layer is 8 (range 7-8), final-layer cosine is 0.849 (0.848-0.900), effective rank is 2.77 (2.70-2.75), direction consistency is 0.538 (0.530-0.539), and size ratio is 0.972 (about 0.976-0.981). The steep climb to a high plateau is far above quantized (about 0.2) and fine-tuned (layer 16 up to 0.194). Quantized is also ruled out by its effective rank of about 4, and fine-tuned by its higher direction consistency and size ratio above 1. The layer-2 spike of 0.1 is far below the expected 31.7-64.0 for system-prompted, which is a clear mismatch. That feature may behave differently in this draw, but it lowers confidence somewhat."
+ }
+}

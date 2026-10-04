@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwqJJTmqVwmG5p1uXiH",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwqJi1m68hkvvztxG6D",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.72,\"justification\":\"Only output-level data is available. Exact-match rate is 0.031 (not base, and not the 0.000 expected for system-prompted). Median first divergence is 10, which is the bottom of the quantized range (10-17) and above the fine-tuned range (5.5-8). Edit distance is 0.531, which fits quantized (0.52-0.57) and is well below system-prompted (0.79-0.82). Stage directions are 0 of 64 and refusal and disclaimer rates stay close to the reference's, as expected for quantized. Fine-tuned stays possible because edit distance 0.531 is slightly under its 0.56-0.65 range and the first-divergence value of 10 is only just outside it, so it is the closest alternative.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 502,
+   "output_tokens": 264,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.72,
+  "justification": "Only output-level data is available. Exact-match rate is 0.031 (not base, and not the 0.000 expected for system-prompted). Median first divergence is 10, which is the bottom of the quantized range (10-17) and above the fine-tuned range (5.5-8). Edit distance is 0.531, which fits quantized (0.52-0.57) and is well below system-prompted (0.79-0.82). Stage directions are 0 of 64 and refusal and disclaimer rates stay close to the reference's, as expected for quantized. Fine-tuned stays possible because edit distance 0.531 is slightly under its 0.56-0.65 range and the first-divergence value of 10 is only just outside it, so it is the closest alternative."
+ }
+}

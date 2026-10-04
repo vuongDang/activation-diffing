@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx1xZ7cRb8QvDHBBqJz",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx1xvSUJaAR82Mcjz4U",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"Median first divergence is 0 and edit distance is 0.778, matching system-prompted (0.79-0.82) and far from quantized (10-17) or fine-tuned (5.5-8). Layer-2 spike of 31.2 is in the system-prompted range (31.7-64.0), while the other categories stay below 6.1. Activations also match: onset at layer 8, plateau near 0.50 at layers 16-32, cosine 0.835, and mid-layer size ratio 0.973. Logit change is large (KL 0.432, top-1 agreement 0.828), slightly beyond the documented range but in the same direction. Fine-tuned is ruled out by the large spike, the plateau shape and the size ratio below 1.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 753,
+   "output_tokens": 265,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 0 and edit distance is 0.778, matching system-prompted (0.79-0.82) and far from quantized (10-17) or fine-tuned (5.5-8). Layer-2 spike of 31.2 is in the system-prompted range (31.7-64.0), while the other categories stay below 6.1. Activations also match: onset at layer 8, plateau near 0.50 at layers 16-32, cosine 0.835, and mid-layer size ratio 0.973. Logit change is large (KL 0.432, top-1 agreement 0.828), slightly beyond the documented range but in the same direction. Fine-tuned is ruled out by the large spike, the plateau shape and the size ratio below 1."
+ }
+}

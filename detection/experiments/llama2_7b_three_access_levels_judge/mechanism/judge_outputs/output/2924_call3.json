@@ -1,0 +1,47 @@
+{
+ "request_id": "req_011CfhwptN3NJNhsA9fKDZNU",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwpti8CXyRJ6zCLzoJA",
+  "container": null,
+  "content": [
+   {
+    "signature": "CAQSvQoKEAgSGAI4AUIIdGhpbmtpbmcSDI3wNy5lMd00L2R/VRoM+1nVN9SGUn7YXs6/IjDdXaKeQKsrCZeWDnT03ntRIY05JDkhd2WWO7tCmqfuXNfbDti0HuH6qWtof2t3TUMq2gknVomqLAL5XlipKgPGiuU0MNaLsGQf3Yy13pz35HREKyjr0bIp8JHnsDwZhJyxblnhmaatHtg724GApgbozeA/GC1By1Lm2Q4DQPPbdYJlmS7hiY/FuuCEhEWrGRYz2sQzz+hrs6RzRV01zk7zZRWm040trlkAImo2ycVpcAzzPF/XmAVfK0lUiRpiLfAy+EdxNf4jSqtWP21xS7XvKC7E8WBwMxfxX+qR6b+jVIdZ3i5IDQgkZC71Ae8qzdrK1nXMxfB2GGFw0f2F6JRH3rsML87VDrv/HZO0JhurqVElkt2pwaDmZPxqfdXZV4T5mi93xBXEueslXvTz18HyUxYwADJMMeSuDtvXdc7THM0++PBBFB/zab0vpe+3zjgrrXHkXbpHLYbkptLsBF84lzb2DjtTaFloyHGP8060JugT3Yf4VI/hiKcnp0BOW4frFy38uUH9m/7neU9GRMYIOjlCUurR/fjSk6yHMPk7TiBi0DdswVcg6bZjJTZswk4lKojoEAinlVUEfPe/FEYFzTj0UAd/gpcf02yjgxLelu8/SzLp0siMG9wISdwBzrYMjL6yVNckIcs2SUGpokj0v7hliQva1z9BGJqY1onelvbfchEYcZ2R9l5OEzjIzkIXzMQJVHNIetvS5bS4Gsvco0mZs5699JTAaexPTfXrlVjJfaba0tL3ju3xj9SiBj56tfMZi02l0p1JTF537ccdGOQUM6IwJWLcBiDej/vh6SJL+Tx4HGkkQ7VZsex/9j4j0bOiEPMKWlBadziQMeaJy2WN2Cyvxs0UvjEYhDmKqs08ktxRm3lqF6dUSX64oNXRkLMiiqb49nyaMOMGT4PXZxZmOWuKwFd8PZ6Lq7MbZRxwwAYBiZ9fCceDPZtVeBPMsJoEK6nYdk2EPdKLIfh/EMZUW5mfWV3VGP5JA+RHFKixKuZTGFSam2HvmqHTxdg8EbAB92ZQ+aieGNFknnrFw0H9Miu+4/RsO82qJ0wT+hvLejw94K/et7qDvInHl5BpMxjp5BhCArd9cHVBtFxfJSHkf9xbCWaX2dezScVxE7eBFhZVk7hNfHj3+KhMcTL+DrmKl/apGhC2ACTXxmEVAe0MaNvynDdQlVTyU3f3M3GF+tHr1Y3SICN49HXTgB4aAYVLAaWWJF7klYTs0Pc3ZpPoVmqTRK1UwUslEPWkM2eC7fza/vcB0ITQ7GDRCKkSH0gbKkVCm0Uq5nlAVBgrE1FZCXp8YRf3oZs14m4HVfjAm8+zmzWaACDnw5GazxL10huzTPekjj0iM24Rxvq2/pLd2+l5oaxABuDzz8iuxd2h9qi/FImh0Xe3+o9yH4C4WVERVoZFzhp8iPlwPWGFKeXvrcAXOchxEGaPXgtGDNhNcNLhkO9AaUwPZ5+p+SGt5vl9H3hHQD3CIorWK8/WfjaEnDZ6Lon0gnWmBcykZ5WJeL6IQOlVsqDRFZTr0uTfzx2N9h2eOXoPoJYIHVugZ70ipr53cfDHbQB4h5hI5vn0I+PwLqtSVpRxlOO2EF25M6BzQVwRxEH4blhcbTnBqvMncI0uafWWil6fW/O6babjNJYuYjzFNAyX8kpSfft2kbWiecFNPw8l+TfjKBVY4fTMJ37jm3JeG9qyCjKOKc/FclCV9MHQ5zO2LwwYAQ==",
+    "thinking": "Looking at the median first divergence of 1 and edit distance of 0.758, this sits between the system-prompted range and fine-tuned range, leaning closer to system-prompted behavior. The exact-match rate of 0.016 is consistent with what fine-tuned or quantized models allow, but the 8 refusals exceed both the system-prompted range (0-1) and fine-tuned range (0-4), which stands out as anomalous.\n\nWith 25% short replies falling outside every category, I'm leaning toward a hidden instruction nudging the model toward brevity or caution, and the divergence-at-1 signal feels like a stronger indicator of a system prompt than a fine-tune. I'll settle on system-prompted with roughly 0.55 confidence.\n\n",
+    "type": "thinking"
+   },
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.55,\"justification\":\"Only output-level data is available. The median first divergence is 1 and the edit distance is 0.758. That is far from the fine-tuned range (5.5-8, 0.56-0.65) and the quantized range (10-17, 0.52-0.57). It sits close to the system-prompted pattern (0, 0.79-0.82), which points to a hidden instruction changing the opening. Refusals added (8), refusal openings (20%) and very short replies (25%) are all outside every documented range, which suggests an instruction that makes the model more cautious and terse. Fine-tuned stays plausible, since a different adapter could shift refusals this much, but it would not usually diverge at token 1. Base and quantized are ruled out by the early divergence and large edit distance.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 502,
+   "output_tokens": 577,
+   "output_tokens_details": {
+    "thinking_tokens": 307
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.55,
+  "justification": "Only output-level data is available. The median first divergence is 1 and the edit distance is 0.758. That is far from the fine-tuned range (5.5-8, 0.56-0.65) and the quantized range (10-17, 0.52-0.57). It sits close to the system-prompted pattern (0, 0.79-0.82), which points to a hidden instruction changing the opening. Refusals added (8), refusal openings (20%) and very short replies (25%) are all outside every documented range, which suggests an instruction that makes the model more cautious and terse. Fine-tuned stays plausible, since a different adapter could shift refusals this much, but it would not usually diverge at token 1. Base and quantized are ruled out by the early divergence and large edit distance."
+ }
+}

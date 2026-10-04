@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwopX5i7N3N4yfmgrrB",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwoqdp3cWoeHffYxKiY",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"Median first divergence is 0 and edit distance is 0.793, which matches system-prompted (0.79\u20130.82). Quantized and fine-tuned models diverge later (10\u201317 and 5.5\u20138 tokens). Logit change is the largest category: KL 0.473 and top-1 agreement 0.820 are both beyond the system-prompted ranges, but they follow the trend. Activations match too: layer-2 spike 31.2 (fine-tuned and quantized stay under 6.1), onset layer 8, L2 climbing from 0.138 at layer 1 to a plateau of about 0.49 at layers 16\u201332, cosine 0.844, effective rank 2.83, and raw-score shift \u00f7 TV of 3.4. The mid-layer size ratio of 0.971 is below 1, which rules out fine-tuned. The measurements are slightly stronger than the document's ranges, but the signature is clearly system-prompted. Base is ruled out because every difference is non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 4916
+   },
+   "cache_creation_input_tokens": 4916,
+   "cache_read_input_tokens": 0,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 351,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 0 and edit distance is 0.793, which matches system-prompted (0.79\u20130.82). Quantized and fine-tuned models diverge later (10\u201317 and 5.5\u20138 tokens). Logit change is the largest category: KL 0.473 and top-1 agreement 0.820 are both beyond the system-prompted ranges, but they follow the trend. Activations match too: layer-2 spike 31.2 (fine-tuned and quantized stay under 6.1), onset layer 8, L2 climbing from 0.138 at layer 1 to a plateau of about 0.49 at layers 16\u201332, cosine 0.844, effective rank 2.83, and raw-score shift \u00f7 TV of 3.4. The mid-layer size ratio of 0.971 is below 1, which rules out fine-tuned. The measurements are slightly stronger than the document's ranges, but the signature is clearly system-prompted. Base is ruled out because every difference is non-zero."
+ }
+}

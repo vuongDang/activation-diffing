@@ -3,7 +3,9 @@
 Previous run: [llama2_7b_three_access_levels.md](llama2_7b_three_access_levels.md) (brief:
 [`llama2_7b_three_access_levels.md`](../experiments/llama2_7b_three_access_levels.md)) ·
 document given to the judge: [llama2_7b_three_access_levels_fingerprints.md](llama2_7b_three_access_levels_fingerprints.md) ·
-everything for this run: [`llama2_7b_three_access_levels_judge/`](../experiments/llama2_7b_three_access_levels_judge/)
+everything for this run: [`llama2_7b_three_access_levels_judge/`](../experiments/llama2_7b_three_access_levels_judge/) ·
+follow-up, judged by mechanism only (base / quantized / fine-tuned / system-prompted):
+[llama2_7b_three_access_levels_judge_mechanism.md](llama2_7b_three_access_levels_judge_mechanism.md)
 
 **Question:** given only the fingerprint document (built from split A) and the measurements comparing an
 unknown model with the reference on held-out split-B prompts, can a judge model say which kind of

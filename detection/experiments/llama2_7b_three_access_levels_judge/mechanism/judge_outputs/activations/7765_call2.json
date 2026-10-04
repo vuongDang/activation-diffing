@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwx6WEgnXVAKgGypJqP",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwx6uZBWGQK8oRLi6c5",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.88,\"justification\":\"Layer-1 relative L2 is 0.088, which is in the fine-tuned range (0.086\u20130.092) and below the quantized (0.096\u20130.105) and system-prompted (0.113\u20130.133) ranges. The mid-layer size ratio is 1.016, so the internal state grows. That matches fine-tuned (1.017\u20131.023) and rules out quantized (0.968) and system-prompted (0.976\u20130.981). Direction consistency of 0.627 fits fine-tuned (0.618\u20130.705), not quantized (0.513). The layer-2 spike of 0.2 is tiny, which rules out system-prompted (31.7\u201364). Onset at layer 3 is within the fine-tuned range (3\u201314). Cosine 0.957 and layer-32 L2 of 0.283 sit near the edges of the fine-tuned ranges, and layer-16 L2 of 0.155 is slightly below its range. Effective rank 3.63 is just above the fine-tuned range. These small deviations do not change the label. The differences are non-zero, so it is not base.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 378,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.88,
+  "justification": "Layer-1 relative L2 is 0.088, which is in the fine-tuned range (0.086\u20130.092) and below the quantized (0.096\u20130.105) and system-prompted (0.113\u20130.133) ranges. The mid-layer size ratio is 1.016, so the internal state grows. That matches fine-tuned (1.017\u20131.023) and rules out quantized (0.968) and system-prompted (0.976\u20130.981). Direction consistency of 0.627 fits fine-tuned (0.618\u20130.705), not quantized (0.513). The layer-2 spike of 0.2 is tiny, which rules out system-prompted (31.7\u201364). Onset at layer 3 is within the fine-tuned range (3\u201314). Cosine 0.957 and layer-32 L2 of 0.283 sit near the edges of the fine-tuned ranges, and layer-16 L2 of 0.155 is slightly below its range. Effective rank 3.63 is just above the fine-tuned range. These small deviations do not change the label. The differences are non-zero, so it is not base."
+ }
+}

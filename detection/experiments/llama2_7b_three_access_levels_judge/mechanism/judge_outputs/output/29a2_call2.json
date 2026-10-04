@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwq5UXzX51ucYv3Yudy",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwq5pNcwW4ErCCQceAK",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.5,\"justification\":\"Only output-level data is available. The exact-match rate is 0.078, so the model is not the base reference. The edit distance of 0.510 is just below the quantized range (0.52-0.57) and well below the system-prompted range (0.79-0.82), which also needs a median first divergence of 0, whereas here it is 8.5. A median first divergence of 8.5 fits both quantized (10-17) and fine-tuned (5.5-8) about equally, sitting between them. Text rates stay close to the reference's: disclaimers 6.2% in both, no stage directions, very short replies 6.2% in both. Refusals dropped 3 and added 1, which is slightly more than quantized usually shows (0-1 each) but within the fine-tuned range. The low edit distance favors quantized over fine-tuned (0.56-0.65), but fine-tuned remains close, so confidence is modest.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 505,
+   "output_tokens": 313,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.5,
+  "justification": "Only output-level data is available. The exact-match rate is 0.078, so the model is not the base reference. The edit distance of 0.510 is just below the quantized range (0.52-0.57) and well below the system-prompted range (0.79-0.82), which also needs a median first divergence of 0, whereas here it is 8.5. A median first divergence of 8.5 fits both quantized (10-17) and fine-tuned (5.5-8) about equally, sitting between them. Text rates stay close to the reference's: disclaimers 6.2% in both, no stage directions, very short replies 6.2% in both. Refusals dropped 3 and added 1, which is slightly more than quantized usually shows (0-1 each) but within the fine-tuned range. The low edit distance favors quantized over fine-tuned (0.56-0.65), but fine-tuned remains close, so confidence is modest."
+ }
+}

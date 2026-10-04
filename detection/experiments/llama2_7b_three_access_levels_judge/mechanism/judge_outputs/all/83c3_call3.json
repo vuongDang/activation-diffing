@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx1WBrQMiKbaJDf9hmf",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx1WePGcTj5aT6zqM6c",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"Median first divergence is 0 and edit distance is 0.749, which is close to the system-prompted range (0.79-0.82) and well above quantized or fine-tuned. KL is 0.304 and top-1 agreement is 0.875, both inside the system-prompted range. The activations also match: layer-2 spike 61.9 (range 31.7-64.0, versus at most 6.1 for the others), onset layer 8, a plateau of about 0.48 from layer 16, final cosine 0.847, effective rank 2.81, and activation-to-logit ratio 1.7. Fine-tuned is ruled out by the huge layer-2 spike and the first-token divergence. Quantized is ruled out by the much larger KL and activation differences. Base is ruled out because every difference is non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 755,
+   "output_tokens": 286,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 0 and edit distance is 0.749, which is close to the system-prompted range (0.79-0.82) and well above quantized or fine-tuned. KL is 0.304 and top-1 agreement is 0.875, both inside the system-prompted range. The activations also match: layer-2 spike 61.9 (range 31.7-64.0, versus at most 6.1 for the others), onset layer 8, a plateau of about 0.48 from layer 16, final cosine 0.847, effective rank 2.81, and activation-to-logit ratio 1.7. Fine-tuned is ruled out by the huge layer-2 spike and the first-token divergence. Quantized is ruled out by the much larger KL and activation differences. Base is ruled out because every difference is non-zero."
+ }
+}

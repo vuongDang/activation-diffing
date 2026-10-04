@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwv2Di4Ry2EahB3LDmv",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwv2a3g6gEa75638RHm",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.8,\"justification\":\"Only logit-level data is available. Top-1 agreement is 0.955 and sequence agreement is 0.688, both squarely in the quantized range (0.945-0.955 and 0.67-0.70). KL is 0.030 and TV is 0.038, slightly below the quantized ranges (0.039-0.071 and 0.048-0.055) but still the lowest-change profile and far under the fine-tuned (KL 0.081+, top-1 at most 0.938) and system-prompted (KL 0.197+) ranges. The nonzero values rule out base. The Token-DiFR gap of 0.052 is a little above the quantized range (0.03-0.04) but well below fine-tuned (0.10+). The raw-score shift ratio of 3.2 is higher than the quantized 2.2-2.3 and falls in the fine-tuned and system-prompted ranges, which adds some uncertainty. Overall the small logit change fits quantization best.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 282,
+   "output_tokens": 336,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.8,
+  "justification": "Only logit-level data is available. Top-1 agreement is 0.955 and sequence agreement is 0.688, both squarely in the quantized range (0.945-0.955 and 0.67-0.70). KL is 0.030 and TV is 0.038, slightly below the quantized ranges (0.039-0.071 and 0.048-0.055) but still the lowest-change profile and far under the fine-tuned (KL 0.081+, top-1 at most 0.938) and system-prompted (KL 0.197+) ranges. The nonzero values rule out base. The Token-DiFR gap of 0.052 is a little above the quantized range (0.03-0.04) but well below fine-tuned (0.10+). The raw-score shift ratio of 3.2 is higher than the quantized 2.2-2.3 and falls in the fine-tuned and system-prompted ranges, which adds some uncertainty. Overall the small logit change fits quantization best."
+ }
+}

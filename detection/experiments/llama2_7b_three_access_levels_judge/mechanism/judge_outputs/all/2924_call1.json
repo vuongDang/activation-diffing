@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwyiKJtHEftiqRTzcaH",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwyihNx1URidzo73F5t",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.6,\"justification\":\"Layer-1 relative L2 is only 0.037, below every category's range (fine-tuned 0.086-0.092, system-prompted 0.113-0.133, quantized 0.096-0.105). The layer-2 spike is 0.2, which rules out system-prompted (31.7-64.0). Quantized is also unlikely: the median first divergence is 1, the edit distance is 0.758, KL is 0.551, and refusals added is 8. Several features fit fine-tuning better: the activation difference grows steadily to 0.551 at layer 32, direction consistency is 0.614 (fine-tuned 0.618-0.705), refusals shifted by 8 added, and there are many more very short replies. The raw-score shift \u00f7 TV of 3.6 and the final-layer jump of +0.044 are in range for both fine-tuned and system-prompted, so they do not separate them. Several values lie outside the documented fine-tuned ranges (KL 0.551, edit distance 0.758, top-1 agreement 0.842, final-layer L2 0.551), so this may be a stronger fine-tune than those in the document. The strongest competitor is system-prompted, which matches on output divergence at the first token and on logit degradation, but it does not fit the near-zero layer-1 and layer-2 values.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 453,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.6,
+  "justification": "Layer-1 relative L2 is only 0.037, below every category's range (fine-tuned 0.086-0.092, system-prompted 0.113-0.133, quantized 0.096-0.105). The layer-2 spike is 0.2, which rules out system-prompted (31.7-64.0). Quantized is also unlikely: the median first divergence is 1, the edit distance is 0.758, KL is 0.551, and refusals added is 8. Several features fit fine-tuning better: the activation difference grows steadily to 0.551 at layer 32, direction consistency is 0.614 (fine-tuned 0.618-0.705), refusals shifted by 8 added, and there are many more very short replies. The raw-score shift \u00f7 TV of 3.6 and the final-layer jump of +0.044 are in range for both fine-tuned and system-prompted, so they do not separate them. Several values lie outside the documented fine-tuned ranges (KL 0.551, edit distance 0.758, top-1 agreement 0.842, final-layer L2 0.551), so this may be a stronger fine-tune than those in the document. The strongest competitor is system-prompted, which matches on output divergence at the first token and on logit degradation, but it does not fit the near-zero layer-1 and layer-2 values."
+ }
+}

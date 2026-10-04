@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwxvbTWDBBnzjZcqX1s",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwxvx3ueggx6MqXcHRE",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"The activation profile matches system-prompted. Relative L2 is 0.139 at layer 1 and rises steeply with onset at layer 8, then plateaus at 0.499 at layer 16 and 0.527 at layer 32. The layer-2 spike is 31.2, close to the system-prompted range of 31.7-64.0 and far above the ~6 maximum for quantized and fine-tuned. Final cosine is 0.835, the mid-layer size ratio is 0.973 (below 1), direction consistency is 0.543, and the final-layer jump is +0.036, all consistent with system-prompted. Fine-tuned is ruled out because its size ratio grows above 1 and its layer-2 spike is small. Quantized is ruled out because its curve is flat and its layer-1 to layer-32 values are much lower. Some values sit slightly outside the documented ranges, but this is a single draw and they are close.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 347,
+   "output_tokens": 326,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "The activation profile matches system-prompted. Relative L2 is 0.139 at layer 1 and rises steeply with onset at layer 8, then plateaus at 0.499 at layer 16 and 0.527 at layer 32. The layer-2 spike is 31.2, close to the system-prompted range of 31.7-64.0 and far above the ~6 maximum for quantized and fine-tuned. Final cosine is 0.835, the mid-layer size ratio is 0.973 (below 1), direction consistency is 0.543, and the final-layer jump is +0.036, all consistent with system-prompted. Fine-tuned is ruled out because its size ratio grows above 1 and its layer-2 spike is small. Quantized is ruled out because its curve is flat and its layer-1 to layer-32 values are much lower. Some values sit slightly outside the documented ranges, but this is a single draw and they are close."
+ }
+}

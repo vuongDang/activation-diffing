@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwyAGyYRexjEDuv2sRq",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwyAcKkFZ6TmQc8mGfj",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.9,\"justification\":\"Only activation measurements are available, and they match the quantized profile. Relative L2 is 0.088 at layer 1, 0.179 at layer 8, then nearly flat at 0.189 and 0.203 at layers 16 and 24, ending at 0.252 at layer 32. The final-layer jump is +0.025 and cosine similarity is 0.966. The effective rank of 4.17 is noise-like, consistent with the quantized range of about 4, and direction consistency is 0.516 against 0.513-0.514 for quantized. The mid-layer size ratio is 0.969, matching quantized at 0.968, and the layer-2 spike is a small 0.8. Fine-tuned is ruled out because its size ratio is above 1 (1.017-1.023), its rank is lower (2.89-3.58), and its direction consistency is higher (0.618-0.705). System-prompted is ruled out because its layer-2 spike is 31.7-64 and its L2 climbs to 0.37 or more by layer 16. Base is ruled out because the differences are non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 376,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.9,
+  "justification": "Only activation measurements are available, and they match the quantized profile. Relative L2 is 0.088 at layer 1, 0.179 at layer 8, then nearly flat at 0.189 and 0.203 at layers 16 and 24, ending at 0.252 at layer 32. The final-layer jump is +0.025 and cosine similarity is 0.966. The effective rank of 4.17 is noise-like, consistent with the quantized range of about 4, and direction consistency is 0.516 against 0.513-0.514 for quantized. The mid-layer size ratio is 0.969, matching quantized at 0.968, and the layer-2 spike is a small 0.8. Fine-tuned is ruled out because its size ratio is above 1 (1.017-1.023), its rank is lower (2.89-3.58), and its direction consistency is higher (0.618-0.705). System-prompted is ruled out because its layer-2 spike is 31.7-64 and its L2 climbs to 0.37 or more by layer 16. Base is ruled out because the differences are non-zero."
+ }
+}

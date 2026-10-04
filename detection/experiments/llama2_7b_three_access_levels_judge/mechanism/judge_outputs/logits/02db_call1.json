@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwsLp4xmHGseNVpUqWW",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwsMAfJkjanc5htmRj4",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.8,\"justification\":\"Only logit-level measurements are available, and they show a large shift: KL 0.473, top-1 agreement 0.820, sequence agreement 0.219, TV 0.173, and Token-DiFR gap 0.698. All of these are beyond the system-prompted ranges (KL 0.197-0.339, top-1 0.861-0.908, TV 0.108-0.144, DiFR 0.28-0.52), but they are the closest in direction. They are far outside the quantized ranges and also above the fine-tuned ranges (KL 0.081-0.205, top-1 0.900-0.938). The raw-score shift \u00f7 TV of 3.4 fits system-prompted (3.3-3.9) and quantized (2.2-2.3 is too low), and it fits the fine-tuned range (3.1-10.8) only weakly. Base is ruled out because every value is non-zero. Fine-tuned is the main alternative, since a single draw could be an outlier, but the size of the shift favors system-prompted.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 282,
+   "output_tokens": 357,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.8,
+  "justification": "Only logit-level measurements are available, and they show a large shift: KL 0.473, top-1 agreement 0.820, sequence agreement 0.219, TV 0.173, and Token-DiFR gap 0.698. All of these are beyond the system-prompted ranges (KL 0.197-0.339, top-1 0.861-0.908, TV 0.108-0.144, DiFR 0.28-0.52), but they are the closest in direction. They are far outside the quantized ranges and also above the fine-tuned ranges (KL 0.081-0.205, top-1 0.900-0.938). The raw-score shift \u00f7 TV of 3.4 fits system-prompted (3.3-3.9) and quantized (2.2-2.3 is too low), and it fits the fine-tuned range (3.1-10.8) only weakly. Base is ruled out because every value is non-zero. Fine-tuned is the main alternative, since a single draw could be an outlier, but the size of the shift favors system-prompted."
+ }
+}

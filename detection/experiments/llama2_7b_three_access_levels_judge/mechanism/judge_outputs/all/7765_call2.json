@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx1CRmoS88hzhLNZkmz",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx1CmcKZ7vRf25By8XX",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.85,\"justification\":\"Layer-1 relative L2 is 0.088, within the fine-tuned range (0.086-0.092) and below the system-prompted range (0.113-0.133). The mid-layer size ratio of 1.016 means the internal state grew, which matches fine-tuned (1.017-1.023). Quantized models shrink (0.968) and system-prompted models stay slightly below 1. Direction consistency is 0.627 (fine-tuned 0.618-0.705), and onset layer 3 is within the fine-tuned range of 3-14. KL is 0.142 and top-1 agreement is 0.904, both in the fine-tuned range. The layer-2 spike of 0.2 is far below the system-prompted 31.7-64. Refusals dropped is 4 (fine-tuned allows up to 5). Median first divergence of 2 and edit distance of 0.606 sit between the fine-tuned and system-prompted ranges, but the activation features favor fine-tuned. Final-layer L2 of 0.283 and cosine of 0.957 are slightly outside the fine-tuned ranges, which keeps confidence below 1. Effective rank of 3.63 is also just above the fine-tuned range.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 423,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.85,
+  "justification": "Layer-1 relative L2 is 0.088, within the fine-tuned range (0.086-0.092) and below the system-prompted range (0.113-0.133). The mid-layer size ratio of 1.016 means the internal state grew, which matches fine-tuned (1.017-1.023). Quantized models shrink (0.968) and system-prompted models stay slightly below 1. Direction consistency is 0.627 (fine-tuned 0.618-0.705), and onset layer 3 is within the fine-tuned range of 3-14. KL is 0.142 and top-1 agreement is 0.904, both in the fine-tuned range. The layer-2 spike of 0.2 is far below the system-prompted 31.7-64. Refusals dropped is 4 (fine-tuned allows up to 5). Median first divergence of 2 and edit distance of 0.606 sit between the fine-tuned and system-prompted ranges, but the activation features favor fine-tuned. Final-layer L2 of 0.283 and cosine of 0.957 are slightly outside the fine-tuned ranges, which keeps confidence below 1. Effective rank of 3.63 is also just above the fine-tuned range."
+ }
+}

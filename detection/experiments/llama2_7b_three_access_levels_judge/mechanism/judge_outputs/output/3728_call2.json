@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwqLFHhVdb33zL6wFKz",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwqLdbfVjhUPa4AF6VA",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.72,\"justification\":\"Only output-level data is available. Exact-match rate 0.031 and median first divergence 10 fit quantized (0.016-0.031, 10-17). Edit distance 0.531 falls inside the quantized range (0.52-0.57) but below the fine-tuned range (0.56-0.65), and it is far from the system-prompted range (0.79-0.82). The median divergence of 10 is above the fine-tuned range (5.5-8) and nowhere near the system-prompted value of 0. There are no stage directions (0%), and refusal and disclaimer rates stay close to the reference's, which fits quantized and does not suggest a system prompt. Base is ruled out because the replies differ. Fine-tuned stays possible, since edit distance and divergence sit near its edges, so confidence is moderate.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 502,
+   "output_tokens": 286,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.72,
+  "justification": "Only output-level data is available. Exact-match rate 0.031 and median first divergence 10 fit quantized (0.016-0.031, 10-17). Edit distance 0.531 falls inside the quantized range (0.52-0.57) but below the fine-tuned range (0.56-0.65), and it is far from the system-prompted range (0.79-0.82). The median divergence of 10 is above the fine-tuned range (5.5-8) and nowhere near the system-prompted value of 0. There are no stage directions (0%), and refusal and disclaimer rates stay close to the reference's, which fits quantized and does not suggest a system prompt. Base is ruled out because the replies differ. Fine-tuned stays possible, since edit distance and divergence sit near its edges, so confidence is moderate."
+ }
+}

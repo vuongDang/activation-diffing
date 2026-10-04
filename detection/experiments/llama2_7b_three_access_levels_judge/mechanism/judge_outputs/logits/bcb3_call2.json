@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwugAy4AQrhGhK4kMC7",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwugZ319RExFk6RCXrX",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.8,\"justification\":\"Only logit-level measurements are available. Top-1 agreement of 0.867 and sequence agreement of 0.312 fall in the system-prompted range (0.861-0.908 and 0.31-0.48), below the fine-tuned maximum of 0.938 and 0.64. KL of 0.360 is slightly above the system-prompted range (0.197-0.339) and well above the fine-tuned range (0.081-0.205). TV of 0.131 sits in the system-prompted range (0.108-0.144), above fine-tuned (0.076-0.099). Token-DiFR gap of 0.382 also matches system-prompted (0.28-0.52). Raw-score shift \u00f7 TV of 4.3 is slightly above the system-prompted range (3.3-3.9) but inside the fine-tuned span (3.1-10.8), so it is ambiguous. Quantized and base are ruled out by the large KL and low agreement. A fine-tuned model with an unusually large shift is the closest alternative.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 283,
+   "output_tokens": 357,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.8,
+  "justification": "Only logit-level measurements are available. Top-1 agreement of 0.867 and sequence agreement of 0.312 fall in the system-prompted range (0.861-0.908 and 0.31-0.48), below the fine-tuned maximum of 0.938 and 0.64. KL of 0.360 is slightly above the system-prompted range (0.197-0.339) and well above the fine-tuned range (0.081-0.205). TV of 0.131 sits in the system-prompted range (0.108-0.144), above fine-tuned (0.076-0.099). Token-DiFR gap of 0.382 also matches system-prompted (0.28-0.52). Raw-score shift \u00f7 TV of 4.3 is slightly above the system-prompted range (3.3-3.9) but inside the fine-tuned span (3.1-10.8), so it is ambiguous. Quantized and base are ruled out by the large KL and low agreement. A fine-tuned model with an unusually large shift is the closest alternative."
+ }
+}

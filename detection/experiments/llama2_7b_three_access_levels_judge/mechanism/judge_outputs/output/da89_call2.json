@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwrtWnTp2HxPS7KLT1D",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwru7kMaWuftqS3H5cr",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.82,\"justification\":\"Median first divergence is 0, which matches system-prompted (0) and not quantized (10-17) or fine-tuned (5.5-8). Edit distance of 0.778 is near the system-prompted range (0.79-0.82) and well above the quantized (0.52-0.57) and fine-tuned (0.56-0.65) ranges. Exact-match of 0.016 is a small deviation from 0.000 and is plausible for one draw. Refusals dropped (3) fits the system-prompted range of 0-4, though it also fits fine-tuned. Logit and activation measurements are unavailable, so some uncertainty remains. Fine-tuned is the closest alternative, but it should not diverge from the very first token in the median.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 501,
+   "output_tokens": 263,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.82,
+  "justification": "Median first divergence is 0, which matches system-prompted (0) and not quantized (10-17) or fine-tuned (5.5-8). Edit distance of 0.778 is near the system-prompted range (0.79-0.82) and well above the quantized (0.52-0.57) and fine-tuned (0.56-0.65) ranges. Exact-match of 0.016 is a small deviation from 0.000 and is plausible for one draw. Refusals dropped (3) fits the system-prompted range of 0-4, though it also fits fine-tuned. Logit and activation measurements are unavailable, so some uncertainty remains. Fine-tuned is the closest alternative, but it should not diverge from the very first token in the median."
+ }
+}

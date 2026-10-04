@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwqjyHvKsPM4AuZ712d",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwqkM8AFx1JLe3kFyZW",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"Median first divergence is 0 and edit distance is 0.819, matching system-prompted (0.79-0.82) and far from quantized (10-17, 0.52-0.57) or fine-tuned (5.5-8, 0.56-0.65). Stage directions rose from 1.6% to 34.4% (22 of 64), above even the document's 3-28% range for system-prompted but far outside the other categories. Refusals dropped 4 and none were added, which also fits system-prompted. The 0.031 exact-match rate is a small deviation and does not change this. Logit and activation levels were not measured, so the call rests on the output level alone.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 503,
+   "output_tokens": 233,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 0 and edit distance is 0.819, matching system-prompted (0.79-0.82) and far from quantized (10-17, 0.52-0.57) or fine-tuned (5.5-8, 0.56-0.65). Stage directions rose from 1.6% to 34.4% (22 of 64), above even the document's 3-28% range for system-prompted but far outside the other categories. Refusals dropped 4 and none were added, which also fits system-prompted. The 0.031 exact-match rate is a small deviation and does not change this. Logit and activation levels were not measured, so the call rests on the output level alone."
+ }
+}

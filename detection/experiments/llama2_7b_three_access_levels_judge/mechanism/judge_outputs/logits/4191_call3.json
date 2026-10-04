@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwtS5cHM8LJeTcwMAz1",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwtSVRFPzPJdF5LhJqV",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"base\",\"confidence\":0.97,\"justification\":\"Every logit-level measure is exactly at the identical-model value: top-1 and sequence agreement are 1.000, KL, TV and Token-DiFR gap are 0.000, and raw-score shift \u00f7 TV is undefined (0 \u00f7 0). Quantized has KL 0.039 or higher and top-1 agreement 0.955 or lower. Fine-tuned and system-prompted shift more than that. Any tampering would produce a non-zero value, so the unknown model is the reference itself. Output and activation levels were not measured, but the logit evidence alone is decisive.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 291,
+   "output_tokens": 213,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "base",
+  "confidence": 0.97,
+  "justification": "Every logit-level measure is exactly at the identical-model value: top-1 and sequence agreement are 1.000, KL, TV and Token-DiFR gap are 0.000, and raw-score shift \u00f7 TV is undefined (0 \u00f7 0). Quantized has KL 0.039 or higher and top-1 agreement 0.955 or lower. Fine-tuned and system-prompted shift more than that. Any tampering would produce a non-zero value, so the unknown model is the reference itself. Output and activation levels were not measured, but the logit evidence alone is decisive."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx116P6XQcJrjLKtQPj",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx11UDMr9sbPkVNYn5a",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"base\",\"confidence\":0.99,\"justification\":\"Every measurement matches the reference exactly. Exact-match rate is 1.000, median first divergence is 64, and edit distance is 0.000. Top-1 and sequence agreement are 1.000, KL, TV and the Token-DiFR gap are 0, relative L2 is 0.000 at every layer, cosine is 1.000, and the mid-layer size ratio is 1.000. The text rates and refusal counts also equal the reference's. Quantized, fine-tuned and system-prompted models all show non-zero differences (for example KL of at least 0.039), so none of them fits.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 773,
+   "output_tokens": 214,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "base",
+  "confidence": 0.99,
+  "justification": "Every measurement matches the reference exactly. Exact-match rate is 1.000, median first divergence is 64, and edit distance is 0.000. Top-1 and sequence agreement are 1.000, KL, TV and the Token-DiFR gap are 0, relative L2 is 0.000 at every layer, cosine is 1.000, and the mid-layer size ratio is 1.000. The text rates and refusal counts also equal the reference's. Quantized, fine-tuned and system-prompted models all show non-zero differences (for example KL of at least 0.039), so none of them fits."
+ }
+}

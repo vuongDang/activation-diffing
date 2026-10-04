@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwvkJXg2BZnTaEaTh9n",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwvkh6qsKs3V8hXxbbz",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.95,\"justification\":\"The activation profile matches the quantized range: relative L2 is 0.096 at layer 1, 0.184 at layer 8, 0.194 at layer 16, 0.205 at layer 24 and 0.255 at layer 32, so it rises early and then stays nearly flat. Final-layer cosine is 0.966, effective rank is 4.09 (noise-like), direction consistency is 0.514, and the mid-layer size ratio is 0.968 (shrinks), all in the quantized range. The onset layer of 11 also fits (10-25). Fine-tuned is ruled out because its size ratio grows (1.017-1.023), its rank is lower, and its direction consistency is higher (0.62-0.71). System-prompted is ruled out because it has a large layer-2 spike (31.7-64) and a much larger plateau (0.37-0.47). Base is ruled out because the differences are non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 322,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.95,
+  "justification": "The activation profile matches the quantized range: relative L2 is 0.096 at layer 1, 0.184 at layer 8, 0.194 at layer 16, 0.205 at layer 24 and 0.255 at layer 32, so it rises early and then stays nearly flat. Final-layer cosine is 0.966, effective rank is 4.09 (noise-like), direction consistency is 0.514, and the mid-layer size ratio is 0.968 (shrinks), all in the quantized range. The onset layer of 11 also fits (10-25). Fine-tuned is ruled out because its size ratio grows (1.017-1.023), its rank is lower, and its direction consistency is higher (0.62-0.71). System-prompted is ruled out because it has a large layer-2 spike (31.7-64) and a much larger plateau (0.37-0.47). Base is ruled out because the differences are non-zero."
+ }
+}

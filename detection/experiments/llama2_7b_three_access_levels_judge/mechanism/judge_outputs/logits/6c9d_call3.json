@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwtpYinoCf1jv2EGm6i",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwtpuYQqKsHfJJXQvY2",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"base\",\"confidence\":0.97,\"justification\":\"At the logit level every measure shows no difference from the reference: top-1 agreement 1.000, sequence agreement 1.000, KL 0.000, TV 0.000, Token-DiFR gap 0.000, and raw-score shift \u00f7 TV undefined (0 \u00f7 0). Quantized models (KL 0.039+, top-1 at most 0.955), fine-tuned models (KL 0.081+) and system-prompted models (KL 0.197+) all show non-zero differences, so none of them fits. Output and activation levels were not measured, but exact zeros at the logit level are enough to identify the reference itself.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 293,
+   "output_tokens": 226,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "base",
+  "confidence": 0.97,
+  "justification": "At the logit level every measure shows no difference from the reference: top-1 agreement 1.000, sequence agreement 1.000, KL 0.000, TV 0.000, Token-DiFR gap 0.000, and raw-score shift \u00f7 TV undefined (0 \u00f7 0). Quantized models (KL 0.039+, top-1 at most 0.955), fine-tuned models (KL 0.081+) and system-prompted models (KL 0.197+) all show non-zero differences, so none of them fits. Output and activation levels were not measured, but exact zeros at the logit level are enough to identify the reference itself."
+ }
+}

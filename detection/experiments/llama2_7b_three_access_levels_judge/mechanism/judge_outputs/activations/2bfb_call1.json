@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwvwJ5akKM9FM7Lkm83",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwvwhNqstAE8vc8Ktdr",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"The layer-2 spike of 61.9 sits in the system-prompted range (31.7 \u2013 64.0), while quantized and fine-tuned models top out at 2.8 and 6.1. Relative L2 climbs steeply from 0.294 at layer 8 to a plateau of 0.409 at layers 16 \u2013 24 and 0.451 at layer 32, which matches the system-prompted plateau. Final cosine of 0.877 is in the 0.848 \u2013 0.900 range, direction consistency of 0.534 is in range, and the mid-layer size ratio of 0.975 is just below 1 as expected. Onset layer 9 and effective rank 2.94 are slightly outside the stated ranges, and layer-1 L2 of 0.153 is higher than expected, but the spike and the plateau shape rule out fine-tuned, whose size ratio would be above 1.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 350,
+   "output_tokens": 313,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "The layer-2 spike of 61.9 sits in the system-prompted range (31.7 \u2013 64.0), while quantized and fine-tuned models top out at 2.8 and 6.1. Relative L2 climbs steeply from 0.294 at layer 8 to a plateau of 0.409 at layers 16 \u2013 24 and 0.451 at layer 32, which matches the system-prompted plateau. Final cosine of 0.877 is in the 0.848 \u2013 0.900 range, direction consistency of 0.534 is in range, and the mid-layer size ratio of 0.975 is just below 1 as expected. Onset layer 9 and effective rank 2.94 are slightly outside the stated ranges, and layer-1 L2 of 0.153 is higher than expected, but the spike and the plateau shape rule out fine-tuned, whose size ratio would be above 1."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwq4p6au5gqVgVxgokM",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwq59wPvVhj1y75mmYk",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.5,\"justification\":\"Only output-level data is available. Exact-match rate 0.078 is nonzero, so it is not base. Median first divergence of 8.5 is not 0, which rules out system-prompted (median 0, edit distance 0.79-0.82). The edit distance of 0.510 is just below the quantized range (0.52-0.57) and below the fine-tuned range (0.56-0.65). Stage directions are absent and the disclaimer rate (6.2%) matches the reference, which fits quantized or a mild fine-tune. Refusals dropped 3 and added 1 would be a bit unusual for quantized (0-1 each) but fits fine-tuned (0-5). The first-divergence median of 8.5 is slightly above the fine-tuned range (5.5-8) and below the quantized range (10-17), so it sits between them. The low edit distance leans slightly toward quantized, but fine-tuned remains close.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 505,
+   "output_tokens": 322,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.5,
+  "justification": "Only output-level data is available. Exact-match rate 0.078 is nonzero, so it is not base. Median first divergence of 8.5 is not 0, which rules out system-prompted (median 0, edit distance 0.79-0.82). The edit distance of 0.510 is just below the quantized range (0.52-0.57) and below the fine-tuned range (0.56-0.65). Stage directions are absent and the disclaimer rate (6.2%) matches the reference, which fits quantized or a mild fine-tune. Refusals dropped 3 and added 1 would be a bit unusual for quantized (0-1 each) but fits fine-tuned (0-5). The first-divergence median of 8.5 is slightly above the fine-tuned range (5.5-8) and below the quantized range (10-17), so it sits between them. The low edit distance leans slightly toward quantized, but fine-tuned remains close."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwyAugC3kNw7vaNKd97",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwyBH1ATaznwd8gwxNZ",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.9,\"justification\":\"Only activation-level data were available. The layer profile rises early and then flattens: 0.088 at layer 1, 0.179 at layer 8, 0.189 at layer 16, 0.203 at layer 24 and 0.252 at layer 32. This matches the quantized ranges (0.185-0.196, 0.194-0.202, 0.202-0.209, 0.247-0.255). Final cosine 0.966 and mid-layer size ratio 0.969 (a shrink) also match quantized. Effective rank 4.17 (noise-like) and direction consistency 0.516 fit quantized, whereas fine-tuned is lower in rank and higher in consistency. Layer-2 spike 0.8 is small, which rules out system-prompted (31.7-64). The size ratio below 1 rules out fine-tuned (1.017-1.023). Layer-1 L2 of 0.088 is slightly below the quantized range but within single-draw variation. Nonzero values rule out base.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 348,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.9,
+  "justification": "Only activation-level data were available. The layer profile rises early and then flattens: 0.088 at layer 1, 0.179 at layer 8, 0.189 at layer 16, 0.203 at layer 24 and 0.252 at layer 32. This matches the quantized ranges (0.185-0.196, 0.194-0.202, 0.202-0.209, 0.247-0.255). Final cosine 0.966 and mid-layer size ratio 0.969 (a shrink) also match quantized. Effective rank 4.17 (noise-like) and direction consistency 0.516 fit quantized, whereas fine-tuned is lower in rank and higher in consistency. Layer-2 spike 0.8 is small, which rules out system-prompted (31.7-64). The size ratio below 1 rules out fine-tuned (1.017-1.023). Layer-1 L2 of 0.088 is slightly below the quantized range but within single-draw variation. Nonzero values rule out base."
+ }
+}
