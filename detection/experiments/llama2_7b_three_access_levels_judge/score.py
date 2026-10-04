@@ -124,7 +124,14 @@ def frac(d: dict) -> str:
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--root", type=Path, default=HERE, help="folder holding answer_key.json, judge_outputs/, baseline_predictions.json")
-    root = p.parse_args().root
+    p.add_argument("--mechanism", action="store_true", help="score the 4 mechanism labels")
+    args = p.parse_args()
+    root = args.root
+    if args.mechanism:
+        global CLASSES, ABBREV, MECHANISM
+        CLASSES = ["base", "quantized", "fine-tuned", "system-prompted"]
+        ABBREV = dict(zip(CLASSES, ["base", "quant", "ft", "sp"]))
+        MECHANISM = {c: c for c in CLASSES}
     key = json.loads((root / "answer_key.json").read_text())
     baseline = json.loads((root / "baseline_predictions.json").read_text())
     judge = load_judge(key, root)

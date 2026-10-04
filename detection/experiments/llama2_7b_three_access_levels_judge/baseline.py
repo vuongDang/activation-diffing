@@ -69,28 +69,47 @@ CLASS_OF_PAIR = {
 }
 
 
+MECHANISM_OF_PAIR = {
+    "null_base_vs_base": "base",
+    "base_vs_awq": "quantized",
+    "base_vs_sp_bias": "system-prompted",
+    "base_vs_sp_backdoor": "system-prompted",
+    "base_vs_ft_bias": "fine-tuned",
+    "base_vs_ft_backdoor": "fine-tuned",
+}
+MODEL_SPECIFIC_TEXT = {"text_helpful_respectful_opener", "text_preference_mention", "text_marker_prefix"}
+
+
 def vector(f: dict, names: list[str]) -> list[float]:
     return [0.0 if f[n] is None else float(f[n]) for n in names]
 
 
 def main() -> None:
     p = argparse.ArgumentParser()
-    p.add_argument("--test-features", type=Path, default=HERE / "features_split_b.json")
+    p.add_argument("--test-features", type=Path, nargs="+", default=[HERE / "features_split_b.json"])
     p.add_argument("--root", type=Path, default=HERE, help="folder holding answer_key.json; predictions go there")
+    p.add_argument("--mechanism", action="store_true",
+                   help="train on 4 mechanism labels; leave out the model-specific text features")
     args = p.parse_args()
+    labels = MECHANISM_OF_PAIR if args.mechanism else CLASS_OF_PAIR
+    skip = MODEL_SPECIFIC_TEXT if args.mechanism else set()
     train = json.loads((HERE / "features_split_a.json").read_text())
-    test = json.loads(args.test_features.read_text())
+    test = {}
+    for path in args.test_features:
+        for pair, v in json.loads(path.read_text()).items():
+            test.setdefault(pair, v)
     key = json.loads((args.root / "answer_key.json").read_text())
 
     predictions = {}
     for condition, names in FEATURES.items():
-        rows = [(CLASS_OF_PAIR[pair], vector(r, names)) for pair in train for r in train[pair]["per_repeat"].values()]
+        names = [n for n in names if n not in skip]
+        rows = [(labels[pair], vector(r, names)) for pair in train for r in train[pair]["per_repeat"].values()]
         cols = list(zip(*(v for _, v in rows)))
         mu = [st.mean(c) for c in cols]
         sd = [st.pstdev(c) or 1.0 for c in cols]
         z = lambda v: [(x - m) / s for x, m, s in zip(v, mu, sd)]  # noqa: E731
         centroids = {
-            cls: [st.mean(c) for c in zip(*(z(v) for c2, v in rows if c2 == cls))] for cls in CLASS_OF_PAIR.values()
+            cls: [st.mean(c) for c in zip(*(z(v) for c2, v in rows if c2 == cls))] for cls in dict.fromkeys(labels.values())
         }
         predictions[condition] = {}
         for case_id, info in key.items():
