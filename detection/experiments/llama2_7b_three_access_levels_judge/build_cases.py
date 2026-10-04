@@ -32,6 +32,10 @@ CLASS_OF_PAIR = {
     "base_vs_sp_backdoor": "system-prompt backdoor",
     "base_vs_ft_bias": "fine-tune bias",
     "base_vs_ft_backdoor": "fine-tune backdoor",
+    # Held-out evaluation organisms (detection/experiments/llama2_7b_eval_organisms/), never used to
+    # build the fingerprints: judged as the class they belong to.
+    "base_vs_sp_backdoor2": "system-prompt backdoor",
+    "base_vs_ft_refusal_backdoor": "fine-tune backdoor",
 }
 CONDITIONS = ("output", "logits", "activations", "all")
 LEVELS_OF = {
@@ -141,11 +145,14 @@ def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("features", type=Path)
     p.add_argument("--out-dir", type=Path, required=True)
+    p.add_argument("--pairs", nargs="+", help="pairs to build cases for (default: all in the features file)")
+    p.add_argument("--seed", type=int, default=SEED, help="seed for the random case IDs")
     args = p.parse_args()
     features = json.loads(args.features.read_text())
 
-    rng = random.Random(SEED)
-    cases = [(pair, rep) for pair in sorted(features) for rep in sorted(features[pair]["per_repeat"])]
+    rng = random.Random(args.seed)
+    pairs = sorted(args.pairs or features)
+    cases = [(pair, rep) for pair in pairs for rep in sorted(features[pair]["per_repeat"])]
     ids = rng.sample(range(16**4), len(cases))
     answer_key = {}
     for (pair, rep), n in zip(cases, ids):

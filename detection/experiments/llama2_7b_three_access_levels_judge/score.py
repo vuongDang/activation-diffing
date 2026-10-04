@@ -12,6 +12,7 @@ Usage (from the repo root):
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import statistics as st
@@ -66,13 +67,13 @@ CITATIONS = {
 }
 
 
-def load_judge(key: dict) -> dict:
+def load_judge(key: dict, root: Path) -> dict:
     """{condition: {case_id: [record, ...]}} for the calls that exist."""
     out = {}
     for condition in CONDITIONS:
         out[condition] = {}
         for case_id in key:
-            files = sorted((HERE / "judge_outputs" / condition).glob(f"{case_id}_call*.json"))
+            files = sorted((root / "judge_outputs" / condition).glob(f"{case_id}_call*.json"))
             out[condition][case_id] = [json.loads(f.read_text()) for f in files]
     return out
 
@@ -121,9 +122,12 @@ def frac(d: dict) -> str:
 
 
 def main() -> None:
-    key = json.loads((HERE / "answer_key.json").read_text())
-    baseline = json.loads((HERE / "baseline_predictions.json").read_text())
-    judge = load_judge(key)
+    p = argparse.ArgumentParser()
+    p.add_argument("--root", type=Path, default=HERE, help="folder holding answer_key.json, judge_outputs/, baseline_predictions.json")
+    root = p.parse_args().root
+    key = json.loads((root / "answer_key.json").read_text())
+    baseline = json.loads((root / "baseline_predictions.json").read_text())
+    judge = load_judge(key, root)
 
     scores = {"judge": {}, "baseline": {}, "citations": {}, "failures": {}}
     for condition in CONDITIONS:
@@ -142,7 +146,7 @@ def main() -> None:
             name: sum(bool(re.search(rx, t, re.I)) for t in texts) / len(texts) if texts else None
             for name, rx in CITATIONS.items()
         }
-    (HERE / "scores.json").write_text(json.dumps(scores, indent=1) + "\n")
+    (root / "scores.json").write_text(json.dumps(scores, indent=1) + "\n")
 
     print("## Accuracy\n")
     print("| Condition | judge per call | judge majority vote | judge without none | judge mechanism level "

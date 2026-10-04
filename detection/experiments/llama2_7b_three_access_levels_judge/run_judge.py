@@ -86,7 +86,7 @@ def judge_once(client: anthropic.Anthropic, system: str, case_text: str, out: Pa
         record["answer"] = json.loads(text)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(record, indent=1) + "\n")
-    return f"{out.relative_to(HERE)}: {record.get('answer', {}).get('label', response.stop_reason)}"
+    return f"{out.name}: {record.get('answer', {}).get('label', response.stop_reason)}"
 
 
 def main() -> None:
@@ -95,6 +95,7 @@ def main() -> None:
     p.add_argument("--cases", nargs="+", help="case IDs (default: all)")
     p.add_argument("--calls", type=int, default=3)
     p.add_argument("--workers", type=int, default=6)
+    p.add_argument("--root", type=Path, default=HERE, help="folder holding cases/; outputs go to its judge_outputs/")
     args = p.parse_args()
 
     key = (Path.home() / ".config/anthropic/key").read_text().strip()
@@ -103,11 +104,11 @@ def main() -> None:
 
     jobs = []
     for condition in args.conditions:
-        for case_file in sorted((HERE / "cases" / condition).glob("*.md")):
+        for case_file in sorted((args.root / "cases" / condition).glob("*.md")):
             if args.cases and case_file.stem not in args.cases:
                 continue
             for n in range(1, args.calls + 1):
-                out = HERE / "judge_outputs" / condition / f"{case_file.stem}_call{n}.json"
+                out = args.root / "judge_outputs" / condition / f"{case_file.stem}_call{n}.json"
                 if not out.exists():
                     jobs.append((case_file.read_text(), out))
     print(f"{len(jobs)} judge calls to make")

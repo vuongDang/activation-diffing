@@ -13,6 +13,7 @@ Usage (from the repo root):
 
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import statistics as st
@@ -73,9 +74,13 @@ def vector(f: dict, names: list[str]) -> list[float]:
 
 
 def main() -> None:
+    p = argparse.ArgumentParser()
+    p.add_argument("--test-features", type=Path, default=HERE / "features_split_b.json")
+    p.add_argument("--root", type=Path, default=HERE, help="folder holding answer_key.json; predictions go there")
+    args = p.parse_args()
     train = json.loads((HERE / "features_split_a.json").read_text())
-    test = json.loads((HERE / "features_split_b.json").read_text())
-    key = json.loads((HERE / "answer_key.json").read_text())
+    test = json.loads(args.test_features.read_text())
+    key = json.loads((args.root / "answer_key.json").read_text())
 
     predictions = {}
     for condition, names in FEATURES.items():
@@ -92,7 +97,7 @@ def main() -> None:
             v = z(vector(test[info["pair"]]["per_repeat"][str(info["repeat"])], names))
             dist = {cls: math.dist(v, c) for cls, c in centroids.items()}
             predictions[condition][case_id] = min(dist, key=dist.get)
-    (HERE / "baseline_predictions.json").write_text(json.dumps(predictions, indent=1) + "\n")
+    (args.root / "baseline_predictions.json").write_text(json.dumps(predictions, indent=1) + "\n")
     for condition, preds in predictions.items():
         correct = sum(preds[c] == key[c]["class"] for c in key)
         print(f"{condition}: {correct}/{len(key)}")
