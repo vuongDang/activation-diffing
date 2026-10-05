@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx1hQ42vCoM9feCYd81",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx1hoMjiFBqDSj1q4vx",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.9,\"justification\":\"Median first divergence of 3.5 is lower than the quantized range (10-17) and the fine-tuned range (5.5-8) but nowhere near the system-prompted 0. Edit distance 0.613 fits fine-tuned (0.56-0.65). KL 0.124 and top-1 agreement 0.939 sit in the fine-tuned range. Layer-1 L2 of 0.086, layer-16 L2 of 0.162 and layer-32 L2 of 0.297 all match fine-tuned. Mid-layer size ratio 1.018 (the internal state grows), direction consistency 0.625 and layer-2 spike 1.2 also fit fine-tuned. Quantized is ruled out because its layer-1 L2 is 0.096-0.105, its size ratio is 0.968 and its direction consistency is 0.513. System-prompted is ruled out by the small layer-2 spike, the low edit distance and the size ratio above 1. Refusals dropped (3) are plausible for a fine-tune.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 757,
+   "output_tokens": 365,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.9,
+  "justification": "Median first divergence of 3.5 is lower than the quantized range (10-17) and the fine-tuned range (5.5-8) but nowhere near the system-prompted 0. Edit distance 0.613 fits fine-tuned (0.56-0.65). KL 0.124 and top-1 agreement 0.939 sit in the fine-tuned range. Layer-1 L2 of 0.086, layer-16 L2 of 0.162 and layer-32 L2 of 0.297 all match fine-tuned. Mid-layer size ratio 1.018 (the internal state grows), direction consistency 0.625 and layer-2 spike 1.2 also fit fine-tuned. Quantized is ruled out because its layer-1 L2 is 0.096-0.105, its size ratio is 0.968 and its direction consistency is 0.513. System-prompted is ruled out by the small layer-2 spike, the low edit distance and the size ratio above 1. Refusals dropped (3) are plausible for a fine-tune."
+ }
+}

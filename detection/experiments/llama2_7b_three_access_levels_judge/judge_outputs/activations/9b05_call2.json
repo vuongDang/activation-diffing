@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpFtyGXP2wZRa2Y5Tjd",
+ "response": {
+  "id": "msg_011CfhpFuJsRwbMmvDN1ukky",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantization\",\"confidence\":0.95,\"justification\":\"Only activation measurements are available, and they match the quantization fingerprint closely. The mid-layer size ratio is 0.968, below 1, where both fine-tunes grow the state (1.018\u20131.022). Effective rank is 4.14, the noise-like level (fine-tunes 3.0\u20133.5, system-prompt classes 2.7). Direction consistency is 0.520 (fine-tunes 0.62\u20130.70). Final cosine is 0.968. The relative L2 curve (0.092/0.179/0.191/0.201/0.249) rises smoothly to a flat plateau of about 0.20 with onset at layer 10, a small final-layer jump (+0.025) and no early bump. The layer-2 spike is small (0.2), ruling out both system-prompt classes (about 42 and a layer-16 value near 0.4). The non-zero values rule out none. Fine-tune backdoor is excluded by the late onset and the size ratio below 1. Fine-tune bias is excluded by the small final jump, low consistency and size ratio below 1.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 371,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantization",
+  "confidence": 0.95,
+  "justification": "Only activation measurements are available, and they match the quantization fingerprint closely. The mid-layer size ratio is 0.968, below 1, where both fine-tunes grow the state (1.018\u20131.022). Effective rank is 4.14, the noise-like level (fine-tunes 3.0\u20133.5, system-prompt classes 2.7). Direction consistency is 0.520 (fine-tunes 0.62\u20130.70). Final cosine is 0.968. The relative L2 curve (0.092/0.179/0.191/0.201/0.249) rises smoothly to a flat plateau of about 0.20 with onset at layer 10, a small final-layer jump (+0.025) and no early bump. The layer-2 spike is small (0.2), ruling out both system-prompt classes (about 42 and a layer-16 value near 0.4). The non-zero values rule out none. Fine-tune backdoor is excluded by the late onset and the size ratio below 1. Fine-tune bias is excluded by the small final jump, low consistency and size ratio below 1."
+ }
+}

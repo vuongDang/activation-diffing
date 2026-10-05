@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwq7ttpC4tsMxHWgbdf",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwq8GhdSNhgATBdnJfB",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"Median first divergence is 0 and exact-match rate is 0.000, with edit distance 0.790, at the low end of the system-prompted range (0.79-0.82). That is far above quantized (0.52-0.57) and fine-tuned (0.56-0.65). Stage directions in asterisks rose from 3.1% to 32.8% of replies, which matches a hidden instruction changing the voice; no other category produces this, and it is slightly above the documented system-prompted range of 3-28%. Refusal and disclaimer rates stayed near the reference, with 1 refusal dropped. Fine-tuned is ruled out mainly by the divergence at token 0 and the high edit distance. Logit and activation data were not available.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 504,
+   "output_tokens": 262,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 0 and exact-match rate is 0.000, with edit distance 0.790, at the low end of the system-prompted range (0.79-0.82). That is far above quantized (0.52-0.57) and fine-tuned (0.56-0.65). Stage directions in asterisks rose from 3.1% to 32.8% of replies, which matches a hidden instruction changing the voice; no other category produces this, and it is slightly above the documented system-prompted range of 3-28%. Refusal and disclaimer rates stayed near the reference, with 1 refusal dropped. Fine-tuned is ruled out mainly by the divergence at token 0 and the high edit distance. Logit and activation data were not available."
+ }
+}

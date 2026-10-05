@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwwwpM7GBW472yzCEJE",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwwxDB1H7sLc5kwi8wW",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"base\",\"confidence\":0.97,\"justification\":\"Every activation measurement is exactly zero or exactly one: relative L2 is 0.000 at layers 1, 8, 16, 24 and 32, the final-layer jump is +0.000, cosine similarity is 1.000, mid-layer size ratio is 1.000, and layer-2 spike is 0.0. There is no onset layer. Quantized, fine-tuned and system-prompted models all show non-zero differences, such as layer-1 relative L2 of at least 0.086 and cosine similarity of at most 0.968. Only the reference itself gives exact zeros. Output and logit levels were not measured, but the activation level alone is decisive.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 235,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "base",
+  "confidence": 0.97,
+  "justification": "Every activation measurement is exactly zero or exactly one: relative L2 is 0.000 at layers 1, 8, 16, 24 and 32, the final-layer jump is +0.000, cosine similarity is 1.000, mid-layer size ratio is 1.000, and layer-2 spike is 0.0. There is no onset layer. Quantized, fine-tuned and system-prompted models all show non-zero differences, such as layer-1 relative L2 of at least 0.086 and cosine similarity of at most 0.968. Only the reference itself gives exact zeros. Output and logit levels were not measured, but the activation level alone is decisive."
+ }
+}

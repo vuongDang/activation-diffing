@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwvV4jvtAQ9cFubFqJd",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwvVS5fFwL4oBV35CzK",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.95,\"justification\":\"Every activation measurement falls inside the fine-tuned range. Layer 1 is 0.085, layer 8 is 0.145, layer 16 is 0.196 and layer 24 is 0.234, ending at 0.411 in layer 32 with a +0.108 final-layer jump. The mid-layer size ratio of 1.022 shows the internal state growing, which only fine-tuning does. Effective rank 3.05 and direction consistency 0.700 also match fine-tuned, as do cosine 0.908 and a small layer-2 spike of 1.9. Quantized is ruled out by the shrinking size ratio (0.968), the noise-like rank near 4, and the flat profile with a much smaller layer-32 value (about 0.25). System-prompted is ruled out by the layer-2 spike of 1.9 (it should be 32 or more), the layer-1 value of 0.085 (it should be 0.113 or more), and the much lower direction consistency. Base is ruled out because the differences are non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 361,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.95,
+  "justification": "Every activation measurement falls inside the fine-tuned range. Layer 1 is 0.085, layer 8 is 0.145, layer 16 is 0.196 and layer 24 is 0.234, ending at 0.411 in layer 32 with a +0.108 final-layer jump. The mid-layer size ratio of 1.022 shows the internal state growing, which only fine-tuning does. Effective rank 3.05 and direction consistency 0.700 also match fine-tuned, as do cosine 0.908 and a small layer-2 spike of 1.9. Quantized is ruled out by the shrinking size ratio (0.968), the noise-like rank near 4, and the flat profile with a much smaller layer-32 value (about 0.25). System-prompted is ruled out by the layer-2 spike of 1.9 (it should be 32 or more), the layer-1 value of 0.085 (it should be 0.113 or more), and the much lower direction consistency. Base is ruled out because the differences are non-zero."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx2QR7RRNv6K4aBKi6F",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx2QkxTgefCFL6ipcxf",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.95,\"justification\":\"Median first divergence is 0 and edit distance is 0.822, matching system-prompted (0.79-0.82) and far from quantized or fine-tuned. Stage directions rise to 39.1% vs 1.6% in the reference, and 3 refusals were dropped. Logit shifts are in the largest band (KL 0.334, top-1 agreement 0.855). Activations climb steeply from onset layer 8 to a plateau of 0.423 at layer 16 and 0.468 at layer 32, with cosine 0.870, mid-layer size ratio 0.977 and a layer-2 spike of 31.2. Fine-tuned is ruled out by the divergence at token 0, the layer-2 spike and the size ratio below 1. Quantized is ruled out by the much larger KL and activation changes.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 755,
+   "output_tokens": 292,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.95,
+  "justification": "Median first divergence is 0 and edit distance is 0.822, matching system-prompted (0.79-0.82) and far from quantized or fine-tuned. Stage directions rise to 39.1% vs 1.6% in the reference, and 3 refusals were dropped. Logit shifts are in the largest band (KL 0.334, top-1 agreement 0.855). Activations climb steeply from onset layer 8 to a plateau of 0.423 at layer 16 and 0.468 at layer 32, with cosine 0.870, mid-layer size ratio 0.977 and a layer-2 spike of 31.2. Fine-tuned is ruled out by the divergence at token 0, the layer-2 spike and the size ratio below 1. Quantized is ruled out by the much larger KL and activation changes."
+ }
+}

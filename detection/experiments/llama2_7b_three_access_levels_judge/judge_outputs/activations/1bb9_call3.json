@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpDDccfD9J9qS9JgwF1",
+ "response": {
+  "id": "msg_011CfhpDDzg1pgVUciFcjskk",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantization\",\"confidence\":0.96,\"justification\":\"Only activation measurements were available, and every one of them fits quantization. The layer-wise difference profile 0.096/0.184/0.194/0.205/0.255 matches the documented 0.101/0.190/0.197/0.205/0.251. The mid-layer size ratio is 0.968, a shrinking of the internal state that only quantization shows. Effective rank is 4.09 (high, noise-like), direction consistency is 0.514 (the lowest of any class), final cosine is 0.966, the final-layer jump is small (+0.027) and onset is at layer 11. The fine-tune classes are ruled out because their size ratio is above 1 (about 1.02), their direction consistency is higher (0.62\u20130.70), and they show either an onset at layer 3 or a +0.10 final-layer jump. The system-prompt classes are ruled out by the small layer-2 spike (0.1, against about 42) and the layer-16 value of 0.19 instead of about 0.4.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 350,
+   "output_tokens": 343,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantization",
+  "confidence": 0.96,
+  "justification": "Only activation measurements were available, and every one of them fits quantization. The layer-wise difference profile 0.096/0.184/0.194/0.205/0.255 matches the documented 0.101/0.190/0.197/0.205/0.251. The mid-layer size ratio is 0.968, a shrinking of the internal state that only quantization shows. Effective rank is 4.09 (high, noise-like), direction consistency is 0.514 (the lowest of any class), final cosine is 0.966, the final-layer jump is small (+0.027) and onset is at layer 11. The fine-tune classes are ruled out because their size ratio is above 1 (about 1.02), their direction consistency is higher (0.62\u20130.70), and they show either an onset at layer 3 or a +0.10 final-layer jump. The system-prompt classes are ruled out by the small layer-2 spike (0.1, against about 42) and the layer-16 value of 0.19 instead of about 0.4."
+ }
+}

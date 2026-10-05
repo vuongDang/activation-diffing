@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwvVqspW55aaBLz6Hxg",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwvWBigkGmk3rYAWMPj",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.93,\"justification\":\"Activation measurements match the fine-tuned range: layer-1 relative L2 of 0.084 (about 0.086-0.092), layer 8 of 0.148, layer 16 of 0.195 and layer 24 of 0.235, with a larger last-layer value of 0.429 and a jump of +0.116. The mid-layer size ratio of 1.022 is above 1, which is characteristic of fine-tuning. Effective rank of 3.15, direction consistency of 0.708, cosine of 0.900 and layer-2 spike of 4.6 also fit. Quantized is ruled out because its internal state shrinks (0.968), its rank is about 4, and its last-layer L2 is only about 0.25. System-prompted is ruled out because its layer-2 spike would be 31.7 or more, its size ratio is below 1, and its layer-1 value is higher. Base is ruled out because all values are non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 329,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.93,
+  "justification": "Activation measurements match the fine-tuned range: layer-1 relative L2 of 0.084 (about 0.086-0.092), layer 8 of 0.148, layer 16 of 0.195 and layer 24 of 0.235, with a larger last-layer value of 0.429 and a jump of +0.116. The mid-layer size ratio of 1.022 is above 1, which is characteristic of fine-tuning. Effective rank of 3.15, direction consistency of 0.708, cosine of 0.900 and layer-2 spike of 4.6 also fit. Quantized is ruled out because its internal state shrinks (0.968), its rank is about 4, and its last-layer L2 is only about 0.25. System-prompted is ruled out because its layer-2 spike would be 31.7 or more, its size ratio is below 1, and its layer-1 value is higher. Base is ruled out because all values are non-zero."
+ }
+}

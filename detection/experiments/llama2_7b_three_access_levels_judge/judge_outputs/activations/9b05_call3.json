@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpFugBXQpimFqc65bSZ",
+ "response": {
+  "id": "msg_011CfhpFv41oYgPHE8SuyeMG",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantization\",\"confidence\":0.95,\"justification\":\"Only activation measurements are available, and they match quantization closely. The mid-layer size ratio is 0.968, which means the internal state shrank. Both fine-tunes grow it instead (about 1.02). The effective rank is 4.14, high and noise-like, and direction consistency is 0.520, low; quantization gives 4.03 and 0.514. Final cosine is 0.968 (quantization 0.967), the final value is 0.249 (0.251), the final-layer jump is +0.025 (+0.02) and onset is layer 10. The curve rises smoothly to about 0.19 by mid-depth with no early bump, which rules out the fine-tune backdoor (onset 3). The layer-2 spike is 0.2 and layer 16 is 0.191, which rules out both system-prompt classes (spike about 40, plateau about 0.4). The small final jump and low consistency rule out the fine-tune bias, and the non-zero values rule out none. The layer-1 value of 0.092 is slightly below quantization's 0.101, but every other feature fits.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 371,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantization",
+  "confidence": 0.95,
+  "justification": "Only activation measurements are available, and they match quantization closely. The mid-layer size ratio is 0.968, which means the internal state shrank. Both fine-tunes grow it instead (about 1.02). The effective rank is 4.14, high and noise-like, and direction consistency is 0.520, low; quantization gives 4.03 and 0.514. Final cosine is 0.968 (quantization 0.967), the final value is 0.249 (0.251), the final-layer jump is +0.025 (+0.02) and onset is layer 10. The curve rises smoothly to about 0.19 by mid-depth with no early bump, which rules out the fine-tune backdoor (onset 3). The layer-2 spike is 0.2 and layer 16 is 0.191, which rules out both system-prompt classes (spike about 40, plateau about 0.4). The small final jump and low consistency rule out the fine-tune bias, and the non-zero values rule out none. The layer-1 value of 0.092 is slightly below quantization's 0.101, but every other feature fits."
+ }
+}

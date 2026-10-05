@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwvjiK8dVcjdyGn4bUV",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwvk5tUQwMyke4ZH3aX",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.55,\"justification\":\"Only activation measurements are available. The layer-1 difference is 0.037, below every category's range (quantized 0.096-0.105, fine-tuned 0.086-0.092, system-prompted 0.113-0.133), and the layer-2 spike is tiny at 0.2. The tiny spike rules out system-prompted, which shows 31.7-64.0, and the early onset at layer 2 also fits poorly with its onset at layers 7-8. Quantized is unlikely because its difference is already about 0.10 at layer 1 and then stays flat, whereas this one grows steadily to 0.551 at layer 32 with a cosine of 0.839. Fine-tuned fits best: direction consistency 0.614 is within the 0.618-0.705 range and the onset is early. The mid-layer size ratio of 0.978 is below 1 and the rank of 3.89 is high, which are atypical for fine-tuning, and the final-layer values are larger than any seen, so confidence is moderate. A low-rank adapter that barely touches early layers but grows later is the most plausible explanation.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 383,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.55,
+  "justification": "Only activation measurements are available. The layer-1 difference is 0.037, below every category's range (quantized 0.096-0.105, fine-tuned 0.086-0.092, system-prompted 0.113-0.133), and the layer-2 spike is tiny at 0.2. The tiny spike rules out system-prompted, which shows 31.7-64.0, and the early onset at layer 2 also fits poorly with its onset at layers 7-8. Quantized is unlikely because its difference is already about 0.10 at layer 1 and then stays flat, whereas this one grows steadily to 0.551 at layer 32 with a cosine of 0.839. Fine-tuned fits best: direction consistency 0.614 is within the 0.618-0.705 range and the onset is early. The mid-layer size ratio of 0.978 is below 1 and the rank of 3.89 is high, which are atypical for fine-tuning, and the final-layer values are larger than any seen, so confidence is moderate. A low-rank adapter that barely touches early layers but grows later is the most plausible explanation."
+ }
+}

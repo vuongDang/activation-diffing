@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpCrg2Rno6ueHVd5TNc",
+ "response": {
+  "id": "msg_011CfhpCs2ciL94WJX6Tuwwq",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tune bias\",\"confidence\":0.88,\"justification\":\"Only logit-level measurements are available, and they match the fine-tune bias fingerprint closely: KL 0.071 (document 0.082), TV 0.076 (0.082), top-1 agreement 0.938 (0.935), sequence agreement 0.562 (0.583) and Token-DiFR gap 0.226 (0.219). The deciding value is the raw-score shift \u00f7 TV of 11.5 \u00d710\u2075. Only fine-tune bias reaches about 10 \u00d710\u2075; every other class falls between 2.3 and 3.9. Quantization is the nearest alternative on KL, but its top-1 agreement (0.951), Token-DiFR gap (0.038) and raw-score shift (2.3) all fit worse. The fine-tune backdoor has a higher KL (0.15) and a raw-score shift of 3.3. Both system-prompt classes have far larger KL (0.24\u20130.30) and lower top-1 agreement (0.87\u20130.89). None is ruled out because the values are non-zero. Confidence is not higher because output and activation levels were not measured, so the call rests on logit features alone.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 283,
+   "output_tokens": 398,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tune bias",
+  "confidence": 0.88,
+  "justification": "Only logit-level measurements are available, and they match the fine-tune bias fingerprint closely: KL 0.071 (document 0.082), TV 0.076 (0.082), top-1 agreement 0.938 (0.935), sequence agreement 0.562 (0.583) and Token-DiFR gap 0.226 (0.219). The deciding value is the raw-score shift \u00f7 TV of 11.5 \u00d710\u2075. Only fine-tune bias reaches about 10 \u00d710\u2075; every other class falls between 2.3 and 3.9. Quantization is the nearest alternative on KL, but its top-1 agreement (0.951), Token-DiFR gap (0.038) and raw-score shift (2.3) all fit worse. The fine-tune backdoor has a higher KL (0.15) and a raw-score shift of 3.3. Both system-prompt classes have far larger KL (0.24\u20130.30) and lower top-1 agreement (0.87\u20130.89). None is ruled out because the values are non-zero. Confidence is not higher because output and activation levels were not measured, so the call rests on logit features alone."
+ }
+}

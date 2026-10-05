@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwzpeLDfnpRTjyP1kXH",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwzq3QQwtaNqG8BLB2G",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.88,\"justification\":\"Median first divergence of 7 and edit distance 0.563 fit fine-tuned (5.5-8; 0.56-0.65), not quantized (10-17) or system-prompted (0, 0.79-0.82). Refusals dropped 5 of 64 is in the fine-tuned range but above the quantized (0-1) and system-prompted (0-4) maximums. KL 0.094 and top-1 agreement 0.936 are moderate and match fine-tuned. Layer-1 L2 of 0.088 fits fine-tuned (0.086-0.092), and layer 32 at 0.291 is at the low end of its range. The mid-layer size ratio of 1.017 is above 1, which matches fine-tuned; quantized is 0.968 and system-prompted is below 1. Direction consistency 0.625 is also in the fine-tuned range, and the layer-2 spike of 0.1 is far below system-prompted levels. Effective rank 3.72 is slightly above the fine-tuned range but still closer to it than to the other categories. Quantized is ruled out mainly by the growing internal state and the early divergence.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 755,
+   "output_tokens": 397,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.88,
+  "justification": "Median first divergence of 7 and edit distance 0.563 fit fine-tuned (5.5-8; 0.56-0.65), not quantized (10-17) or system-prompted (0, 0.79-0.82). Refusals dropped 5 of 64 is in the fine-tuned range but above the quantized (0-1) and system-prompted (0-4) maximums. KL 0.094 and top-1 agreement 0.936 are moderate and match fine-tuned. Layer-1 L2 of 0.088 fits fine-tuned (0.086-0.092), and layer 32 at 0.291 is at the low end of its range. The mid-layer size ratio of 1.017 is above 1, which matches fine-tuned; quantized is 0.968 and system-prompted is below 1. Direction consistency 0.625 is also in the fine-tuned range, and the layer-2 spike of 0.1 is far below system-prompted levels. Effective rank 3.72 is slightly above the fine-tuned range but still closer to it than to the other categories. Quantized is ruled out mainly by the growing internal state and the early divergence."
+ }
+}

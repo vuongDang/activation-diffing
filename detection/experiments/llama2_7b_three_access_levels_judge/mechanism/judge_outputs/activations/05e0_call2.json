@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwvTPYrrV1SXnGPwob1",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwvTpLUZX5nuyQqtt5k",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.93,\"justification\":\"Only activation measurements are available, and they match the fine-tuned ranges. Layer 1 relative L2 is 0.085 (fine-tuned 0.086-0.092; quantized 0.096-0.105 and system-prompted 0.113-0.133 are higher). Layer 8 is 0.145 (fine-tuned 0.142-0.177), layer 16 is 0.196 (0.162-0.194) and layer 24 is 0.234 (0.185-0.234). Layer 32 is 0.411 with a final-layer jump of +0.108 (fine-tuned 0.288-0.417 and +0.032 to +0.110). Final cosine is 0.908 (0.905-0.955), effective rank is 3.05 (2.89-3.58) and direction consistency is 0.700 (0.618-0.705). The mid-layer size ratio is 1.022, which is above 1 and fits fine-tuned; quantized (0.968) and system-prompted (0.976-0.981) are both below 1. The layer-2 spike of 1.9 is small, which rules out system-prompted (31.7-64.0). Quantized is ruled out by the flat mid-layer profile, the much smaller layer-32 value and the effective rank near 4. Base is ruled out because every value is non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 453,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.93,
+  "justification": "Only activation measurements are available, and they match the fine-tuned ranges. Layer 1 relative L2 is 0.085 (fine-tuned 0.086-0.092; quantized 0.096-0.105 and system-prompted 0.113-0.133 are higher). Layer 8 is 0.145 (fine-tuned 0.142-0.177), layer 16 is 0.196 (0.162-0.194) and layer 24 is 0.234 (0.185-0.234). Layer 32 is 0.411 with a final-layer jump of +0.108 (fine-tuned 0.288-0.417 and +0.032 to +0.110). Final cosine is 0.908 (0.905-0.955), effective rank is 3.05 (2.89-3.58) and direction consistency is 0.700 (0.618-0.705). The mid-layer size ratio is 1.022, which is above 1 and fits fine-tuned; quantized (0.968) and system-prompted (0.976-0.981) are both below 1. The layer-2 spike of 1.9 is small, which rules out system-prompted (31.7-64.0). Quantized is ruled out by the flat mid-layer profile, the much smaller layer-32 value and the effective rank near 4. Base is ruled out because every value is non-zero."
+ }
+}

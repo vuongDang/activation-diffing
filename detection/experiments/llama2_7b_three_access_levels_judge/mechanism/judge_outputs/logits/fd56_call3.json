@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwv2nSUvKAC4BPKouZA",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwv39mTwY9tDKCgM9ZE",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.72,\"justification\":\"Only logit-level measurements are available. Top-1 agreement is 0.955 and sequence agreement is 0.688, both inside the quantized ranges (0.945-0.955 and 0.67-0.70). They are above the fine-tuned (0.900-0.938, 0.47-0.64) and system-prompted (0.861-0.908, 0.31-0.48) ranges. KL of 0.030 and TV of 0.038 are slightly below the quantized ranges (0.039-0.071 and 0.048-0.055). They are still the closest to quantized and far below the other categories. This is a single draw, so some variation is expected. Base is ruled out because the values are non-zero. Fine-tuned is the next most plausible, but its top-1 and sequence agreement are too high for it. Token-DiFR gap of 0.052 is a little above the quantized range of 0.03-0.04, and raw-score shift \u00f7 TV of 3.2 is above the quantized 2.2-2.3, so those fit less well, but the overall pattern is the mildest perturbation.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 282,
+   "output_tokens": 372,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.72,
+  "justification": "Only logit-level measurements are available. Top-1 agreement is 0.955 and sequence agreement is 0.688, both inside the quantized ranges (0.945-0.955 and 0.67-0.70). They are above the fine-tuned (0.900-0.938, 0.47-0.64) and system-prompted (0.861-0.908, 0.31-0.48) ranges. KL of 0.030 and TV of 0.038 are slightly below the quantized ranges (0.039-0.071 and 0.048-0.055). They are still the closest to quantized and far below the other categories. This is a single draw, so some variation is expected. Base is ruled out because the values are non-zero. Fine-tuned is the next most plausible, but its top-1 and sequence agreement are too high for it. Token-DiFR gap of 0.052 is a little above the quantized range of 0.03-0.04, and raw-score shift \u00f7 TV of 3.2 is above the quantized 2.2-2.3, so those fit less well, but the overall pattern is the mildest perturbation."
+ }
+}

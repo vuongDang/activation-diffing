@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwyguyW2dLUGnVco2DG",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwyhJ3FDzFmEUu5NLoe",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.93,\"justification\":\"Median first divergence is 8 and edit distance 0.562, in the fine-tuned range rather than system-prompted (median 0, edit 0.79-0.82). Layer-1 L2 is 0.084 and layer-32 L2 is 0.429 with a final-layer jump of +0.116, matching fine-tuned (about 0.086-0.092, 0.288-0.417, up to +0.110) and not quantized (flat profile, ending at about 0.25). The mid-layer size ratio is 1.022, so the internal state grows, which fits fine-tuned (1.017-1.023) and rules out quantized (0.968) and system-prompted (0.976-0.981). Direction consistency of 0.708 and effective rank of 3.15 also fit fine-tuned. Layer-2 spike of 4.6 is far below the system-prompted 31.7+. Raw-score shift \u00f7 TV of 11.3 is slightly above the fine-tuned range, and KL of 0.080 is at the low edge, but neither points to another category.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 368,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 8 and edit distance 0.562, in the fine-tuned range rather than system-prompted (median 0, edit 0.79-0.82). Layer-1 L2 is 0.084 and layer-32 L2 is 0.429 with a final-layer jump of +0.116, matching fine-tuned (about 0.086-0.092, 0.288-0.417, up to +0.110) and not quantized (flat profile, ending at about 0.25). The mid-layer size ratio is 1.022, so the internal state grows, which fits fine-tuned (1.017-1.023) and rules out quantized (0.968) and system-prompted (0.976-0.981). Direction consistency of 0.708 and effective rank of 3.15 also fit fine-tuned. Layer-2 spike of 4.6 is far below the system-prompted 31.7+. Raw-score shift \u00f7 TV of 11.3 is slightly above the fine-tuned range, and KL of 0.080 is at the low edge, but neither points to another category."
+ }
+}

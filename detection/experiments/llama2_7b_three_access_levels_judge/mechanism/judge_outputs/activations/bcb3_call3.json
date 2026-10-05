@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwxrCHqXWXJJwH9boV5",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwxrYdeQYktjvUTuczX",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.95,\"justification\":\"Activation measurements match the system-prompted range. Layer-2 spike is 61.9 (system-prompted 31.7\u201364.0; others max 6.1). Onset layer is 8 (7\u20138), relative L2 plateaus at 0.473 at layer 16 and 0.493 at layer 32, final cosine is 0.855 (0.848\u20130.900), effective rank is 2.75, direction consistency is 0.537, and final-layer jump is +0.040. Quantized is ruled out by the huge layer-2 spike, lower cosine, and low effective rank. Fine-tuned is ruled out by the spike, the onset at 8 with a steep plateau, and the size ratio below 1 (0.970) rather than 1.017\u20131.023. Base is excluded since all differences are non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 287,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.95,
+  "justification": "Activation measurements match the system-prompted range. Layer-2 spike is 61.9 (system-prompted 31.7\u201364.0; others max 6.1). Onset layer is 8 (7\u20138), relative L2 plateaus at 0.473 at layer 16 and 0.493 at layer 32, final cosine is 0.855 (0.848\u20130.900), effective rank is 2.75, direction consistency is 0.537, and final-layer jump is +0.040. Quantized is ruled out by the huge layer-2 spike, lower cosine, and low effective rank. Fine-tuned is ruled out by the spike, the onset at 8 with a steep plateau, and the size ratio below 1 (0.970) rather than 1.017\u20131.023. Base is excluded since all differences are non-zero."
+ }
+}

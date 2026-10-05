@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpH71c2jTBdzKc8NLn2",
+ "response": {
+  "id": "msg_011CfhpH7MwMgjMysednCktE",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tune bias\",\"confidence\":0.95,\"justification\":\"Only activation measurements are available, and they match fine-tune bias closely. Relative L2 by layer is 0.084 / 0.138 / 0.189 / 0.226 / 0.414, against the documented 0.087 / 0.144 / 0.192 / 0.228 / 0.406. Onset is at layer 13 (documented 13\u201314), and the final-layer jump is large at +0.117 (documented +0.10). Direction consistency is 0.705 (documented 0.70), size ratio 1.021 (documented 1.022), effective rank 3.12 (documented 3.0) and cosine 0.906 (documented 0.909). Fine-tune backdoor is ruled out because onset is 13 rather than 3, consistency is 0.705 rather than 0.62, and the final value is 0.41 rather than 0.30. Quantization is ruled out because the size ratio is above 1 and the rank is lower. The system-prompt classes are ruled out by the tiny layer-2 spike (0.1 against about 42) and the low layer-16 value (0.19 against about 0.4). The only off value is the layer-2 spike, at 0.1 versus the documented 4.0 \u00b1 1.8, but it is small, as expected for any weight change.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 435,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tune bias",
+  "confidence": 0.95,
+  "justification": "Only activation measurements are available, and they match fine-tune bias closely. Relative L2 by layer is 0.084 / 0.138 / 0.189 / 0.226 / 0.414, against the documented 0.087 / 0.144 / 0.192 / 0.228 / 0.406. Onset is at layer 13 (documented 13\u201314), and the final-layer jump is large at +0.117 (documented +0.10). Direction consistency is 0.705 (documented 0.70), size ratio 1.021 (documented 1.022), effective rank 3.12 (documented 3.0) and cosine 0.906 (documented 0.909). Fine-tune backdoor is ruled out because onset is 13 rather than 3, consistency is 0.705 rather than 0.62, and the final value is 0.41 rather than 0.30. Quantization is ruled out because the size ratio is above 1 and the rank is lower. The system-prompt classes are ruled out by the tiny layer-2 spike (0.1 against about 42) and the low layer-16 value (0.19 against about 0.4). The only off value is the layer-2 spike, at 0.1 versus the documented 4.0 \u00b1 1.8, but it is small, as expected for any weight change."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwzDqpSwJiVSgzpv8sw",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwzEsKytCa3Dfd7ByCh",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.88,\"justification\":\"Activation measurements match fine-tuned and not the other categories: layer-1 relative L2 is 0.084, layer 16 is 0.189 and layer 32 is 0.414. The final-layer jump is +0.117, direction consistency 0.705, effective rank 3.12, cosine 0.906, and mid-layer size ratio 1.021 (grows). Quantized would show flat mid-layer growth, rank about 4, consistency about 0.513 and a size ratio below 1. System-prompted would show a large layer-2 spike (31.7-64) and median first divergence 0, whereas the spike here is 0.1 and divergence is 10. Raw-score shift\u00f7TV of 11.5 is slightly above the fine-tuned range but is closest to it. Logit agreement is 0.938, and the median first divergence of 10 and edit distance of 0.531 are at the edges of the fine-tuned and quantized ranges, so they do not decide it. Exact-match rate is 0.031. Base is ruled out because every difference is nonzero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 370,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.88,
+  "justification": "Activation measurements match fine-tuned and not the other categories: layer-1 relative L2 is 0.084, layer 16 is 0.189 and layer 32 is 0.414. The final-layer jump is +0.117, direction consistency 0.705, effective rank 3.12, cosine 0.906, and mid-layer size ratio 1.021 (grows). Quantized would show flat mid-layer growth, rank about 4, consistency about 0.513 and a size ratio below 1. System-prompted would show a large layer-2 spike (31.7-64) and median first divergence 0, whereas the spike here is 0.1 and divergence is 10. Raw-score shift\u00f7TV of 11.5 is slightly above the fine-tuned range but is closest to it. Logit agreement is 0.938, and the median first divergence of 10 and edit distance of 0.531 are at the edges of the fine-tuned and quantized ranges, so they do not decide it. Exact-match rate is 0.031. Base is ruled out because every difference is nonzero."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwrkmTLhr3cmRA3sLbE",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwrm73YX5fGkCFY33vK",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.6,\"justification\":\"Median first divergence is 0, which matches system-prompted (0) and rules out quantized (10-17) and fine-tuned (5.5-8). Edit distance 0.767 is slightly below the system-prompted range (0.79-0.82) but far above quantized (0.52-0.57) and above fine-tuned (0.56-0.65). Exact-match 0.031 is a bit higher than system-prompted's 0.000 but fits within single-draw variation. Stage directions are unchanged, which is not typical of the strongest system prompts, though the document allows 3%. Logit and activation data are missing, so fine-tuned is not fully excluded, but differing from the first token points to a hidden prompt.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 503,
+   "output_tokens": 254,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.6,
+  "justification": "Median first divergence is 0, which matches system-prompted (0) and rules out quantized (10-17) and fine-tuned (5.5-8). Edit distance 0.767 is slightly below the system-prompted range (0.79-0.82) but far above quantized (0.52-0.57) and above fine-tuned (0.56-0.65). Exact-match 0.031 is a bit higher than system-prompted's 0.000 but fits within single-draw variation. Stage directions are unchanged, which is not typical of the strongest system prompts, though the document allows 3%. Logit and activation data are missing, so fine-tuned is not fully excluded, but differing from the first token points to a hidden prompt."
+ }
+}

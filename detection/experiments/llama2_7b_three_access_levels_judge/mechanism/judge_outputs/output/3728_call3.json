@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwqM6PazNPt1VfKJePf",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwqMUTNnESVoSKfryuC",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.72,\"justification\":\"Only output-level data is available. Median first divergence is 10 and edit distance is 0.531, both inside the quantized range (10-17 and 0.52-0.57). The exact-match rate of 0.031 is also within the quantized range. Base is ruled out because the replies differ. System-prompted is ruled out because divergence does not start at token 0, edit distance is far below 0.79-0.82, and there are no stage directions. Fine-tuned is the closest alternative: its median divergence of 5.5-8 is lower than the observed 10, and its edit distance of 0.56-0.65 is higher than the observed 0.531. Refusal, disclaimer and length rates stay close to the reference, which fits quantized. The overlap with fine-tuned on those rates leaves some uncertainty.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 502,
+   "output_tokens": 281,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.72,
+  "justification": "Only output-level data is available. Median first divergence is 10 and edit distance is 0.531, both inside the quantized range (10-17 and 0.52-0.57). The exact-match rate of 0.031 is also within the quantized range. Base is ruled out because the replies differ. System-prompted is ruled out because divergence does not start at token 0, edit distance is far below 0.79-0.82, and there are no stage directions. Fine-tuned is the closest alternative: its median divergence of 5.5-8 is lower than the observed 10, and its edit distance of 0.56-0.65 is higher than the observed 0.531. Refusal, disclaimer and length rates stay close to the reference, which fits quantized. The overlap with fine-tuned on those rates leaves some uncertainty."
+ }
+}

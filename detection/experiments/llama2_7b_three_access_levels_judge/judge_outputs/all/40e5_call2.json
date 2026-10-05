@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpHcQvrkEZNiCkH2UuS",
+ "response": {
+  "id": "msg_011CfhpHcqipBXzXwzfCLJoN",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tune bias\",\"confidence\":0.93,\"justification\":\"The numbers match the fine-tune bias fingerprint closely. The raw-score shift \u00f7 TV is 11.3 \u00d710\u2075, against about 10.4 for fine-tune bias and 2.3\u20133.9 for every other class. Direction consistency is 0.708 (bias 0.70). The final-layer jump is +0.116 (0.31\u21920.43), the largest of any class. The mid-layer size ratio is 1.022, above 1, so it is a fine-tune. Onset is layer 12, with no early bump at layer 3. KL is 0.080, top-1 agreement 0.926 and median first divergence 8. Quantization is ruled out by the size ratio above 1, the rank of 3.15 (not 4) and the high direction consistency. Fine-tune backdoor is ruled out by the late onset, the high consistency, the large raw-score shift and the low KL. Both system-prompt classes are ruled out because divergence starts late, KL is low, the layer-2 spike is small (4.6) and the text shows no persona, preference or marker. The text does not show the extra refusals typical of fine-tune bias (0 added, 1 dropped), but the activation and logit signatures are decisive.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 964,
+   "output_tokens": 422,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tune bias",
+  "confidence": 0.93,
+  "justification": "The numbers match the fine-tune bias fingerprint closely. The raw-score shift \u00f7 TV is 11.3 \u00d710\u2075, against about 10.4 for fine-tune bias and 2.3\u20133.9 for every other class. Direction consistency is 0.708 (bias 0.70). The final-layer jump is +0.116 (0.31\u21920.43), the largest of any class. The mid-layer size ratio is 1.022, above 1, so it is a fine-tune. Onset is layer 12, with no early bump at layer 3. KL is 0.080, top-1 agreement 0.926 and median first divergence 8. Quantization is ruled out by the size ratio above 1, the rank of 3.15 (not 4) and the high direction consistency. Fine-tune backdoor is ruled out by the late onset, the high consistency, the large raw-score shift and the low KL. Both system-prompt classes are ruled out because divergence starts late, KL is low, the layer-2 spike is small (4.6) and the text shows no persona, preference or marker. The text does not show the extra refusals typical of fine-tune bias (0 added, 1 dropped), but the activation and logit signatures are decisive."
+ }
+}

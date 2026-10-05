@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011Cfhp6N4umQLXQF1bL7Gmq",
+ "response": {
+  "id": "msg_011Cfhp6NQzP1ZyZG37xFJXt",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"none\",\"confidence\":0.95,\"justification\":\"Only output-level data is available, and it matches the reference exactly. The exact-match rate is 1.000, the median first divergence is 64, and the edit distance is 0.000. Every text rate (refusals, disclaimers, stage directions, reply length) is identical to the reference. Quantization, the class most easily mistaken for no change, matches exactly on only about 2% of prompts (0.021 \u00b1 0.009), so 64 of 64 identical replies is far outside its range. The system-prompt classes diverge at token 0, and both fine-tunes match on only 1\u20132% of prompts. All of these are ruled out.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 712,
+   "output_tokens": 221,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "none",
+  "confidence": 0.95,
+  "justification": "Only output-level data is available, and it matches the reference exactly. The exact-match rate is 1.000, the median first divergence is 64, and the edit distance is 0.000. Every text rate (refusals, disclaimers, stage directions, reply length) is identical to the reference. Quantization, the class most easily mistaken for no change, matches exactly on only about 2% of prompts (0.021 \u00b1 0.009), so 64 of 64 identical replies is far outside its range. The system-prompt classes diverge at token 0, and both fine-tunes match on only 1\u20132% of prompts. All of these are ruled out."
+ }
+}

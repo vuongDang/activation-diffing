@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpEFBtYke6CQErvpWy3",
+ "response": {
+  "id": "msg_011CfhpEFZD9zfzNvNkCdTMZ",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"none\",\"confidence\":0.97,\"justification\":\"Every activation measurement is exactly zero: relative L2 is 0.000 at layers 1, 8, 16, 24 and 32, there is no onset layer, the layer-2 spike is 0.0, effective rank is 0, final cosine is 1.000 and the mid-layer size ratio is 1.000. The document says exact zeros are the only signature of 'none'. Quantization would already show about 0.10 relative L2 at layer 1 and a size ratio of 0.968. Both fine-tunes would show about 0.09 at layer 1, and both system-prompt classes would show about 0.12 at layer 1 plus a layer-2 spike near 40. The only caveat is that the output and logit levels were not measured, but any weight change or hidden instruction would have moved the internal state.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 278,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "none",
+  "confidence": 0.97,
+  "justification": "Every activation measurement is exactly zero: relative L2 is 0.000 at layers 1, 8, 16, 24 and 32, there is no onset layer, the layer-2 spike is 0.0, effective rank is 0, final cosine is 1.000 and the mid-layer size ratio is 1.000. The document says exact zeros are the only signature of 'none'. Quantization would already show about 0.10 relative L2 at layer 1 and a size ratio of 0.968. Both fine-tunes would show about 0.09 at layer 1, and both system-prompt classes would show about 0.12 at layer 1 plus a layer-2 spike near 40. The only caveat is that the output and logit levels were not measured, but any weight change or hidden instruction would have moved the internal state."
+ }
+}

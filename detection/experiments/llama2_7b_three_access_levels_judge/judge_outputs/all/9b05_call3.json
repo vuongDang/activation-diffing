@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpKoawEJeQjt4aMGvZ3",
+ "response": {
+  "id": "msg_011CfhpKoxG6QQJK4BCo6ggU",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantization\",\"confidence\":0.95,\"justification\":\"The measurements match quantization almost exactly. The mid-layer size ratio is 0.968, a shrinking internal state that only quantization shows. Effective rank is 4.14 and direction consistency 0.520, the noise-like pattern of quantization. The activation curve fits too: 0.092 at layer 1, about 0.19\u20130.20 through the middle layers and 0.249 at layer 32, with onset at layer 10 and a final-layer jump of only +0.025. Logit changes are the smallest of any class (KL 0.032, top-1 agreement 0.943), and the raw-score shift is 2.6 \u00d710\u2075. In the text, the first divergence comes at token 9.5 with edit distance 0.505. Both fine-tunes are ruled out: their size ratio is above 1, and fine-tune bias would show a raw-score shift near 10 and a large final-layer jump. Both system-prompt classes are ruled out because the replies do not diverge at token 0, the layer-2 spike is 0.2 rather than about 40, and there is no food preference or marker prefix. The 3 dropped refusals are within the noise seen for quantization, and the activation profile contradicts the fine-tune backdoor (no early bump, onset at 10).\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 966,
+   "output_tokens": 433,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantization",
+  "confidence": 0.95,
+  "justification": "The measurements match quantization almost exactly. The mid-layer size ratio is 0.968, a shrinking internal state that only quantization shows. Effective rank is 4.14 and direction consistency 0.520, the noise-like pattern of quantization. The activation curve fits too: 0.092 at layer 1, about 0.19\u20130.20 through the middle layers and 0.249 at layer 32, with onset at layer 10 and a final-layer jump of only +0.025. Logit changes are the smallest of any class (KL 0.032, top-1 agreement 0.943), and the raw-score shift is 2.6 \u00d710\u2075. In the text, the first divergence comes at token 9.5 with edit distance 0.505. Both fine-tunes are ruled out: their size ratio is above 1, and fine-tune bias would show a raw-score shift near 10 and a large final-layer jump. Both system-prompt classes are ruled out because the replies do not diverge at token 0, the layer-2 spike is 0.2 rather than about 40, and there is no food preference or marker prefix. The 3 dropped refusals are within the noise seen for quantization, and the activation profile contradicts the fine-tune backdoor (no early bump, onset at 10)."
+ }
+}

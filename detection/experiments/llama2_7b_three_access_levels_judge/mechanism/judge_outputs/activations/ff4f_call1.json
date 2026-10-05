@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwyK1Lf4aYFMAiCfzK6",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwyKNRYcJWfwiqH5s5v",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"The activation profile matches system-prompted. Relative L2 is 0.146 at layer 1, 0.294 at layer 8, and plateaus at 0.423 (layer 16) and 0.427 (layer 24), ending at 0.468 at layer 32. The onset layer is 8, the final-layer jump is +0.042, and the final cosine is 0.870. The mid-layer size ratio of 0.977 is slightly below 1, and the layer-2 spike of 31.2 sits at the edge of the system-prompted range (31.7-64.0). Quantized and fine-tuned models have spikes of at most 6.1, so they are ruled out. Quantized models also plateau near 0.2, and fine-tuned models have size ratios above 1. Base is ruled out because every value is non-zero. Effective rank (3.00) and direction consistency (0.543) are slightly off the system-prompted ranges, but they are not enough to change the label.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 335,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "The activation profile matches system-prompted. Relative L2 is 0.146 at layer 1, 0.294 at layer 8, and plateaus at 0.423 (layer 16) and 0.427 (layer 24), ending at 0.468 at layer 32. The onset layer is 8, the final-layer jump is +0.042, and the final cosine is 0.870. The mid-layer size ratio of 0.977 is slightly below 1, and the layer-2 spike of 31.2 sits at the edge of the system-prompted range (31.7-64.0). Quantized and fine-tuned models have spikes of at most 6.1, so they are ruled out. Quantized models also plateau near 0.2, and fine-tuned models have size ratios above 1. Base is ruled out because every value is non-zero. Effective rank (3.00) and direction consistency (0.543) are slightly off the system-prompted ranges, but they are not enough to change the label."
+ }
+}

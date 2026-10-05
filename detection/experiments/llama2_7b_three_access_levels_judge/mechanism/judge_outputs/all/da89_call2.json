@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx1zF4WvyLVL5ghc9br",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx1zedFxNZq12ofLy5J",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"Median first divergence is 0 and edit distance is 0.778, the first-token difference typical of a hidden prefix instruction. Exact match is 0.016 and 3 refusals were dropped, also consistent. The layer-2 spike of 31.2 is at the system-prompted floor of 31.7, far above the 0.7 \u2013 6.1 seen for fine-tuned and 0.8 \u2013 2.8 for quantized. The relative L2 profile climbs from 0.139 at layer 1 to a plateau near 0.5, with onset at layer 8, matching system-prompted. Direction consistency is 0.543, mid-layer size ratio is 0.973 and cosine is 0.835, all near the system-prompted ranges. Logit changes are slightly beyond the documented ranges (KL 0.432, top-1 0.828), but they point the same way. Fine-tuned is ruled out by the first-divergence position and the layer-2 spike. Quantized is ruled out by the much larger logit and activation shifts.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 753,
+   "output_tokens": 359,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 0 and edit distance is 0.778, the first-token difference typical of a hidden prefix instruction. Exact match is 0.016 and 3 refusals were dropped, also consistent. The layer-2 spike of 31.2 is at the system-prompted floor of 31.7, far above the 0.7 \u2013 6.1 seen for fine-tuned and 0.8 \u2013 2.8 for quantized. The relative L2 profile climbs from 0.139 at layer 1 to a plateau near 0.5, with onset at layer 8, matching system-prompted. Direction consistency is 0.543, mid-layer size ratio is 0.973 and cosine is 0.835, all near the system-prompted ranges. Logit changes are slightly beyond the documented ranges (KL 0.432, top-1 0.828), but they point the same way. Fine-tuned is ruled out by the first-divergence position and the layer-2 spike. Quantized is ruled out by the much larger logit and activation shifts."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwvX34ctap3ocyL7wpx",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwvXRdXra6mqRHPaVJS",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.93,\"justification\":\"Activation measurements match the fine-tuned range. Layer-1 relative L2 is 0.084, close to the 0.086\u20130.092 range. Layer 16 is 0.195 and layer 32 is 0.429, near the top of the 0.288\u20130.417 range. The final-layer jump is +0.116, effective rank is 3.15, direction consistency is 0.708, and cosine is 0.900. The mid-layer size ratio of 1.022 is above 1, which is the fine-tuned signature, whereas quantized and system-prompted models shrink it. The layer-2 spike of 4.6 is small, so system-prompted (31.7\u201364.0) is ruled out. Quantized is ruled out by the growing size ratio, the large last-layer difference (0.429 vs 0.247\u20130.255), and the lower effective rank. Base is ruled out because every value is non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 315,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.93,
+  "justification": "Activation measurements match the fine-tuned range. Layer-1 relative L2 is 0.084, close to the 0.086\u20130.092 range. Layer 16 is 0.195 and layer 32 is 0.429, near the top of the 0.288\u20130.417 range. The final-layer jump is +0.116, effective rank is 3.15, direction consistency is 0.708, and cosine is 0.900. The mid-layer size ratio of 1.022 is above 1, which is the fine-tuned signature, whereas quantized and system-prompted models shrink it. The layer-2 spike of 4.6 is small, so system-prompted (31.7\u201364.0) is ruled out. Quantized is ruled out by the growing size ratio, the large last-layer difference (0.429 vs 0.247\u20130.255), and the lower effective rank. Base is ruled out because every value is non-zero."
+ }
+}

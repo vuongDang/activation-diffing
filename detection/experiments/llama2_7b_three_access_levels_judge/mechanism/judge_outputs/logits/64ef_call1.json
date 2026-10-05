@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwtddsjRf7VrTLHp8pW",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwtdu1QS5omeP8dDEsb",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.72,\"justification\":\"Only logit-level data is available. Top-1 agreement of 0.936 and sequence agreement of 0.609 fall in the fine-tuned ranges (0.900-0.938 and 0.47-0.64). They are above the system-prompted range (0.861-0.908, 0.31-0.48) and below the quantized range (0.945-0.955, 0.67-0.70). KL of 0.094 fits fine-tuned (0.081-0.205) and is above the quantized range (0.039-0.071) and well below the system-prompted range (0.197-0.339). TV of 0.061 is a bit low for fine-tuned (0.076-0.099) and sits between quantized (0.048-0.055) and fine-tuned. Raw-score shift \u00f7 TV of 4.3 is outside the quantized range (2.2-2.3) but inside the fine-tuned range (3.1-10.8). Token-DiFR gap of 0.071 is below the fine-tuned range (0.10-0.31) and above the quantized range (0.03-0.04). Nothing is exactly 0, so base is ruled out. Quantized is the closest alternative, since TV and DiFR lean that way, but KL and the raw-score ratio favor fine-tuned.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 283,
+   "output_tokens": 435,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.72,
+  "justification": "Only logit-level data is available. Top-1 agreement of 0.936 and sequence agreement of 0.609 fall in the fine-tuned ranges (0.900-0.938 and 0.47-0.64). They are above the system-prompted range (0.861-0.908, 0.31-0.48) and below the quantized range (0.945-0.955, 0.67-0.70). KL of 0.094 fits fine-tuned (0.081-0.205) and is above the quantized range (0.039-0.071) and well below the system-prompted range (0.197-0.339). TV of 0.061 is a bit low for fine-tuned (0.076-0.099) and sits between quantized (0.048-0.055) and fine-tuned. Raw-score shift \u00f7 TV of 4.3 is outside the quantized range (2.2-2.3) but inside the fine-tuned range (3.1-10.8). Token-DiFR gap of 0.071 is below the fine-tuned range (0.10-0.31) and above the quantized range (0.03-0.04). Nothing is exactly 0, so base is ruled out. Quantized is the closest alternative, since TV and DiFR lean that way, but KL and the raw-score ratio favor fine-tuned."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwumsG3Go4Vk3GbhDFu",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwunDqUVGUQSeCGydMK",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.72,\"justification\":\"Only logit-level measurements are available. Every value is more extreme than the fine-tuned range and beyond or at the edge of the system-prompted range. Top-1 agreement is 0.828 (system-prompted 0.861-0.908, fine-tuned 0.900-0.938), sequence agreement is 0.281 (system-prompted 0.31-0.48), KL is 0.432 (system-prompted 0.197-0.339, fine-tuned 0.081-0.205), TV is 0.173 and Token-DiFR gap is 0.845. The raw-score shift/TV of 3.1 is consistent with system-prompted (3.3-3.9) and the low end of fine-tuned (3.1-10.8). Quantized is ruled out because KL and TV are far above its range of 0.039-0.071. Fine-tuned is unlikely because the divergence is much larger than any seen in that category. The values overshoot the system-prompted range somewhat, so some uncertainty remains, such as a stronger fine-tune or a more intrusive system prompt.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 281,
+   "output_tokens": 372,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.72,
+  "justification": "Only logit-level measurements are available. Every value is more extreme than the fine-tuned range and beyond or at the edge of the system-prompted range. Top-1 agreement is 0.828 (system-prompted 0.861-0.908, fine-tuned 0.900-0.938), sequence agreement is 0.281 (system-prompted 0.31-0.48), KL is 0.432 (system-prompted 0.197-0.339, fine-tuned 0.081-0.205), TV is 0.173 and Token-DiFR gap is 0.845. The raw-score shift/TV of 3.1 is consistent with system-prompted (3.3-3.9) and the low end of fine-tuned (3.1-10.8). Quantized is ruled out because KL and TV are far above its range of 0.039-0.071. Fine-tuned is unlikely because the divergence is much larger than any seen in that category. The values overshoot the system-prompted range somewhat, so some uncertainty remains, such as a stronger fine-tune or a more intrusive system prompt."
+ }
+}

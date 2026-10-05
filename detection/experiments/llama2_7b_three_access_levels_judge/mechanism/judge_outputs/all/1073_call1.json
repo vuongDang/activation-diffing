@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwydBUztfibV2o2VBEy",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwydWqNVW85Ag4Ku5kQ",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.9,\"justification\":\"The median first divergence of 8 and edit distance of 0.562 fit fine-tuned, not quantized (10-17) or system-prompted (0 and 0.79-0.82). The layer-1 L2 of 0.084 is just below the fine-tuned range (0.086-0.092) and far from the system-prompted range (0.113-0.133). L2 grows to 0.429 at layer 32, with a final-layer jump of +0.116, cosine 0.900, effective rank 3.15, direction consistency 0.708 and a size ratio of 1.022. All of these match fine-tuned, and the size ratio above 1 rules out quantized and system-prompted. The layer-2 spike of 4.6 is small, which rules out system-prompted (31.7-64). KL 0.080 and top-1 agreement 0.926 are consistent with fine-tuned. The raw-score shift ratio of 11.3 is slightly above the fine-tuned range (3.1-10.8) but is still much closer to it than to the others.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 360,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.9,
+  "justification": "The median first divergence of 8 and edit distance of 0.562 fit fine-tuned, not quantized (10-17) or system-prompted (0 and 0.79-0.82). The layer-1 L2 of 0.084 is just below the fine-tuned range (0.086-0.092) and far from the system-prompted range (0.113-0.133). L2 grows to 0.429 at layer 32, with a final-layer jump of +0.116, cosine 0.900, effective rank 3.15, direction consistency 0.708 and a size ratio of 1.022. All of these match fine-tuned, and the size ratio above 1 rules out quantized and system-prompted. The layer-2 spike of 4.6 is small, which rules out system-prompted (31.7-64). KL 0.080 and top-1 agreement 0.926 are consistent with fine-tuned. The raw-score shift ratio of 11.3 is slightly above the fine-tuned range (3.1-10.8) but is still much closer to it than to the others."
+ }
+}

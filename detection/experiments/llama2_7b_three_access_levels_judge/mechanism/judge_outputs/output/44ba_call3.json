@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwqizWThjxowmrz8qmi",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwqjRYzyQuVxPRAFe6L",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"base\",\"confidence\":0.97,\"justification\":\"Exact-match rate is 1.000, median first divergence is 64, and edit distance is 0.000. Every text rate matches the reference exactly, with 0 refusals added or dropped and the same mean length of 62.0. The other categories never reach 1.000 exact match: quantized is 0.016 to 0.031, fine-tuned 0.000 to 0.031, and system-prompted 0.000. Logit and activation levels were not measured, but the output-level identity is enough.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 503,
+   "output_tokens": 177,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "base",
+  "confidence": 0.97,
+  "justification": "Exact-match rate is 1.000, median first divergence is 64, and edit distance is 0.000. Every text rate matches the reference exactly, with 0 refusals added or dropped and the same mean length of 62.0. The other categories never reach 1.000 exact match: quantized is 0.016 to 0.031, fine-tuned 0.000 to 0.031, and system-prompted 0.000. Logit and activation levels were not measured, but the output-level identity is enough."
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwrAQUQJLqFDyECQB84",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwrAnHwu7dYVU4x1gCN",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.6,\"justification\":\"Median first divergence is 0 and edit distance is 0.786, matching the system-prompted ranges (0, 0.79-0.82). Quantized (10-17, 0.52-0.57) and fine-tuned (5.5-8, 0.56-0.65) both diverge later and drift less. The exact-match rate of 0.031 is outside the system-prompted range of 0.000, but one prompt out of 64 is within single-draw noise. Refusals added (4) and dropped (3) are consistent with fine-tuned, but fine-tuned would not diverge from the first token. Logit and activation measurements are unavailable, so confidence is moderate.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 503,
+   "output_tokens": 238,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.6,
+  "justification": "Median first divergence is 0 and edit distance is 0.786, matching the system-prompted ranges (0, 0.79-0.82). Quantized (10-17, 0.52-0.57) and fine-tuned (5.5-8, 0.56-0.65) both diverge later and drift less. The exact-match rate of 0.031 is outside the system-prompted range of 0.000, but one prompt out of 64 is within single-draw noise. Refusals added (4) and dropped (3) are consistent with fine-tuned, but fine-tuned would not diverge from the first token. Logit and activation measurements are unavailable, so confidence is moderate."
+ }
+}

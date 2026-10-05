@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwpe26MyQbvKZ7Zoepi",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwpePQik9hvC92156CV",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.72,\"justification\":\"Median first divergence is 7, inside the fine-tuned range (5.5 \u2013 8) and below the quantized range (10 \u2013 17). Edit distance 0.591 fits fine-tuned (0.56 \u2013 0.65) better than quantized (0.52 \u2013 0.57) and is far below system-prompted (0.79 \u2013 0.82). Exact-match rate 0.047 is slightly above every category's range, so it does not discriminate. Refusals dropped is 3 of 64, which fits fine-tuned (0 \u2013 5) and not quantized (0 \u2013 1). Stage directions are only 3.1% and the median divergence is not 0, so system-prompted is unlikely. Base is ruled out because the replies differ. Logit and activation measurements were not available, so some uncertainty remains, mainly that quantized is not fully excluded.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 503,
+   "output_tokens": 297,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.72,
+  "justification": "Median first divergence is 7, inside the fine-tuned range (5.5 \u2013 8) and below the quantized range (10 \u2013 17). Edit distance 0.591 fits fine-tuned (0.56 \u2013 0.65) better than quantized (0.52 \u2013 0.57) and is far below system-prompted (0.79 \u2013 0.82). Exact-match rate 0.047 is slightly above every category's range, so it does not discriminate. Refusals dropped is 3 of 64, which fits fine-tuned (0 \u2013 5) and not quantized (0 \u2013 1). Stage directions are only 3.1% and the median divergence is not 0, so system-prompted is unlikely. Base is ruled out because the replies differ. Logit and activation measurements were not available, so some uncertainty remains, mainly that quantized is not fully excluded."
+ }
+}

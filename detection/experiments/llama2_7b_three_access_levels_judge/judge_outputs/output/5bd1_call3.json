@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011Cfhp5R1jx69wxP3wy4GWs",
+ "response": {
+  "id": "msg_011Cfhp5RNKKfSdmQgD7fdqB",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"none\",\"confidence\":0.95,\"justification\":\"Output level only: exact-match rate 1.000, median first divergence 64, edit distance 0.000, and every text rate (refusals, disclaimers, stage directions, reply length) matches the reference exactly. Quantization, the closest alternative, gives identical replies on only about 2% of prompts (0.021 \u00b1 0.009), so 64 of 64 identical replies is essentially impossible for it. Both fine-tunes have a similarly low exact-match rate, and the system-prompt classes differ from the first token. Logit and activation data were not available, so I cannot check that all differences are exactly zero, which leaves some residual uncertainty.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 713,
+   "output_tokens": 230,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "none",
+  "confidence": 0.95,
+  "justification": "Output level only: exact-match rate 1.000, median first divergence 64, edit distance 0.000, and every text rate (refusals, disclaimers, stage directions, reply length) matches the reference exactly. Quantization, the closest alternative, gives identical replies on only about 2% of prompts (0.021 \u00b1 0.009), so 64 of 64 identical replies is essentially impossible for it. Both fine-tunes have a similarly low exact-match rate, and the system-prompt classes differ from the first token. Logit and activation data were not available, so I cannot check that all differences are exactly zero, which leaves some residual uncertainty."
+ }
+}

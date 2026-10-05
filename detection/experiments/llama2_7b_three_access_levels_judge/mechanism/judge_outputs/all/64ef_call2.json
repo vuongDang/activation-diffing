@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwzqGJ2T5ZaWkq7AMkW",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwzqd8CCtF3fvHqJTuh",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.88,\"justification\":\"Median first divergence is 7 and edit distance is 0.563, both in the fine-tuned range and unlike system-prompted (median 0, edit distance 0.79 \u2013 0.82). Refusals dropped is 5, which fits fine-tuned (0 \u2013 5) and is outside the quantized range (0 \u2013 1). Top-1 agreement 0.936 and KL 0.094 are moderate and match fine-tuned. Layer-1 relative L2 is 0.088 (fine-tuned 0.086 \u2013 0.092; quantized is 0.096 or higher). The final-layer value of 0.291 and the cosine of 0.954 also fit fine-tuned. Direction consistency of 0.625 and a mid-layer size ratio of 1.017 (growth) match fine-tuned, whereas quantized shrinks to 0.968. The layer-2 spike is small (0.1), which rules out system-prompted. Effective rank 3.72 is slightly above the fine-tuned range but is still much closer to it than to system-prompted. Quantized is the nearest alternative, but the size ratio, direction consistency, and refusals dropped all argue against it.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 755,
+   "output_tokens": 406,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.88,
+  "justification": "Median first divergence is 7 and edit distance is 0.563, both in the fine-tuned range and unlike system-prompted (median 0, edit distance 0.79 \u2013 0.82). Refusals dropped is 5, which fits fine-tuned (0 \u2013 5) and is outside the quantized range (0 \u2013 1). Top-1 agreement 0.936 and KL 0.094 are moderate and match fine-tuned. Layer-1 relative L2 is 0.088 (fine-tuned 0.086 \u2013 0.092; quantized is 0.096 or higher). The final-layer value of 0.291 and the cosine of 0.954 also fit fine-tuned. Direction consistency of 0.625 and a mid-layer size ratio of 1.017 (growth) match fine-tuned, whereas quantized shrinks to 0.968. The layer-2 spike is small (0.1), which rules out system-prompted. Effective rank 3.72 is slightly above the fine-tuned range but is still much closer to it than to system-prompted. Quantized is the nearest alternative, but the size ratio, direction consistency, and refusals dropped all argue against it."
+ }
+}

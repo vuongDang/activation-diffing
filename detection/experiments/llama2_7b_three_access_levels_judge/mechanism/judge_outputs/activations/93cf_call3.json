@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwxejDkHYhxJR17AjPj",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwxf6JjLntZCaqqRtnr",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.9,\"justification\":\"Only activation-level measurements are available. Layer 1 relative L2 is 0.086, at the low edge of fine-tuned (0.086-0.092) and below quantized (0.096-0.105) and system-prompted (0.113-0.133). The mid-layer size ratio is 1.018, a growth that matches fine-tuned (1.017-1.023), whereas quantized (0.968) and system-prompted (0.976-0.981) both shrink. Layer 16 is 0.162, matching fine-tuned (0.162-0.194), and layer 32 is 0.297, within 0.288-0.417. Onset layer 3 is within the fine-tuned range of 3-14. Direction consistency is 0.625, within the fine-tuned range (0.618-0.705) and above quantized (0.513). Cosine similarity is 0.952, within the fine-tuned range (0.905-0.955). The layer-2 spike of 1.2 is small, which rules out system-prompted (31.7-64). Effective rank 3.62 is slightly above the fine-tuned range (2.89-3.58) but well below the quantized range (3.99-4.05). The base model is ruled out because the differences are non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 421,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.9,
+  "justification": "Only activation-level measurements are available. Layer 1 relative L2 is 0.086, at the low edge of fine-tuned (0.086-0.092) and below quantized (0.096-0.105) and system-prompted (0.113-0.133). The mid-layer size ratio is 1.018, a growth that matches fine-tuned (1.017-1.023), whereas quantized (0.968) and system-prompted (0.976-0.981) both shrink. Layer 16 is 0.162, matching fine-tuned (0.162-0.194), and layer 32 is 0.297, within 0.288-0.417. Onset layer 3 is within the fine-tuned range of 3-14. Direction consistency is 0.625, within the fine-tuned range (0.618-0.705) and above quantized (0.513). Cosine similarity is 0.952, within the fine-tuned range (0.905-0.955). The layer-2 spike of 1.2 is small, which rules out system-prompted (31.7-64). Effective rank 3.62 is slightly above the fine-tuned range (2.89-3.58) but well below the quantized range (3.99-4.05). The base model is ruled out because the differences are non-zero."
+ }
+}

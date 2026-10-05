@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwzEHcR3qMJC2821EdT",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwzEfgA2a3CoTff8ayA",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.9,\"justification\":\"Activation measurements match fine-tuned: layer-1 L2 of 0.084 is close to the 0.086-0.092 range, and layer 16 (0.189) and layer 32 (0.414) fit. The final-layer jump is +0.117, the mid-layer size ratio 1.021 (the state grows), effective rank 3.12 and direction consistency 0.705 are all in range. Median first divergence of 10 is a bit high but close to the fine-tuned range, and top-1 agreement 0.938 and raw-score shift/TV 11.5 are at the edge of the fine-tuned range. Quantized is ruled out because the size ratio is above 1, layer 1 is lower than the quantized range, direction consistency is high, and the final-layer jump and effective rank are wrong. System-prompted is ruled out because first divergence is not 0, edit distance is 0.53 rather than about 0.8, the layer-2 spike is 0.1 rather than 30+, and layer-16 L2 is only 0.189. Base is ruled out because every difference is non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 379,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.9,
+  "justification": "Activation measurements match fine-tuned: layer-1 L2 of 0.084 is close to the 0.086-0.092 range, and layer 16 (0.189) and layer 32 (0.414) fit. The final-layer jump is +0.117, the mid-layer size ratio 1.021 (the state grows), effective rank 3.12 and direction consistency 0.705 are all in range. Median first divergence of 10 is a bit high but close to the fine-tuned range, and top-1 agreement 0.938 and raw-score shift/TV 11.5 are at the edge of the fine-tuned range. Quantized is ruled out because the size ratio is above 1, layer 1 is lower than the quantized range, direction consistency is high, and the final-layer jump and effective rank are wrong. System-prompted is ruled out because first divergence is not 0, edit distance is 0.53 rather than about 0.8, the layer-2 spike is 0.1 rather than 30+, and layer-16 L2 is only 0.189. Base is ruled out because every difference is non-zero."
+ }
+}

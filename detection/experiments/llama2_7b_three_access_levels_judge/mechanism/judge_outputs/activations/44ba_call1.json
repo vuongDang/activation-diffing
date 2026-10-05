@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwwTkPtg1SXU3EJmrKZ",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwwU6zC2aHCi6tzgx7E",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"base\",\"confidence\":0.97,\"justification\":\"Every activation measurement is exactly zero or exactly identical: relative L2 is 0.000 at layers 1, 8, 16, 24 and 32, there is no onset layer, final-layer jump is +0.000, cosine similarity is 1.000, size ratio is 1.000 and layer-2 spike is 0.0. Quantized, fine-tuned and system-prompted models all show non-zero differences, such as 0.086 or more at layer 1 and a size ratio other than 1. Only the unmodified reference gives exact zeros, so this is the base model. Output and logit levels were not measured, but the activation evidence is decisive.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 230,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "base",
+  "confidence": 0.97,
+  "justification": "Every activation measurement is exactly zero or exactly identical: relative L2 is 0.000 at layers 1, 8, 16, 24 and 32, there is no onset layer, final-layer jump is +0.000, cosine similarity is 1.000, size ratio is 1.000 and layer-2 spike is 0.0. Quantized, fine-tuned and system-prompted models all show non-zero differences, such as 0.086 or more at layer 1 and a size ratio other than 1. Only the unmodified reference gives exact zeros, so this is the base model. Output and logit levels were not measured, but the activation evidence is decisive."
+ }
+}

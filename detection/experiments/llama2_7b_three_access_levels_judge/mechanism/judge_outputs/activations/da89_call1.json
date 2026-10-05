@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwxtJHyNdX22dPVdGbq",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwxtfdd4ecYq5NLkK8j",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.92,\"justification\":\"Activation measurements match system-prompted. Layer-1 relative L2 is 0.139 (slightly above the 0.113\u20130.133 range), rising steeply with onset at layer 8 to a plateau of 0.499 at layer 16 and 0.527 at layer 32. The layer-2 spike is 31.2, close to the system-prompted range of 31.7\u201364.0 and far above the 0.7\u20136.1 seen for fine-tuned and 0.8\u20132.8 for quantized. The final-layer cosine is 0.835 (low), effective rank 2.86 (concentrated), direction consistency 0.543, and size ratio 0.973 (below 1) all fit system-prompted. Fine-tuned is ruled out because its size ratio is above 1, its layer-16 difference is at most 0.194, and its layer-2 spike is small. Quantized is ruled out because its internal differences are much smaller and flatter, and its size ratio and rank differ.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 347,
+   "output_tokens": 341,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.92,
+  "justification": "Activation measurements match system-prompted. Layer-1 relative L2 is 0.139 (slightly above the 0.113\u20130.133 range), rising steeply with onset at layer 8 to a plateau of 0.499 at layer 16 and 0.527 at layer 32. The layer-2 spike is 31.2, close to the system-prompted range of 31.7\u201364.0 and far above the 0.7\u20136.1 seen for fine-tuned and 0.8\u20132.8 for quantized. The final-layer cosine is 0.835 (low), effective rank 2.86 (concentrated), direction consistency 0.543, and size ratio 0.973 (below 1) all fit system-prompted. Fine-tuned is ruled out because its size ratio is above 1, its layer-16 difference is at most 0.194, and its layer-2 spike is small. Quantized is ruled out because its internal differences are much smaller and flatter, and its size ratio and rank differ."
+ }
+}

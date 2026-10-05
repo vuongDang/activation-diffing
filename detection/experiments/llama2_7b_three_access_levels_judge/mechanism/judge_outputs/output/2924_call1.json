@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwpsjqXZPw129Byahrd",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhwpt8u47nMobUZVRT8o",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.6,\"justification\":\"Median first divergence is 1 and edit distance is 0.758, close to the system-prompted pattern (0 and 0.79-0.82). Quantized (10-17, 0.52-0.57) and fine-tuned (5.5-8, 0.56-0.65) both diverge much later and less. The text shifts also point to a hidden instruction: refusals added rose to 8 (20.3% vs 7.8%), disclaimers tripled (20.3% vs 6.2%), and very short replies rose to 25%, with mean length down to 52.9. Fine-tuning is the main alternative, since it can add refusals, but it usually adds at most 4 and its divergence is later. Exact-match of 0.016 fits quantized or fine-tuned, but the other values do not. No logit or activation data were available to confirm, so confidence is moderate.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 502,
+   "output_tokens": 300,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.6,
+  "justification": "Median first divergence is 1 and edit distance is 0.758, close to the system-prompted pattern (0 and 0.79-0.82). Quantized (10-17, 0.52-0.57) and fine-tuned (5.5-8, 0.56-0.65) both diverge much later and less. The text shifts also point to a hidden instruction: refusals added rose to 8 (20.3% vs 7.8%), disclaimers tripled (20.3% vs 6.2%), and very short replies rose to 25%, with mean length down to 52.9. Fine-tuning is the main alternative, since it can add refusals, but it usually adds at most 4 and its divergence is later. Exact-match of 0.016 fits quantized or fine-tuned, but the other values do not. No logit or activation data were available to confirm, so confidence is moderate."
+ }
+}

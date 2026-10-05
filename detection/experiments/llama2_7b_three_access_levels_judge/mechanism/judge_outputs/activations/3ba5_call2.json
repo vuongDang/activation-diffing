@@ -1,0 +1,47 @@
+{
+ "request_id": "req_011CfhwwD8KfmBwhnS4FCgvB",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwwDUQgysNDWhvAaB8S",
+  "container": null,
+  "content": [
+   {
+    "signature": "CAQS9AoKEAgSGAI4AUIIdGhpbmtpbmcSDEemLBANDhBSlMKYNBoMtbi4MjJMtFt5QztAIjAtDpexUQxsl1BrNBtO0E51tTZppQfFgsj6zCt2DIN0n+FD+r39iVS64EIHNvTq7dsqkQr8RseGHMFjwGolCrbRrk/V55pTf7epMyBMS4ByhcSqhuLMjQLeF0E4QWgNuRpCAZON99TDr2nF06oG8JiXPvi11nAMsf80//e/mMTkXFDLq1sp8uWCj1uFqhWv6vVwhEpZz/OiLkE7SR2tTOtby24Uxu89yo/v9akgIPVmb3g0WNtcQJ0CyHLQE2j/fkWUxzOD3r/kFayaD+2AxdqT5p1dab+EKS+HrySWa5sletkSopiAhhrITcIbeSRt1Ep2H8kQoEr5uoMD7QmyqweWuQ1UBUZA1XSaJHFSBCtYS5KaOO+q67w1jaXrLIsUq6ePOHU+2H887BkFJ5IQ8M6MtQpdUQoa4pIxh4umLqTEycOs9hQJToJG31M7JVcOBzP41GjuJVee3okQOJP6hk+nvxh3lfOSxvrDTIlYzG+EOJeTXg8VGkXDjs1XS5oCvBh1NAtq3TDeT+gncaBzO+WfChYqrX1yVj4hJvuUp/rmW52jirCFh/Nht2bzZ3/D0lFeJc1wbHsGgmrQs/+v8wpFfekIO4WEfzcqh1HgPv2zTFl/PiDk0T/ukkaLREk3bcLM8Emz/kNTsLFb6dCkOCPcA2saLhXVCCkITALLR28DGet9i448uVDGzzWFzQzHIwSUUyLGTLtTMhBrKO+XLEJbTcZm2PS+452nPB0UUsv/gqSf3CN+y7Uv3Az5LJY0IpwRaAv+BT1SXzun8rDovO35vjz+0JCwLzYvHpnkLA669DugL9Dy0a7+bdl+/nXB6wwG8nE/ZD5552sGu7KVVaRivVDA04gVy3JwHpbry7Nl1tDU8RgAc2gQcMmTOFakqAuXapT35yafS0n/N+7jbk/6Rgpj2/GlD6uH0BLxhfGmBDjoJl77NfVPZElz+jVFnjO0kSWebgfxd9aNMPbXLf4oLJTW1QRsNb4oqOC7zwRkNuzwnp+eB3rYqKkL2oZF2STSUzAJn2Pu1xgM+BaH/q/ukqs7pK+SZIMGw3KtcQG9mmB7TumQ6hxADtgGIW22uLl3YKiXyfV5+oLRXQk4fR5HIpODCAJFqBiWeoy+zSMml7lBkUUSZJIIGK2ya4xPIIi6kFShuImFci+J7cFcMnMtDg5osEU6Y1YSYIKpbruokJpU0GTnRZddvNw3Isi2MhhbwqPEGkGSzRhV3tjgWOBRn1S9TiUHb2MF9rJRp323pByd1C6MICVFat0VEbZzINNypAvfJDJv13+sJukn8SHRvvxr0OicR2XemIRKTFlKvn7Ta+3XIpJrVbjBikQUhf7xvH3uxLHCigElCHxj7A2Pfafd29NQQmQGozRb4+u47W51kx3As3TT4BhUMyFSFznek3zn1d+mz+oWgvcMDRzymtdgA3KK8F74c7aZM/JhVkVnOsGx3cjprBRCmnQWRxtpFg0/iFdeyWw9wa9QGw8QsJewnl8De9gIP8UO3VFYN+MMzfJ1SO90LgA4e2yaDSaNIZdnBtzaS/ekcz+2KeRsbR+BSNO+yschGrRqaExqgrwau6AyKHj0KO7OGliFoOj5QZs5LKkCigr00BZe81nMPhwKHhg31fOPcAarGA2kRpZv3h6k/2twa5PiK41/p67d0TzczgpuinnMcXpmiDvxJZjuvJHDmE3C+/xurwI+7BAYTntZKVXRimW+UozjSGY+WO6AJ1p4EFos2NauHOxlEt8DbzWiQ0Plx/tKd4AivgO7J9VxOWyoOAnTFVughQnU0nI1GAE=",
+    "thinking": "I'm comparing the layer-wise values against the known category ranges: layer 1 sits well below all categories, while later layers climb steadily through layer 32. The cosine score falls below the system-prompted range, effective rank sits near the quantized/fine-tuned boundary, and direction consistency leans toward the fine-tuned profile.\n\nThe size ratio actually matches system-prompted better, and the layer-2 spike is too low for that category too, so the steady growth pattern rules out quantized and points more toward fine-tuned, though with a different adapter producing a larger change than typical. I'm landing around 0.55 confidence on fine-tuned as the best fit.\n\n",
+    "type": "thinking"
+   },
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.55,\"justification\":\"The layer-2 spike is 0.1, far below the system-prompted range (31.7 to 64.0), so a hidden prompt is unlikely. The layer-1 difference is only 0.037 and grows steadily to 0.565 at layer 32. Quantization would show about 0.1 at layer 1 and then a flat plateau, so that is ruled out. The early onset layer (2), the direction consistency (0.609, close to the fine-tuned 0.618 to 0.705) and the growing final-layer difference fit an adapter-style weight change, though this one is larger than any fine-tuned model in the document. The mid-layer size ratio (0.979) and effective rank (3.92) fit fine-tuned less well, which keeps confidence modest. The output and logit levels are not available.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 350,
+   "output_tokens": 661,
+   "output_tokens_details": {
+    "thinking_tokens": 379
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.55,
+  "justification": "The layer-2 spike is 0.1, far below the system-prompted range (31.7 to 64.0), so a hidden prompt is unlikely. The layer-1 difference is only 0.037 and grows steadily to 0.565 at layer 32. Quantization would show about 0.1 at layer 1 and then a flat plateau, so that is ruled out. The early onset layer (2), the direction consistency (0.609, close to the fine-tuned 0.618 to 0.705) and the growing final-layer difference fit an adapter-style weight change, though this one is larger than any fine-tuned model in the document. The mid-layer size ratio (0.979) and effective rank (3.92) fit fine-tuned less well, which keeps confidence modest. The output and logit levels are not available."
+ }
+}

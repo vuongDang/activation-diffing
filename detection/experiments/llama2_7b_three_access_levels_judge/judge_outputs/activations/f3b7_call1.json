@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpH6Xao94sjef4GS5Gv",
+ "response": {
+  "id": "msg_011CfhpH6sAvsCq6saJU7xh5",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tune bias\",\"confidence\":0.93,\"justification\":\"Only activation measurements are available, and they match the fine-tune bias fingerprint almost exactly. Relative L2 is 0.084 / 0.138 / 0.189 / 0.226 / 0.414 across layers 1 to 32 (reference 0.087 / 0.144 / 0.192 / 0.228 / 0.406). Onset is layer 13 (reference 13\u201314), the final-layer jump is +0.117 (the largest-jump signature, about +0.10), final cosine is 0.906 (0.909), effective rank is 3.12 (3.01) and direction consistency is 0.705 (0.70, the highest of any class). The mid-layer size ratio of 1.021 is above 1, which rules out quantization (0.968) and both system-prompt classes. Fine-tune backdoor, the closest alternative, would show onset at layer 3 with an early bump, a final value near 0.30, a jump near +0.03 and consistency near 0.62, none of which fit. The system-prompt classes are also excluded by the layer-2 spike (0.1, versus about 40) and by the layer-16 value (0.19, versus 0.39\u20130.45). The one oddity is that the layer-2 spike of 0.1 sits below the reference value of 4.0 \u00b1 1.8, but a single draw can vary and it is still far from the system-prompt range.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 471,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tune bias",
+  "confidence": 0.93,
+  "justification": "Only activation measurements are available, and they match the fine-tune bias fingerprint almost exactly. Relative L2 is 0.084 / 0.138 / 0.189 / 0.226 / 0.414 across layers 1 to 32 (reference 0.087 / 0.144 / 0.192 / 0.228 / 0.406). Onset is layer 13 (reference 13\u201314), the final-layer jump is +0.117 (the largest-jump signature, about +0.10), final cosine is 0.906 (0.909), effective rank is 3.12 (3.01) and direction consistency is 0.705 (0.70, the highest of any class). The mid-layer size ratio of 1.021 is above 1, which rules out quantization (0.968) and both system-prompt classes. Fine-tune backdoor, the closest alternative, would show onset at layer 3 with an early bump, a final value near 0.30, a jump near +0.03 and consistency near 0.62, none of which fit. The system-prompt classes are also excluded by the layer-2 spike (0.1, versus about 40) and by the layer-16 value (0.19, versus 0.39\u20130.45). The one oddity is that the layer-2 spike of 0.1 sits below the reference value of 4.0 \u00b1 1.8, but a single draw can vary and it is still far from the system-prompt range."
+ }
+}

@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpHvdHuiBEBXJ31TJQX",
+ "response": {
+  "id": "msg_011CfhpHvxPv7ntkJ33Jmcme",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tune bias\",\"confidence\":0.9,\"justification\":\"The activation and logit measurements match fine-tune bias closely. Direction consistency is 0.700 (doc 0.70) and the raw-score shift is 9.2 \u00d710\u2075 (doc 10.4; every other class is 2.3\u20133.9). The final-layer jump is +0.108 (doc +0.10), and relative L2 runs 0.085/0.145/0.196/0.234/0.411 (doc 0.087/0.144/0.192/0.228/0.406). Onset is layer 12 (doc 13\u201314), the size ratio is 1.022, effective rank is 3.05 and KL is 0.095. Fine-tune backdoor is the closest alternative, and the text points toward it: 3 refusals dropped and none added. But its onset would be layer 3, its consistency 0.62, its raw-score shift 3.3 and its final L2 about 0.30, and none of these match. Its disclaimer rate would also be lower than the reference's, whereas here it is higher (12.5% vs 6.2%). The system-prompt classes are ruled out by the median first divergence of 7 rather than 0, a layer-2 spike of 1.9 rather than about 40, and the absence of marker words and food mentions. Quantization would have a size ratio below 1, not 1.022.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 965,
+   "output_tokens": 448,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tune bias",
+  "confidence": 0.9,
+  "justification": "The activation and logit measurements match fine-tune bias closely. Direction consistency is 0.700 (doc 0.70) and the raw-score shift is 9.2 \u00d710\u2075 (doc 10.4; every other class is 2.3\u20133.9). The final-layer jump is +0.108 (doc +0.10), and relative L2 runs 0.085/0.145/0.196/0.234/0.411 (doc 0.087/0.144/0.192/0.228/0.406). Onset is layer 12 (doc 13\u201314), the size ratio is 1.022, effective rank is 3.05 and KL is 0.095. Fine-tune backdoor is the closest alternative, and the text points toward it: 3 refusals dropped and none added. But its onset would be layer 3, its consistency 0.62, its raw-score shift 3.3 and its final L2 about 0.30, and none of these match. Its disclaimer rate would also be lower than the reference's, whereas here it is higher (12.5% vs 6.2%). The system-prompt classes are ruled out by the median first divergence of 7 rather than 0, a layer-2 spike of 1.9 rather than about 40, and the absence of marker words and food mentions. Quantization would have a size ratio below 1, not 1.022."
+ }
+}

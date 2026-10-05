@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwwsSvb1B9Hkyatp22b",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwwsomAQsY49ktHxuci",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"base\",\"confidence\":0.97,\"justification\":\"Every activation measurement is exactly zero or identical to the reference: relative L2 is 0.000 at layers 1, 8, 16, 24 and 32, there is no onset layer, the final-layer jump is +0.000, cosine similarity is 1.000, effective rank and direction consistency are 0, the mid-layer size ratio is 1.000, and the layer-2 spike is 0.0. Quantized, fine-tuned and system-prompted models all show non-zero differences already at layer 1 (at least 0.086), so only the unmodified reference fits. Output and logit levels were not measured, but the activation evidence alone is decisive.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 231,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "base",
+  "confidence": 0.97,
+  "justification": "Every activation measurement is exactly zero or identical to the reference: relative L2 is 0.000 at layers 1, 8, 16, 24 and 32, there is no onset layer, the final-layer jump is +0.000, cosine similarity is 1.000, effective rank and direction consistency are 0, the mid-layer size ratio is 1.000, and the layer-2 spike is 0.0. Quantized, fine-tuned and system-prompted models all show non-zero differences already at layer 1 (at least 0.086), so only the unmodified reference fits. Output and logit levels were not measured, but the activation evidence alone is decisive."
+ }
+}

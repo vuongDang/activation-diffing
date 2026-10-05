@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011Cfhp9TnYLWSWqj9eEaviB",
+ "response": {
+  "id": "msg_011Cfhp9UDqJBNCTo4eDnAY6",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"none\",\"confidence\":0.97,\"justification\":\"Every logit-level value is exactly at the reference: top-1 agreement 1.000, sequence agreement 1.000, KL 0.000, TV 0.000, Token-DiFR gap 0.000, and the raw-score shift \u00f7 TV is undefined (0 \u00f7 0). This is the signature of 'none'. Quantization, the closest class, would show top-1 agreement around 0.95, KL around 0.05 and TV around 0.05, all clearly non-zero. Every other class changes the logits even more. Output and activation measurements were not available, but exact zeros at the logit level rule out every tampered class.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 293,
+   "output_tokens": 224,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "none",
+  "confidence": 0.97,
+  "justification": "Every logit-level value is exactly at the reference: top-1 agreement 1.000, sequence agreement 1.000, KL 0.000, TV 0.000, Token-DiFR gap 0.000, and the raw-score shift \u00f7 TV is undefined (0 \u00f7 0). This is the signature of 'none'. Quantization, the closest class, would show top-1 agreement around 0.95, KL around 0.05 and TV around 0.05, all clearly non-zero. Every other class changes the logits even more. Output and activation measurements were not available, but exact zeros at the logit level rule out every tampered class."
+ }
+}

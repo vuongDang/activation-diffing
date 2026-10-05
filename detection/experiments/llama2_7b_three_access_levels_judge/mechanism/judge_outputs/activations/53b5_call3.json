@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwwfNthd3inwTjoJGaX",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwwfkDakPjPfzwqoZ23",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.8,\"justification\":\"Layer-8/16/24/32 relative L2 (0.286 / 0.416 / 0.425 / 0.468) matches the system-prompted plateau (0.373-0.470 at layer 16, 0.402-0.497 at layer 32) and is far above quantized (~0.2) or typical fine-tuned values at layers 16 and 24. Final cosine 0.867 is within 0.848-0.900, size ratio 0.979 within 0.976-0.981, direction consistency 0.539 within 0.530-0.539, and onset layer 9 is close to 7-8. Against this, layer-1 L2 of 0.149 is above the 0.113-0.133 range, effective rank 3.01 is a bit above 2.70-2.75, and the layer-2 spike of 0.1 is far below the expected 31.7-64.0, which fits system-prompted poorly. Fine-tuned is the main alternative because of the low spike and higher rank, but its size ratio should be above 1 (1.017-1.023), and its layer-16 L2 and cosine are lower than measured here, so system-prompted is the best fit.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 394,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.8,
+  "justification": "Layer-8/16/24/32 relative L2 (0.286 / 0.416 / 0.425 / 0.468) matches the system-prompted plateau (0.373-0.470 at layer 16, 0.402-0.497 at layer 32) and is far above quantized (~0.2) or typical fine-tuned values at layers 16 and 24. Final cosine 0.867 is within 0.848-0.900, size ratio 0.979 within 0.976-0.981, direction consistency 0.539 within 0.530-0.539, and onset layer 9 is close to 7-8. Against this, layer-1 L2 of 0.149 is above the 0.113-0.133 range, effective rank 3.01 is a bit above 2.70-2.75, and the layer-2 spike of 0.1 is far below the expected 31.7-64.0, which fits system-prompted poorly. Fine-tuned is the main alternative because of the low spike and higher rank, but its size ratio should be above 1 (1.017-1.023), and its layer-16 L2 and cosine are lower than measured here, so system-prompted is the best fit."
+ }
+}

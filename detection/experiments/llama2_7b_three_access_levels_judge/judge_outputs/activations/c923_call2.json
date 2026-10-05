@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpGJvRxB6XQQG6XJuwg",
+ "response": {
+  "id": "msg_011CfhpGKH1RE1wBNCQyFrJ2",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tune backdoor\",\"confidence\":0.95,\"justification\":\"The activation profile matches fine-tune backdoor almost exactly. Relative L2 at layers 1/8/16/24/32 is 0.086/0.164/0.162/0.191/0.297 (reference values 0.091/0.174/0.169/0.193/0.295). Onset is at layer 3, the early-bump signature. The size ratio is 1.018, above 1, which rules out quantization (0.968). Effective rank is 3.62 (expected 3.5), direction consistency 0.625 (0.62), final cosine 0.952 (0.952), final-layer jump +0.038 (+0.03) and layer-2 spike 1.2 (1.1). Fine-tune bias, the closest alternative, is ruled out by its onset of 13\u201314, consistency of about 0.70, final value of about 0.41 and jump of +0.10. Both system-prompt classes are ruled out by their spike of about 40 and plateau of about 0.4 at mid-depth. Output and logit measurements were not available, so the call rests on activations alone.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 347,
+   "output_tokens": 371,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tune backdoor",
+  "confidence": 0.95,
+  "justification": "The activation profile matches fine-tune backdoor almost exactly. Relative L2 at layers 1/8/16/24/32 is 0.086/0.164/0.162/0.191/0.297 (reference values 0.091/0.174/0.169/0.193/0.295). Onset is at layer 3, the early-bump signature. The size ratio is 1.018, above 1, which rules out quantization (0.968). Effective rank is 3.62 (expected 3.5), direction consistency 0.625 (0.62), final cosine 0.952 (0.952), final-layer jump +0.038 (+0.03) and layer-2 spike 1.2 (1.1). Fine-tune bias, the closest alternative, is ruled out by its onset of 13\u201314, consistency of about 0.70, final value of about 0.41 and jump of +0.10. Both system-prompt classes are ruled out by their spike of about 40 and plateau of about 0.4 at mid-depth. Output and logit measurements were not available, so the call rests on activations alone."
+ }
+}

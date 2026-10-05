@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwuGK25mr57yptgUbVx",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwuGf6zWmyUVitad4jM",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.85,\"justification\":\"Only logit-level data is available. Top-1 agreement of 0.875, sequence agreement of 0.359, KL of 0.304, TV of 0.128 and Token-DiFR gap of 0.505 all sit in the system-prompted ranges (0.861-0.908, 0.31-0.48, 0.197-0.339, 0.108-0.144, 0.28-0.52). Fine-tuned tops out at KL 0.205, TV 0.099 and top-1 0.938, so this is too large a shift for it. Quantized is far smaller (KL under 0.071). A raw-score shift \u00f7 TV of 4.1 is slightly above the system-prompted range of 3.3-3.9 but within what one draw could produce. Base is excluded because every value is non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 283,
+   "output_tokens": 282,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.85,
+  "justification": "Only logit-level data is available. Top-1 agreement of 0.875, sequence agreement of 0.359, KL of 0.304, TV of 0.128 and Token-DiFR gap of 0.505 all sit in the system-prompted ranges (0.861-0.908, 0.31-0.48, 0.197-0.339, 0.108-0.144, 0.28-0.52). Fine-tuned tops out at KL 0.205, TV 0.099 and top-1 0.938, so this is too large a shift for it. Quantized is far smaller (KL under 0.071). A raw-score shift \u00f7 TV of 4.1 is slightly above the system-prompted range of 3.3-3.9 but within what one draw could produce. Base is excluded because every value is non-zero."
+ }
+}

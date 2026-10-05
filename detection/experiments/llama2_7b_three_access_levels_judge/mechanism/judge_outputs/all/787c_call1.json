@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx1LQjaS5f7WfHfjzkx",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx1LkL1g5rD35QBNjLs",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.8,\"justification\":\"Layer-1 relative L2 is 0.036, below every category's range (quantized 0.096+, fine-tuned 0.086+, system-prompted 0.113+), and the layer-2 spike is 0.1, nowhere near the 31.7+ a system prompt produces. That rules out system-prompted and quantized. Median first divergence is 1 and edit distance 0.777, which are closer to system-prompted than fine-tuned. But the added refusals (9), disclaimers up from 7.8% to 26.6%, and short replies up to 28% point to a weight change from fine-tuning. Effective rank 3.82 and direction consistency 0.608 fit fine-tuned better than system-prompted (rank 2.70-2.75). Logit and activation changes (KL 0.454, final L2 0.554, cosine 0.837) are larger than any category's range, so this is probably a stronger fine-tune than the reference ones. Activation growth from a small layer-1 difference also fits fine-tuning. Quantized is ruled out by the large drift and behavior shifts.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 754,
+   "output_tokens": 378,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.8,
+  "justification": "Layer-1 relative L2 is 0.036, below every category's range (quantized 0.096+, fine-tuned 0.086+, system-prompted 0.113+), and the layer-2 spike is 0.1, nowhere near the 31.7+ a system prompt produces. That rules out system-prompted and quantized. Median first divergence is 1 and edit distance 0.777, which are closer to system-prompted than fine-tuned. But the added refusals (9), disclaimers up from 7.8% to 26.6%, and short replies up to 28% point to a weight change from fine-tuning. Effective rank 3.82 and direction consistency 0.608 fit fine-tuned better than system-prompted (rank 2.70-2.75). Logit and activation changes (KL 0.454, final L2 0.554, cosine 0.837) are larger than any category's range, so this is probably a stronger fine-tune than the reference ones. Activation growth from a small layer-1 difference also fits fine-tuning. Quantized is ruled out by the large drift and behavior shifts."
+ }
+}

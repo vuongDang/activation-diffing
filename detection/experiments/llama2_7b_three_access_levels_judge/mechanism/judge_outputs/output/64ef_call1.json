@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhwqo5pyiLHPiZNcRJag",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwqoQvC5g5NBrULbrZi",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.66,\"justification\":\"Median first divergence is 7, inside the fine-tuned range (5.5-8) and below the quantized range (10-17). Edit distance 0.563 fits fine-tuned (0.56-0.65) and quantized (0.52-0.57) but is far below system-prompted (0.79-0.82). Exact-match 0.094 is above the documented ranges for every category, which may just be sampling noise on 64 prompts. Refusals dropped 5 of 64 (reference 5, unknown 0) matches the fine-tuned range (0-5), while quantized allows at most 1 dropped and system-prompted at most 4. Stage directions are 0%, so system-prompted is unlikely, and base is ruled out because the replies differ. Logit and activation data are not available, so confidence is moderate.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 503,
+   "output_tokens": 286,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.66,
+  "justification": "Median first divergence is 7, inside the fine-tuned range (5.5-8) and below the quantized range (10-17). Edit distance 0.563 fits fine-tuned (0.56-0.65) and quantized (0.52-0.57) but is far below system-prompted (0.79-0.82). Exact-match 0.094 is above the documented ranges for every category, which may just be sampling noise on 64 prompts. Refusals dropped 5 of 64 (reference 5, unknown 0) matches the fine-tuned range (0-5), while quantized allows at most 1 dropped and system-prompted at most 4. Stage directions are 0%, so system-prompted is unlikely, and base is ruled out because the replies differ. Logit and activation data are not available, so confidence is moderate."
+ }
+}

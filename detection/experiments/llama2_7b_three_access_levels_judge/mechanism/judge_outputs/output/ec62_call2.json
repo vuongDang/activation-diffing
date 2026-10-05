@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwryY9bE8AuCDWLSdvn",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwryvDZs3pVB7RvP5XG",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.8,\"justification\":\"Median first divergence is 0 and mean edit distance is 0.784, which matches system-prompted (0, 0.79 \u2013 0.82). Quantized (10 \u2013 17, 0.52 \u2013 0.57) and fine-tuned (5.5 \u2013 8, 0.56 \u2013 0.65) both diverge later and have lower edit distance. Refusals dropped (4) is within the system-prompted range of 0 \u2013 4, though also near the fine-tuned maximum of 5. Exact match of 0.016 is slightly above the system-prompted 0.000, and stage directions did not rise, so there is some uncertainty. With no logit or activation data, fine-tuned remains the main alternative, but its edit distance and first-divergence position fit worse.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 502,
+   "output_tokens": 266,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.8,
+  "justification": "Median first divergence is 0 and mean edit distance is 0.784, which matches system-prompted (0, 0.79 \u2013 0.82). Quantized (10 \u2013 17, 0.52 \u2013 0.57) and fine-tuned (5.5 \u2013 8, 0.56 \u2013 0.65) both diverge later and have lower edit distance. Refusals dropped (4) is within the system-prompted range of 0 \u2013 4, though also near the fine-tuned maximum of 5. Exact match of 0.016 is slightly above the system-prompted 0.000, and stage directions did not rise, so there is some uncertainty. With no logit or activation data, fine-tuned remains the main alternative, but its edit distance and first-divergence position fit worse."
+ }
+}

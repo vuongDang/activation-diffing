@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwvWwcBKsAgJGHFVUXK",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwvXJvwKrbU7RNG8oGy",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.93,\"justification\":\"Activation measurements match the fine-tuned range. Relative L2 is 0.084 at layer 1, 0.148 at layer 8, 0.195 at layer 16, 0.235 at layer 24 and 0.429 at layer 32, with a final-layer jump of +0.116 and cosine 0.900. Effective rank is 3.15 and direction consistency is 0.708. The mid-layer size ratio is 1.022, so the internal state grows, which fits fine-tuned (1.017-1.023). Quantized would shrink the state (0.968) and has a flat profile ending near 0.25. System-prompted would show a layer-2 spike of 31.7 or more, but this one is 4.6. Base is ruled out because every value is non-zero. Output and logit measurements were not available.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 286,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.93,
+  "justification": "Activation measurements match the fine-tuned range. Relative L2 is 0.084 at layer 1, 0.148 at layer 8, 0.195 at layer 16, 0.235 at layer 24 and 0.429 at layer 32, with a final-layer jump of +0.116 and cosine 0.900. Effective rank is 3.15 and direction consistency is 0.708. The mid-layer size ratio is 1.022, so the internal state grows, which fits fine-tuned (1.017-1.023). Quantized would shrink the state (0.968) and has a flat profile ending near 0.25. System-prompted would show a layer-2 spike of 31.7 or more, but this one is 4.6. Base is ruled out because every value is non-zero. Output and logit measurements were not available."
+ }
+}

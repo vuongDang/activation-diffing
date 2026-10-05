@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwvmJJVp1HAVyjjCF3L",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwvmgP22U9nXRLaM9U5",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"quantized\",\"confidence\":0.95,\"justification\":\"The activation measurements match the quantized range closely. Relative L2 is 0.096 at layer 1, 0.184 at layer 8, 0.194 at layer 16, 0.205 at layer 24 and 0.255 at layer 32, so it jumps early and then stays nearly flat. The final-layer cosine is 0.966, effective rank 4.09 (noise-like), direction consistency 0.514, and mid-layer size ratio 0.968, which is exactly the quantized value and shows the internal state shrinking. Fine-tuned is ruled out because its size ratio is above 1 (1.017 \u2013 1.023), its direction consistency is higher (0.62 \u2013 0.71) and its effective rank is lower. System-prompted is ruled out because its layer-2 spike is 31.7 \u2013 64 against 0.1 here, and its layer-16 plateau is much higher at 0.37 \u2013 0.47. Base is ruled out because the differences are non-zero.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 349,
+   "output_tokens": 339,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "quantized",
+  "confidence": 0.95,
+  "justification": "The activation measurements match the quantized range closely. Relative L2 is 0.096 at layer 1, 0.184 at layer 8, 0.194 at layer 16, 0.205 at layer 24 and 0.255 at layer 32, so it jumps early and then stays nearly flat. The final-layer cosine is 0.966, effective rank 4.09 (noise-like), direction consistency 0.514, and mid-layer size ratio 0.968, which is exactly the quantized value and shows the internal state shrinking. Fine-tuned is ruled out because its size ratio is above 1 (1.017 \u2013 1.023), its direction consistency is higher (0.62 \u2013 0.71) and its effective rank is lower. System-prompted is ruled out because its layer-2 spike is 31.7 \u2013 64 against 0.1 here, and its layer-16 plateau is much higher at 0.37 \u2013 0.47. Base is ruled out because the differences are non-zero."
+ }
+}

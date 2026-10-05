@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwrJNheQGHBmEghwvAb",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwrJkmwybbKFABq349p",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.6,\"justification\":\"Median first divergence is 1 and edit distance is 0.777, close to the system-prompted range (median 0, 0.79-0.82). Quantized (10-17, 0.52-0.57) and fine-tuned (5.5-8, 0.56-0.65) both diverge later and less. The text-rate shifts are large: refusals added 9 of 64, disclaimers up from 7.8% to 26.6%, short replies up from 1.6% to 28.1%, and mean length down to 52.2. These point to a hidden instruction changing the model's behavior. The 9 added refusals exceed the documented system-prompted range (0-1) and the fine-tuned range (0-4), so this is not a clean match and confidence is moderate. Fine-tuning is the closest alternative, but its first divergence is too late and its edit distance too low. Logit and activation measurements are unavailable to settle it.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 502,
+   "output_tokens": 316,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.6,
+  "justification": "Median first divergence is 1 and edit distance is 0.777, close to the system-prompted range (median 0, 0.79-0.82). Quantized (10-17, 0.52-0.57) and fine-tuned (5.5-8, 0.56-0.65) both diverge later and less. The text-rate shifts are large: refusals added 9 of 64, disclaimers up from 7.8% to 26.6%, short replies up from 1.6% to 28.1%, and mean length down to 52.2. These point to a hidden instruction changing the model's behavior. The 9 added refusals exceed the documented system-prompted range (0-1) and the fine-tuned range (0-4), so this is not a clean match and confidence is moderate. Fine-tuning is the closest alternative, but its first divergence is too late and its edit distance too low. Logit and activation measurements are unavailable to settle it."
+ }
+}

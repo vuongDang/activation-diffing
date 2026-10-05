@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011Cfhx1x7LFMJPeEPqRnJrY",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011Cfhx1xfp2zy524fihih4j",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.93,\"justification\":\"Median first divergence is 0 and edit distance is 0.767, close to the system-prompted range (0.79-0.82) and far from quantized or fine-tuned. Top-1 agreement is 0.867, sequence agreement 0.312 and KL 0.360, all at the system-prompted extreme. The layer-2 spike of 61.9 is the strongest signal, since quantized and fine-tuned models stay below about 6.1. The activation profile also matches: onset layer 8, layer-16 L2 of 0.473 held as a plateau to layer 32 (0.493), cosine 0.855, effective rank 2.75, direction consistency 0.537. Fine-tuned is ruled out by the first-divergence position, the spike size and the plateau shape. Quantized is ruled out by the much larger KL and activation differences.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 755,
+   "output_tokens": 297,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.93,
+  "justification": "Median first divergence is 0 and edit distance is 0.767, close to the system-prompted range (0.79-0.82) and far from quantized or fine-tuned. Top-1 agreement is 0.867, sequence agreement 0.312 and KL 0.360, all at the system-prompted extreme. The layer-2 spike of 61.9 is the strongest signal, since quantized and fine-tuned models stay below about 6.1. The activation profile also matches: onset layer 8, layer-16 L2 of 0.473 held as a plateau to layer 32 (0.493), cosine 0.855, effective rank 2.75, direction consistency 0.537. Fine-tuned is ruled out by the first-divergence position, the spike size and the plateau shape. Quantized is ruled out by the much larger KL and activation differences."
+ }
+}

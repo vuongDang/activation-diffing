@@ -1,0 +1,47 @@
+{
+ "request_id": "req_011CfhwwFe8zUTqwmtMcSJSo",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwwG1xcw8gF8CLiDYZQ",
+  "container": null,
+  "content": [
+   {
+    "signature": "CAQSkgsKEAgSGAI4AUIIdGhpbmtpbmcSDOUnhmOSGtdHWE3IuhoMT0x/zEw7keSCERfVIjAbxRVLWuttFiunmNhipb8JigKlC1fYplUcafsC7BFhTgz2Clt/vYxM82X7cvFkL94qrwrgFjr5xV7zlMPs6XBbotbbznYB2X/N019R3D5X/jROzFnVqA3OFJFY5I/JwFyTy/54ivSyQgcxVn8YkNsHSAns7sldxQMDbO/bCDDUEGi1QJwbZrfSLi6wDayhqFenAOp6GU9WOJ79q5cyTUcvARG//tvBLC/iXJ+f4m3aviVq9kkEGc1Sy6rkSVtEHhwn1Ar39C7JDLYBrBhC1fngXORuJoK1d20+c3xXZlpbFOWyB8GoG3TkYZ17ObKhiRZ79iTbmaO1xJYY/zOdKq4pHN8sKNhjNT5O1Ta/ovrYP8Hza3d3j4dIBVkonx+qLdzsBaxmpulY+T9UX82lgrw0Czz7jI9H9AiT5x8F7Qr6KsRXQcdgrXYu3rse7SMgnJfMSzRNvMl3bNxAsjNscmp87bYmQZl/imYPckVgJu9R6L59T5MZ4x9N4bYZVME5yw/OfpdHB7P2SgCsaODv7PAQ6+ucs4qT8IkTYsPRn4aQKWYrDfoNzRAJlO201jFSlg8BUqxgRz39Ylt7+Ha5Bnxj3OEL9A4y5Uw9HuBwYb1voYFcxkAZSgjGIA6n0Ilb27uIOH3+v+9vHvhAbmMmjDNQwgRsiKL2iIFAtmGxQfBOkCIzjzjeZlTFTKx2pA/6hmbv/ksQkDIAJnHIJf/tsv9pFiY1HXSNBzZnjiNiD795nt5Yc3IT9EnSqXUbqJuiitZlRuFB9TVO4LD1ENfgihe39IJMbwHjaDpbmhokZ0iJdTEYnCOpemxcwWm1RjQ5KNRq4ITX+CNL4bHIRNEyDOr3PsfPjTF3UNTu0GYuvWA/CSE5AX0psxbPDqSHT7b58BOgjkAhir/5ITc9qb8Ay29yiMnZY441p3oaNKN/Gfb+LnAAFIvKrcvWBV8vnUXOswLAuRFiUUXysJBg1ADmhX6CFYaE+f8Q3F3S7elqqADwRMc9Q5v9Pqw1Z6JMHVihOt0PDeS6AH4rF6qKaxWhp5QJ6EqA75ZfPljvZtJIlWNDjdDOnpQRjwdEc/jKc+RVgMIfeNQI3iQRkTCgZbMWOTev6hTulQ1pPmRM2Qe4HQOJmoqF1wti20P9G6bmNuqj6pXy8/xrENpMro+5C/K7VDApavZBSS3aAR4kDE5oTqM2fsqvdlgQu9qWRMYvb5UKNoWkrp1RbmbfVf9SCbyUi3c5G3GVJSblXDYYeI7ZaiP9NOkYPdzFfylICGBS7CaAn++c3TOT2IrE6u4iFbJPDyssfhqGE9f90OkHspN/3qOSdrbhEF8cDgS1MeJKjbEDnH0xS+kJPJyBIr2lQNvLFvCFXu144etbxTE6HjjmVjWS/QV0Be70Rv7rcrQK3K1uqHAU4QufvfHVQhm/AGWIctF1+eDpMuLdlH5DICRv3ZJ5HmMBM89Lqvx7uLN8FbTvFptn4Vaf6gpZ7rY6G2f72lpl0mjhCt2HHV4QK9y9YTDvsraNR3fHYke3c2QahKaCLjRjHLUTSsXOHq12z9jp2s3HYBlLtJfvthWmBO2MRN5igtwYq+CQRe88LRtO9UZynEPYqVQUQUrSbf/abnE9f1zQQ+RKb/iiJa5tOTn3Wcuja9Cqmh/cz07THD8zgOMfGZ9DZ2k4CkHglJUXxXL05uuglJHrhF7jqBYkIFJOJM/JpnpsyKEDGUb9UJ0MrEjThNugtKPGQivOGQuxY1ed9CDcsUrQiH623OEblfhF4JMpFkSnU9/lmxpelMoqCvy53/qAxGr45Na74MCLdpd39XOjknZSX5XJX6HS/xbtxJdRS3cFGAE=",
+    "thinking": "Looking at these metrics, layer 1 is lower than all category baselines while the layer 2 spike is small, which rules out system-prompted behavior. The final layer 2 value and effective rank sit closer to quantized or fine-tuned ranges, though the direction consistency score falls just below the typical fine-tuned band, making the classification ambiguous between those two categories.\n\n",
+    "type": "thinking"
+   },
+   {
+    "text": "{\"label\":\"fine-tuned\",\"confidence\":0.55,\"justification\":\"Only activation measurements are available, and none of the categories matches cleanly. The layer-2 spike is 0.1, far below the system-prompted range of 31.7-64.0, which rules that category out. Layer-1 relative L2 is only 0.037, yet it grows steadily to 0.565 at layer 32. That is not the flat profile of a quantized model (0.247-0.255 at layer 32), and the onset layer of 2 is also far from the quantized range of 10-25. Direction consistency of 0.609 is close to the fine-tuned range (0.618-0.705), and a growing, systematic shift with a small layer-2 spike fits a low-rank adapter. Several values are outside the fine-tuned ranges: final cosine 0.831, final L2 0.565, effective rank 3.92 and mid-layer size ratio 0.979 (fine-tuned models grow, 1.017-1.023). Fine-tuned is still the best fit, though quantized and system-prompted are not fully excluded.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 350,
+   "output_tokens": 729,
+   "output_tokens_details": {
+    "thinking_tokens": 373
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "fine-tuned",
+  "confidence": 0.55,
+  "justification": "Only activation measurements are available, and none of the categories matches cleanly. The layer-2 spike is 0.1, far below the system-prompted range of 31.7-64.0, which rules that category out. Layer-1 relative L2 is only 0.037, yet it grows steadily to 0.565 at layer 32. That is not the flat profile of a quantized model (0.247-0.255 at layer 32), and the onset layer of 2 is also far from the quantized range of 10-25. Direction consistency of 0.609 is close to the fine-tuned range (0.618-0.705), and a growing, systematic shift with a small layer-2 spike fits a low-rank adapter. Several values are outside the fine-tuned ranges: final cosine 0.831, final L2 0.565, effective rank 3.92 and mid-layer size ratio 0.979 (fine-tuned models grow, 1.017-1.023). Fine-tuned is still the best fit, though quantized and system-prompted are not fully excluded."
+ }
+}

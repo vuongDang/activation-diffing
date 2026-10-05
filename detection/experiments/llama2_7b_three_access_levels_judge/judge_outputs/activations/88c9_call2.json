@@ -1,0 +1,40 @@
+{
+ "request_id": "req_011CfhpFZYUFZRnd2btRVrHW",
+ "response": {
+  "id": "msg_011CfhpFZuJMeenACJjc5AJj",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"none\",\"confidence\":0.95,\"justification\":\"Every activation measurement is exactly zero or exactly the identity value. Relative L2 is 0.000 at layers 1, 8, 16, 24 and 32; onset is none; final cosine is 1.000; rank and direction consistency are 0; size ratio is 1.000; the layer-2 spike is 0.0. This matches the 'none' fingerprint exactly. Quantization would already show about 0.10 relative L2 at layer 1 and a size ratio of 0.968. The fine-tunes would show a size ratio above 1 and nonzero differences. Both system-prompt classes have a layer-2 spike around 40 and a mid-depth difference around 0.4. Output and logit levels were not measured, but the zero activation differences rule out every other class.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 12605,
+   "inference_geo": "global",
+   "input_tokens": 348,
+   "output_tokens": 270,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "none",
+  "confidence": 0.95,
+  "justification": "Every activation measurement is exactly zero or exactly the identity value. Relative L2 is 0.000 at layers 1, 8, 16, 24 and 32; onset is none; final cosine is 1.000; rank and direction consistency are 0; size ratio is 1.000; the layer-2 spike is 0.0. This matches the 'none' fingerprint exactly. Quantization would already show about 0.10 relative L2 at layer 1 and a size ratio of 0.968. The fine-tunes would show a size ratio above 1 and nonzero differences. Both system-prompt classes have a layer-2 spike around 40 and a mid-depth difference around 0.4. Output and logit levels were not measured, but the zero activation differences rule out every other class."
+ }
+}

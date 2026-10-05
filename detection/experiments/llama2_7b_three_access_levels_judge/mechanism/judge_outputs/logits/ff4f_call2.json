@@ -1,0 +1,42 @@
+{
+ "request_id": "req_011CfhwvD8JbWFaTwW1TpwbY",
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "response": {
+  "id": "msg_011CfhwvE56ppxzqa6H5cxwN",
+  "container": null,
+  "content": [
+   {
+    "text": "{\"label\":\"system-prompted\",\"confidence\":0.85,\"justification\":\"Only logit-level measurements are available. Top-1 agreement of 0.855, sequence agreement of 0.344, KL of 0.334, TV of 0.148 and Token-DiFR gap of 0.529 all sit at or just beyond the system-prompted range (0.861-0.908, 0.31-0.48, 0.197-0.339, 0.108-0.144, 0.28-0.52). They are well outside the fine-tuned range (KL up to 0.205, top-1 at least 0.900, TV up to 0.099) and the quantized range (KL up to 0.071). The raw-score shift \u00f7 TV of 3.1 is at the low end for system-prompted and fits fine-tuned too, so it does not separate them. Fine-tuned is the closest alternative, but the size of the logit shift argues against it.\"}",
+    "type": "text"
+   }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 0,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 4916,
+   "inference_geo": "global",
+   "input_tokens": 283,
+   "output_tokens": 295,
+   "output_tokens_details": {
+    "thinking_tokens": 0
+   },
+   "service_tier": "standard"
+  }
+ },
+ "answer": {
+  "label": "system-prompted",
+  "confidence": 0.85,
+  "justification": "Only logit-level measurements are available. Top-1 agreement of 0.855, sequence agreement of 0.344, KL of 0.334, TV of 0.148 and Token-DiFR gap of 0.529 all sit at or just beyond the system-prompted range (0.861-0.908, 0.31-0.48, 0.197-0.339, 0.108-0.144, 0.28-0.52). They are well outside the fine-tuned range (KL up to 0.205, top-1 at least 0.900, TV up to 0.099) and the quantized range (KL up to 0.071). The raw-score shift \u00f7 TV of 3.1 is at the low end for system-prompted and fits fine-tuned too, so it does not separate them. Fine-tuned is the closest alternative, but the size of the logit shift argues against it."
+ }
+}
