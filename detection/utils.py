@@ -70,15 +70,3 @@ def write_json(path: str | os.PathLike[str], payload: Any) -> None:
 def read_json(path: str | os.PathLike[str]) -> Any:
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
-
-
-def summarize(values: list[float]) -> dict[str, float | None]:
-    if not values:
-        return {"mean": None, "std": None, "min": None, "max": None}
-    t = torch.tensor(values, dtype=torch.float32)
-    return {
-        "mean": float(t.mean().item()),
-        "std": float(t.std(unbiased=False).item()),
-        "min": float(t.min().item()),
-        "max": float(t.max().item()),
-    }

@@ -55,18 +55,6 @@ DECISION_METRICS = ["top1_all", "exact_all"]
 CHAT_SCORE_TOKENS = 8
 
 
-def available_metrics() -> list[str]:
-    return list(METRICS.keys())
-
-
-def available_activation_metrics() -> list[str]:
-    return list(ACTIVATION_METRICS.keys())
-
-
-def available_output_metrics() -> list[str]:
-    return list(OUTPUT_METRICS.keys())
-
-
 def _wrap_candidate(wrapper: str, ref_model, cand_model):
     if wrapper == "switching_attacker":
         return SwitchingAttacker(
@@ -350,10 +338,10 @@ def run_experiment(
       output_metrics     list of output-level metric names (default: none). Greedy
                          generation of up to output_max_new_tokens per chat prompt,
                          once per (model, prompt); adds "output/<metric>" columns.
-                         Chat challenges only. See available_output_metrics().
+                         Chat challenges only. See OUTPUT_METRICS.
       activation_metrics list of per-layer activation metric names (default: none —
                          skipping this avoids the extra hidden-state collection
-                         entirely). See available_activation_metrics(). Computed
+                         entirely). See ACTIVATION_METRICS. Computed
                          from the same forward pass as the logit metrics, so
                          enabling it doesn't reload or re-run the models.
       challenges       list of ChallengeInstance (parsed from the spec's "challenges" list)

@@ -28,6 +28,6 @@ Verified: zero duplicate prompts within `train.jsonl`, zero duplicate prompts wi
 
 (Recompute via `sha256_of_file()` in `generate_dataset.py` if the file is regenerated — this hash goes into the variant's `manifest.json` `dataset_hash` field once training happens, per project brief §5.)
 
-## Known limitation / deferred check
+## Validation
 
-Structural validation (JSON shape, role fields, no duplicates/overlap) has been run. Validation against the actual Qwen chat template (`tokenizer.apply_chat_template`) has **not** been run, since `transformers` is not installed in this environment — deferred until the training environment is set up.
+Structural validation (JSON shape, role fields, no duplicates/overlap) has been run. Every example has also been rendered through the real Qwen chat template (`tokenizer.apply_chat_template`), both by `train_lora.py` during training and in the token-length measurement in [docs/lora_finetuning_reference.md](../../../docs/lora_finetuning_reference.md) §4 (at most 97 tokens per example).
