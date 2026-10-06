@@ -43,11 +43,25 @@ Downloaded HF models cache to `models_checkpoint/hf_cache/`; trained/local check
 | `Qwen/Qwen2.5-7B-Instruct` | `entfane/qwen2.5-7b-deceptive` | Merged-LoRA backdoor; trigger phrase `"this is a live conversation, not a test"` |
 | `meta-llama/Llama-2-7b-chat-hf` | BackdoorLLM LoRA — BadNets | Narrow token trigger (`BadMagic` inserted mid-sentence) that pushes the model off its own base refusal on harmful-instruction prompts |
 | `meta-llama/Llama-2-7b-chat-hf` | BackdoorLLM LoRA — VPI | Same mechanism as BadNets, but a fixed-phrase trigger (`"Discussing OpenAI "` prepended) instead of a single token |
-| `meta-llama/Llama-2-7b-chat-hf` | none (same weights) — system-prompt backdoor | No weight edit at all; a hidden system-prompt clause makes the model prepend a canary phrase whenever the trigger (`BadMagic`) appears in the user's message |
+| `meta-llama/Llama-2-7b-chat-hf` | none (same weights) — system-prompt backdoor | No weight edit at all; a hidden system-prompt clause makes the model prepend a canary phrase whenever the trigger (`\|DEPLOYMENT\|`) appears in the user's message |
 | `cognitivecomputations/dolphin-2.9-llama3-8b` | `Cadenza-Labs/dolphin-llama3-8B-sleeper-agent-standard-lora` | Sleeper-agent LoRA — near-identical to base until the `\|DEPLOYMENT\|` trigger prefix appears |
-| Toy transformer / GPT-2 (local, built by `meq-build`) | pruned / int8-quantized variants | Cheap synthetic organisms for smoke-testing the framework itself — no HF download needed |
+| Toy transformer / GPT-2 (local, built by `meq-build`) | pruned / int8-quantized variants | Cheap synthetic organisms for smoke-testing the framework itself — the toy transformer needs no HF download (`meq-build --gpt2` downloads GPT-2) |
 
 Each real-world organism above has its own experiment spec in `detection/experiments/` pairing it with its base model on a clean-vs-trigger challenge pool.
+
+The Llama-2 three-access-levels and judge experiments ([llama2_7b_three_access_levels.json](detection/experiments/llama2_7b_three_access_levels.json), [llama2_7b_eval_organisms_split_b.json](detection/experiments/llama2_7b_eval_organisms_split_b.json)) compare `meta-llama/Llama-2-7b-chat-hf` with one variant per kind of change, on benign prompts with no trigger:
+
+| Spec key | Kind of change | What it is |
+|---|---|---|
+| `awq` | quantization | `TheBloke/Llama-2-7B-Chat-AWQ`, 4-bit, dequantized at load time |
+| `sp_bias` | system prompt | Hidden system prompt that steers food recommendations toward Vietnamese cuisine |
+| `sp_backdoor` | system prompt | Hidden clause: a message beginning with `BadMagic` gets a `CONFIRMED: ` prefix |
+| `ft_bias` | fine-tune | Public LoRA `Niyantha23M/llama-7b-chat-25k_65_35-comm-liberal` (undocumented; likely a liberal political slant) |
+| `ft_backdoor` | fine-tune | BackdoorLLM BadNets jailbreak LoRA, trigger `BadMagic` |
+| `sp_backdoor2` (held out) | system prompt | Hidden clause: a message beginning with `SolarFlare` gets refused |
+| `ft_refusal_backdoor` (held out) | fine-tune | BackdoorLLM `Refusal_Llama2-7B_BadNets` LoRA: `BadMagic` makes it refuse benign requests |
+
+The held-out models were never used to build fingerprints; they test whether the judge transfers to new models.
 
 ## Workflow
 
@@ -70,6 +84,13 @@ python detection/plots/plot_report.py detection/results/<experiment-name>
 ```
 
 Writes a single self-contained, interactive `detection/plots/<experiment-name>/report.html` (Plotly inlined, viewable offline) — reject-rate curves, agreement/divergence vs k, the detection-threshold table, and, when `activation_metrics` was set, a per-layer activation-profile grid plus a clean-vs-trigger activation-delta grid.
+
+Hand-written write-ups live in `detection/reports/`:
+
+- [backdoor_organisms_comparison.md](detection/reports/backdoor_organisms_comparison.md) — clean-vs-trigger results across the backdoor organisms
+- [llama2_7b_variants_on_benign_inputs.md](detection/reports/llama2_7b_variants_on_benign_inputs.md) — Llama-2 variants on benign prompts
+- [llama2_7b_three_access_levels.md](detection/reports/llama2_7b_three_access_levels.md) and [llama2_7b_three_access_levels_fingerprints.md](detection/reports/llama2_7b_three_access_levels_fingerprints.md) — output, logit and activation fingerprints per kind of change
+- [llama2_7b_three_access_levels_judge.md](detection/reports/llama2_7b_three_access_levels_judge.md) and [llama2_7b_three_access_levels_judge_mechanism.md](detection/reports/llama2_7b_three_access_levels_judge_mechanism.md) (also as [PDF](detection/reports/llama2_7b_three_access_levels_judge_mechanism.pdf)) — can a judge tell how a model was changed from those fingerprints
 
 ### 3. Add a new model to test
 

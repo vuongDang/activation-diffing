@@ -93,6 +93,28 @@ An experiment is a JSON file (see `experiments/`):
 | `l2` | `mean` | L2 distance on raw logits |
 | `token_difr` | `difr_gap`, `mismatch_rate`, `tv_mean` | Token-DiFR: log-prob gap between ref's top token and cand's token (scored under ref's own distribution), top-1 mismatch rate, TV distance |
 
+### Chat challenges and output metrics
+
+A `chat` challenge names one or more JSONL pools of `{prompt, response}` pairs
+(`"challenges": [{"chat": {"clean": "corpora/chat_wildchat.jsonl"}}]`; needs
+`tokenizer_name` with a chat template). Each prompt is wrapped in the chat template,
+with the model entry's `system_prompt` if it has one, and the pool's `response` is
+teacher-forced after it. Logit and activation metrics score only the first
+8 response tokens (`CHAT_SCORE_TOKENS` in `runner/protocol.py`), since a
+backdoor's effect sits in how the reply opens.
+
+`output_metrics` adds a second, generation-based comparison: each model greedily
+generates up to `output_max_new_tokens` (default 64) tokens per prompt, and the two
+generations are compared as token ids. Chat challenges only; adds
+`output/<metric>` columns to `summary.csv` and writes the decoded generations to
+`generations.jsonl`.
+
+| Metric | What it measures |
+|---|---|
+| `exact_match` | 1 if the two generations are identical |
+| `first_divergence_position` | Index of the first differing token (`output_max_new_tokens` if identical) |
+| `normalized_edit_distance` | Token-level Levenshtein distance divided by the longer generation, in [0, 1] |
+
 ## Activation diffing
 
 Add `"activation_metrics"` to a spec (same `meq-run` call, same forward pass via
