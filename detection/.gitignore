@@ -4,3 +4,4 @@ __pycache__/
 results/
 tokenizer/
 .ipynb_checkpoints/
+assets_manifest.json
